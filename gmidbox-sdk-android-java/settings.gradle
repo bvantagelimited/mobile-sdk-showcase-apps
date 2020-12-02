@@ -1,0 +1,2 @@
+rootProject.name='GMID-BOX SDK SAMPLE APP'
+include ':app'

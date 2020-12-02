@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="GMIDBox_iOS_SDK_Demo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test Cellular Only (Turn off your WiFi)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DZt-qL-tcd">
+                                <rect key="frame" x="10" y="185" width="394" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oie-8G-zzQ" userLabel="4G Request">
+                                <rect key="frame" x="107" y="215.5" width="200" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="o2J-a0-w8z"/>
+                                </constraints>
+                                <state key="normal" title="Make a request"/>
+                                <connections>
+                                    <action selector="onCellularRequest:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vYD-20-qud"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test WiFi Only (Turn off your Cellular)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U77-H8-wcp">
+                                <rect key="frame" x="10" y="345.5" width="394" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xp0-vx-Kyk" userLabel="Wifi Request">
+                                <rect key="frame" x="107" y="536.5" width="200" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="tlP-jT-cfO"/>
+                                </constraints>
+                                <state key="normal" title="Make a Request"/>
+                                <connections>
+                                    <action selector="onSDKConnect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Yrr-Fs-tpV"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test Request via IPification SDK" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XD4-8G-ygd">
+                                <rect key="frame" x="10" y="506" width="394" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IoH-Xr-XBp" userLabel="SDK Request">
+                                <rect key="frame" x="107" y="376" width="200" height="30"/>
+                                <state key="normal" title="Make a request"/>
+                                <connections>
+                                    <action selector="wifiConnect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1wA-JK-ETV"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="https://api.ipify.org" borderStyle="roundedRect" placeholder="input your endpoint " clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="lJg-HN-G95">
+                                <rect key="frame" x="20" y="91" width="374" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="URL" textContentType="url"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="xp0-vx-Kyk" firstAttribute="top" secondItem="XD4-8G-ygd" secondAttribute="bottom" constant="10" id="1E9-jP-WQU"/>
+                            <constraint firstItem="IoH-Xr-XBp" firstAttribute="leading" secondItem="oie-8G-zzQ" secondAttribute="leading" id="8yp-Ba-iMf"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="lJg-HN-G95" secondAttribute="trailing" constant="20" id="Bg0-dI-voK"/>
+                            <constraint firstItem="IoH-Xr-XBp" firstAttribute="trailing" secondItem="oie-8G-zzQ" secondAttribute="trailing" id="FQ1-sq-1zy"/>
+                            <constraint firstItem="XD4-8G-ygd" firstAttribute="top" secondItem="IoH-Xr-XBp" secondAttribute="bottom" constant="100" id="GfI-yH-ZBm"/>
+                            <constraint firstItem="U77-H8-wcp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="HcH-0d-AET"/>
+                            <constraint firstItem="lJg-HN-G95" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="47" id="HpF-Jd-hJO"/>
+                            <constraint firstItem="DZt-qL-tcd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="K30-PY-Z17"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="XD4-8G-ygd" secondAttribute="trailing" constant="10" id="KnX-us-GzW"/>
+                            <constraint firstItem="DZt-qL-tcd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="LKq-eJ-u5e"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="DZt-qL-tcd" secondAttribute="trailing" constant="10" id="UXu-b2-1JL"/>
+                            <constraint firstItem="IoH-Xr-XBp" firstAttribute="top" secondItem="U77-H8-wcp" secondAttribute="bottom" constant="10" id="Xod-u2-lv3"/>
+                            <constraint firstItem="IoH-Xr-XBp" firstAttribute="centerX" secondItem="xp0-vx-Kyk" secondAttribute="centerX" id="ZAS-YP-ZM8"/>
+                            <constraint firstItem="oie-8G-zzQ" firstAttribute="top" secondItem="DZt-qL-tcd" secondAttribute="bottom" constant="10" id="bKs-ll-62h"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="U77-H8-wcp" secondAttribute="trailing" constant="10" id="dC4-Yh-6TM"/>
+                            <constraint firstItem="lJg-HN-G95" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="hvY-Z6-6xq"/>
+                            <constraint firstItem="U77-H8-wcp" firstAttribute="top" secondItem="oie-8G-zzQ" secondAttribute="bottom" constant="100" id="oJ8-MM-fJC"/>
+                            <constraint firstItem="oie-8G-zzQ" firstAttribute="centerX" secondItem="DZt-qL-tcd" secondAttribute="centerX" id="qCe-hJ-Ud5"/>
+                            <constraint firstItem="XD4-8G-ygd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="uei-lD-Lnc"/>
+                            <constraint firstItem="IoH-Xr-XBp" firstAttribute="centerX" secondItem="U77-H8-wcp" secondAttribute="centerX" id="w9N-0p-ydB"/>
+                            <constraint firstItem="DZt-qL-tcd" firstAttribute="top" secondItem="lJg-HN-G95" secondAttribute="bottom" constant="60" id="ycL-Gc-6d6"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="cellularResult" destination="DZt-qL-tcd" id="4Xc-sx-9wD"/>
+                        <outlet property="inputField" destination="lJg-HN-G95" id="V9c-dE-5CI"/>
+                        <outlet property="sdkResult" destination="XD4-8G-ygd" id="aQ9-Yc-gtv"/>
+                        <outlet property="wifiResult" destination="U77-H8-wcp" id="4db-Hq-Inm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="137.68115942028987" y="134.59821428571428"/>
+        </scene>
+    </scenes>
+</document>

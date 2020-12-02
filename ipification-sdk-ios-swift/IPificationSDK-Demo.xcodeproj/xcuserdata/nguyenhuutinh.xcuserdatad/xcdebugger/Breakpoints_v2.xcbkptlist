@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "C96BDA50-6589-4159-B564-CA616A017801"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A4C4C13A-2325-42DC-B868-EF423D1470A3"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IPificationSDK-Demo/ViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "doCoverage(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1618F00C-AC43-4CAE-AC17-38416EE838A8"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../ipification-ios-sdk/IPificationSDK/IPificationSDK/CoverageService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "CoverageService"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "1618F00C-AC43-4CAE-AC17-38416EE838A8 - 3ee63754b35c3de8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "___lldb_unnamed_symbol76$$IPificationSDK"
+                  moduleName = "IPificationSDK"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nguyenhuutinh/IPProjects/ipification-ios-sdk/IPificationSDK/IPificationSDK/CoverageService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "160">
+               </Location>
+               <Location
+                  uuid = "1618F00C-AC43-4CAE-AC17-38416EE838A8 - 32fe1d7437bc9fdd"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "___lldb_unnamed_symbol106$$IPificationSDK"
+                  moduleName = "IPificationSDK"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nguyenhuutinh/IPProjects/ipification-ios-sdk/IPificationSDK/IPificationSDK/CoverageService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "184">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BB9BBFCA-4247-4221-B8BD-80CFCDF66050"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../ipification-ios-sdk/IPificationSDK/IPificationSDK/CoverageService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
+            landmarkName = "checkCoverage()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

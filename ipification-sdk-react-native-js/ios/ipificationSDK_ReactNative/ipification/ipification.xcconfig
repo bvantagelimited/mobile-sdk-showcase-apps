@@ -1,0 +1,13 @@
+//
+//  config.xcconfig
+//  IPification React Native
+//
+//  Created by IPification on 16/7/2020.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+COVERAGE_ENDPOINT = https:\/\/stage.ipification.com/auth/realms/ipification/coverage/202.175.50.128
+AUTHORIZATION_URL = https:\/\/stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth
+REDIRECT_URI = demoip:\/\/oauth2redirect/provider
+CLIENT_ID = your_client_id

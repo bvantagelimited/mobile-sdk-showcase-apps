@@ -1,0 +1,9 @@
+
+.gradle/
+.idea/
+local.properties
+build/
+*/*.iml
+*.iml
+ipification-android-sdk/ipification-android-sdk.iml
+app/debug/.DS_Store
