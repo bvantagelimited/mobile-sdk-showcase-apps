@@ -1,9 +1,7 @@
 
-# NativeScript Code Samples
+# IPification + NativeScript Code Samples
 
-This repo contains the code of the [IPification plugin for NativeScript](http://ipification.com) companion application.
-
-You can get the source code of the application and start exploring the code there, or you can read our documentation. 
+This repo contains the code of the [NativeScript Code Sample] companion application.
 
 *The code is currently Angular based.*
 
