@@ -45,7 +45,7 @@
 
 To get a local copy up and running follow these simple example steps.
 
-1. Put the IPification SDK  ```(ipification-auth-1.0.aar)``` inside the ```app/libs/``` folder
+1. Put the IPification SDK  ```(ipification-auth-x.x.aar)``` inside the ```app/libs/``` folder
 2. Run project
 
 

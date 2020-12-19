@@ -1,4 +1,4 @@
-package com.example.ipiificationsdk
+package com.example.ipificationsdk
 
 import android.os.AsyncTask
 
