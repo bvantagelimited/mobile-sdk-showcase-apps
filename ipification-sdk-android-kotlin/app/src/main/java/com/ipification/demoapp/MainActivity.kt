@@ -43,9 +43,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var textResult: TextView
     private lateinit var countryCodeTxt: EditText
     private lateinit var phoneCodeTxt: EditText
-    private lateinit var endpoint: Uri
 
-    private lateinit var cellularService: CellularService<AuthResponse>
+
     private lateinit var phone: String
     private lateinit var button: Button
 
@@ -180,13 +179,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun authorize(callback : CellularCallback<AuthResponse>){
-        cellularService = CellularService<AuthResponse>(this)
+        var cellularService = CellularService<AuthResponse>(this)
 
         cellularService.registerCallback(callback)
         val authRequestBuilder = AuthRequest.Builder()
         authRequestBuilder.addQueryParam("login_hint", phone)
+        authRequestBuilder.addQueryParam("state", "213e23423423423423423423")
 //            authRequestBuilder.addQueryParam("request",request)
         val authRequest = authRequestBuilder.build()
+
         cellularService.performAuth(authRequest)
     }
 
@@ -248,10 +249,12 @@ class MainActivity : AppCompatActivity() {
         try{
 
             val url = EXCHANGE_TOKEN_ENDPOINT
-
+            val cellularService = CellularService<CoverageResponse>(this)
             val body: RequestBody = FormBody.Builder()
                 .add("client_id", cellularService.getConfiguration("client_id") ?: "")
                 .add("redirect_uri", cellularService.getConfiguration("redirect_uri") ?: "")
+                .add("grant_type", "authorization_code")
+                .add("client_secret", "")
                 .add("code", code)
                 .build()
 
@@ -261,15 +264,16 @@ class MainActivity : AppCompatActivity() {
             client.newCall(request).execute()
                 .use { response ->
                     if (response.isSuccessful) {
-                        val responseBody = response.body!!.string()
-                        callback.onSuccess(CellularResponse(response.code, responseBody))
+                        val responseBody = response.body
+
+                        callback.onSuccess(CellularResponse(response.code, responseBody!!.string()))
                     } else {
                         val responseBody = response.body!!.string()
                         callback.onError(CellularException(Exception(responseBody)))
                     }
                 }
         }catch (e: Exception){
-
+            callback.onError(CellularException(e))
         }
 
     }
