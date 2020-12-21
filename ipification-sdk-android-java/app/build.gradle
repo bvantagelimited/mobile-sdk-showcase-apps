@@ -1,6 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 29
@@ -30,11 +28,10 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'com.ipification.mobile.sdk.android:ipification-auth-1.2.1@aar'
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
-    implementation 'org.jsoup:jsoup:1.13.1'
+    implementation 'com.auth0.android:jwtdecode:2.0.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     testImplementation 'junit:junit:4.13.1'

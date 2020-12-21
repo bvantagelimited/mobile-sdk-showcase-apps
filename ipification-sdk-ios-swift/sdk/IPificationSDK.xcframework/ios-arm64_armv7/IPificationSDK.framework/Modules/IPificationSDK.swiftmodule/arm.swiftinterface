@@ -1,0 +1,133 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.3.2 (swiftlang-1200.0.45 clang-1200.0.32.28)
+// swift-module-flags: -target armv7-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name IPificationSDK
+import IPificationSDK.CocoaAsyncSocket
+import IPificationSDK.DNSResolver
+import Foundation
+@_exported import IPificationSDK
+import Swift
+public protocol CoverageCallback {
+  func onSuccess(response: IPificationSDK.CoverageResponse)
+  func onError(error: IPificationSDK.CellularException)
+  func onLogs(log: Swift.String)
+}
+@_hasMissingDesignatedInitializers public class ConnectionManager {
+  public static func getInterface(host: Swift.String) -> (Swift.String?, Swift.String?, Swift.UnsafeMutablePointer<Darwin.sockaddr>?)
+  public static func checkOnly3G() -> (Swift.Bool, Swift.Bool)
+  @objc deinit
+}
+public class CoverageService : IPificationSDK.CoverageCallback, IPificationSDK.DNSResolverDelegate {
+  @objc public func dnsResolver(_ sender: IPificationSDK.DNSResolver!, didResolveRecords records: [Any]!)
+  public func dnsResolver(_ sender: IPificationSDK.DNSResolver!, didReceiveLog records: Swift.String!)
+  @objc public func dnsResolver(_ sender: IPificationSDK.DNSResolver!, didNotResolveDueToError error: Swift.Error!)
+  public var callbackSuccess: ((IPificationSDK.CoverageResponse) -> Swift.Void)?
+  public var callbackFailed: ((IPificationSDK.CellularException) -> Swift.Void)?
+  public var callbackLog: ((Swift.String) -> Swift.Void)?
+  public func onSuccess(response: IPificationSDK.CoverageResponse)
+  public func onLogs(log: Swift.String)
+  public func onError(error: IPificationSDK.CellularException)
+  public init()
+  public init(coverageUrlKey: Swift.String = "COVERAGE_ENDPOINT", clientIdKey: Swift.String = "CLIENT_ID")
+  public func checkCoverage(_ coverageRequest: IPificationSDK.CoverageRequest? = nil) throws
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class CoverageResponse {
+  public func isAvailable() -> Swift.Bool
+  @objc deinit
+}
+public protocol AuthorizationCallback {
+  func onSuccess(response: IPificationSDK.AuthorizationResponse)
+  func onError(error: IPificationSDK.CellularException)
+  func continueRequest(_ url: Swift.String)
+  func logUrl(_ url: Swift.String)
+}
+@_hasMissingDesignatedInitializers public class AuthorizationResponse {
+  public func getPlainResponse() -> Swift.String
+  public func getCode() -> Swift.String?
+  public func getError() -> Swift.String
+  @objc deinit
+}
+public class AuthorizationService : IPificationSDK.AuthorizationCallback, IPificationSDK.DNSResolverDelegate {
+  public var debug: Swift.Bool
+  @objc public func dnsResolver(_ sender: IPificationSDK.DNSResolver!, didResolveRecords records: [Any]!)
+  public func dnsResolver(_ sender: IPificationSDK.DNSResolver!, didReceiveLog records: Swift.String!)
+  @objc public func dnsResolver(_ sender: IPificationSDK.DNSResolver!, didNotResolveDueToError error: Swift.Error!)
+  public var callbackSuccess: ((IPificationSDK.AuthorizationResponse) -> Swift.Void)?
+  public var callbackFailed: ((IPificationSDK.CellularException) -> Swift.Void)?
+  public func onSuccess(response: IPificationSDK.AuthorizationResponse)
+  public func onError(error: IPificationSDK.CellularException)
+  public func continueRequest(_ url: Swift.String)
+  public func logUrl(_ url: Swift.String)
+  public init()
+  public init(authUrlKey: Swift.String = "AUTHORIZATION_URL", redirectUriKey: Swift.String = "REDIRECT_URI", clientIdKey: Swift.String = "CLIENT_ID")
+  public func doAuthorization(_ authorizationRequest: IPificationSDK.AuthorizationRequest? = nil) throws
+  @objc deinit
+}
+public enum ResponseType {
+  case json
+  case xml
+  case string
+  public static func == (a: IPificationSDK.ResponseType, b: IPificationSDK.ResponseType) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+@_hasMissingDesignatedInitializers public class CellularResponse {
+  public var responseType: IPificationSDK.ResponseType
+  public func getData() -> Any
+  @objc deinit
+}
+public class CoverageRequest {
+  public init(connectTimeout: Foundation.TimeInterval, readTimeout: Foundation.TimeInterval, isIPv4PreferredOverIPv6: Swift.Bool, dnsConnectionTimeout: Foundation.TimeInterval)
+  public class Builder {
+    public init()
+    public func setConnectTimeout(value: Foundation.TimeInterval)
+    public func setReadTimeout(value: Foundation.TimeInterval)
+    public func setIPv4OverIPv6(value: Swift.Bool)
+    public func build() -> IPificationSDK.CoverageRequest
+    @objc deinit
+  }
+  @objc deinit
+}
+public class AuthorizationRequest {
+  public init()
+  public init(endpoint: Foundation.URL)
+  public init(endpoint: Foundation.URL?, queryParams: [Swift.String : Swift.String]?, headers: [Swift.String : Swift.String]?, connectTimeout: Foundation.TimeInterval, readTimeout: Foundation.TimeInterval, isIPv4PreferredOverIPv6: Swift.Bool, dnsConnectionTimeout: Foundation.TimeInterval)
+  public class Builder {
+    public init()
+    public init(endpoint: Foundation.URL?)
+    public func addHeader(key: Swift.String, value: Swift.String)
+    public func addQueryParam(key: Swift.String, value: Swift.String)
+    public func setConnectTimeout(value: Foundation.TimeInterval)
+    public func setReadTimeout(value: Foundation.TimeInterval)
+    public func setIPv4OverIPv6(value: Swift.Bool)
+    public func build() -> IPificationSDK.AuthorizationRequest
+    @objc deinit
+  }
+  @objc deinit
+}
+public enum CellularError {
+  case notActive
+  case callback_nil
+  case request_nil
+  case connection_error
+  case general
+  case cannot_connect
+  case validation
+  case authorized_failed
+  public static func == (a: IPificationSDK.CellularError, b: IPificationSDK.CellularError) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public struct CellularException : Swift.Error {
+  public var localizedDescription: Swift.String {
+    get
+  }
+}
+extension IPificationSDK.ResponseType : Swift.Equatable {}
+extension IPificationSDK.ResponseType : Swift.Hashable {}
+extension IPificationSDK.CellularError : Swift.Equatable {}
+extension IPificationSDK.CellularError : Swift.Hashable {}
