@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         AuthRequest.Builder authRequestBuilder = new AuthRequest.Builder();
-        authRequestBuilder.addQueryParam("state", "213e23423423423423423423");
+        authRequestBuilder.addQueryParam("state", "213e23423423423423423423"); // generate state https://auth0.com/docs/protocols/state-parameters
         authRequestBuilder.addQueryParam("login_hint", phoneInputText.getText().toString());
         authService.performAuth(authRequestBuilder.build());
     }
