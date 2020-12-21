@@ -184,7 +184,7 @@ class MainActivity : AppCompatActivity() {
         cellularService.registerCallback(callback)
         val authRequestBuilder = AuthRequest.Builder()
         authRequestBuilder.addQueryParam("login_hint", phone)
-        authRequestBuilder.addQueryParam("state", "213e23423423423423423423")
+        authRequestBuilder.addQueryParam("state", "213e23423423423423423423") // should be generated
 //            authRequestBuilder.addQueryParam("request",request)
         val authRequest = authRequestBuilder.build()
 
