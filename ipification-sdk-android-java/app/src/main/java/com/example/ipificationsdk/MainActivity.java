@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private final String EXCHANGE_TOKEN_ENDPOINT = "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/token";
     private boolean progressing;
 
-    private boolean hideStats = true;
+    private boolean hideStats = false;
     private long startCoverageTime;
     private long startAuthTime;
 
@@ -97,6 +97,13 @@ public class MainActivity extends AppCompatActivity {
         cellularService.checkCoverage(new CellularCallback<CoverageResponse>() {
             @Override
             public void onSuccess(CoverageResponse coverageResponse) {
+                coverageStats.add(System.currentTimeMillis() - startCoverageTime);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        coverageView.setText(coverageStats.toString());
+                    }
+                });
                 boolean isAvailable = coverageResponse.isAvailable();
                 if(isAvailable){
                     doAuthorization();
@@ -124,6 +131,13 @@ public class MainActivity extends AppCompatActivity {
         CellularCallback<AuthResponse> callback =  new CellularCallback<AuthResponse>() {
             @Override
             public void onSuccess(AuthResponse authResponse) {
+                authStats.add(System.currentTimeMillis() - startAuthTime);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        authView.setText(authStats.toString());
+                    }
+                });
                 if(authResponse.getCode() != null){
                     showMessage("code: "+authResponse.getCode());
                     exchangeToken(authResponse.getCode(), new CellularCallback<CellularResponse>() {
