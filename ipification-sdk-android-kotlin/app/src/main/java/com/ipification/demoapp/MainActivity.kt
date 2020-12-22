@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
 
         checkCoverage(callback = object: CellularCallback<CoverageResponse>{
             override fun onSuccess(response: CoverageResponse) {
-                val isAvailable = response.parseResponse()
+                val isAvailable = response.isAvailable()
                 Log.d(TAG, "isAvailable $isAvailable")
                 if(isAvailable){
                     showMessage("checkCoverage - supported Telco ...")
@@ -135,7 +135,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onError(error: CellularException) {
                 Log.d(TAG, "error" + error.exception!!.message)
-                showMessage("checkCoverage - error: ${ error.exception?.message ?: "" }")
+                showMessage("checkCoverage - error: ${ error.getErrorMessage() }")
                 handleError()
             }
         })
@@ -147,8 +147,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkCoverage(callback : CellularCallback<CoverageResponse>) {
         val cellularService = CellularService<CoverageResponse>(this)
-        cellularService.registerCallback(callback)
-        cellularService.checkCoverage()
+//        cellularService.registerCallback(callback)
+        cellularService.checkCoverage(callback)
     }
     private fun doAuthorization(){
 
@@ -156,7 +156,7 @@ class MainActivity : AppCompatActivity() {
             CellularCallback<AuthResponse> {
             override fun onSuccess(response: AuthResponse) {
                 Log.d(TAG, "response" + response.responseData)
-                val code = response.parseResponse()
+                val code = response.getCode()
                 Log.d(TAG, "code $code")
                 if(code != null){
                     // exchange Token
@@ -168,9 +168,9 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onError(error: CellularException) {
-                Log.d(TAG, "onFailed" + error.error_code)
+                Log.d(TAG, "onFailed " + error.getErrorMessage())
                 handleError()
-                showMessage(error.exception?.message ?: "doAuthorization - unknown error")
+                showMessage(error.getErrorMessage())
             }
         }
 
@@ -179,16 +179,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun authorize(callback : CellularCallback<AuthResponse>){
-        var cellularService = CellularService<AuthResponse>(this)
-
-        cellularService.registerCallback(callback)
+        val cellularService = CellularService<AuthResponse>(this)
         val authRequestBuilder = AuthRequest.Builder()
         authRequestBuilder.addQueryParam("login_hint", phone)
         authRequestBuilder.addQueryParam("state", "213e23423423423423423423") // should be generated
 //            authRequestBuilder.addQueryParam("request",request)
         val authRequest = authRequestBuilder.build()
 
-        cellularService.performAuth(authRequest)
+        cellularService.performAuth(authRequest,callback)
     }
 
     private fun validatePhoneNumber(): Boolean {
@@ -236,7 +234,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onError(error: CellularException) {
-                showMessage("error: ${error.error_description ?: error.exception?.localizedMessage ?: "error"}")
+                showMessage("error: ${error.getErrorMessage() }")
                 handleError()
             }
 

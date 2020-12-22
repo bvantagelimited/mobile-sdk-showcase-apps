@@ -73,10 +73,10 @@ public class MainActivity extends AppCompatActivity {
         }
         progressing = true;
         CellularService<CoverageResponse> cellularService = new CellularService<>(this);
-        cellularService.registerCallback(new CellularCallback<CoverageResponse>() {
+        cellularService.checkCoverage(new CellularCallback<CoverageResponse>() {
             @Override
             public void onSuccess(CoverageResponse coverageResponse) {
-                boolean isAvailable = coverageResponse.parseResponse();
+                boolean isAvailable = coverageResponse.isAvailable();
                 if(isAvailable){
                     doAuthorization();
                 } else{
@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        cellularService.checkCoverage();
     }
     private void doAuthorization(){
         runOnUiThread(new Runnable() {
@@ -100,12 +99,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         CellularService<AuthResponse> authService = new CellularService<>(this);
-        authService.registerCallback(new CellularCallback<AuthResponse>() {
+        CellularCallback<AuthResponse> callback =  new CellularCallback<AuthResponse>() {
             @Override
             public void onSuccess(AuthResponse authResponse) {
-                if(authResponse.parseResponse() != null){
-                    showMessage("code: "+authResponse.parseResponse());
-                    exchangeToken(authResponse.parseResponse(), new CellularCallback<CellularResponse>() {
+                if(authResponse.getCode() != null){
+                    showMessage("code: "+authResponse.getCode());
+                    exchangeToken(authResponse.getCode(), new CellularCallback<CellularResponse>() {
                         @Override
                         public void onSuccess(CellularResponse cellularResponse) {
                             JSONObject jObject;
@@ -140,11 +139,11 @@ public class MainActivity extends AppCompatActivity {
             public void onError(@NotNull CellularException e) {
                 showErrorMessage("Authorization Error: " +  e.getError_code() + " - " + e.getException().getMessage());
             }
-        });
+        };
         AuthRequest.Builder authRequestBuilder = new AuthRequest.Builder();
         authRequestBuilder.addQueryParam("state", "213e23423423423423423423"); // generate state https://auth0.com/docs/protocols/state-parameters
         authRequestBuilder.addQueryParam("login_hint", phoneInputText.getText().toString());
-        authService.performAuth(authRequestBuilder.build());
+        authService.performAuth(authRequestBuilder.build(), callback);
     }
     private void showErrorMessage(final String message) {
         Log.d("message", "message" + message);
