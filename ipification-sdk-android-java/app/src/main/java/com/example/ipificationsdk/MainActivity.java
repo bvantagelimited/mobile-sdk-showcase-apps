@@ -23,9 +23,11 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.LinkedHashSet;
 
 import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -207,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void exchangeToken(String code, CellularCallback<CellularResponse> callBack) {
+    private void exchangeToken(String code, final CellularCallback<CellularResponse> callBack) {
         try {
             String url = EXCHANGE_TOKEN_ENDPOINT;
             CellularService cellularService = new CellularService<CoverageResponse>(this);
@@ -223,12 +225,25 @@ public class MainActivity extends AppCompatActivity {
             Request request = new Request.Builder().url(url).post(body)
                     .build();
             Call call = client.newCall(request);
-            Response response = call.execute();
-            if (response.code() == 200) {
-                callBack.onSuccess(new CellularResponse(response.code(), response.body().string()));
-            } else {
-                callBack.onError(new CellularException(new Exception(response.body().string())));
-            }
+            call.enqueue(new Callback(){
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    if(response.isSuccessful()){
+                        callBack.onSuccess(new CellularResponse(response.code(), response.body().string()));
+                    }else{
+                        if(response.body() != null){
+                            callBack.onError(new CellularException(new Exception(response.body().string())));
+                        }
+                    }
+
+                }
+
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    callBack.onError(new CellularException(new Exception(e.getMessage())));
+                }
+            });
+
 
         } catch (Exception e) {
             e.printStackTrace();
