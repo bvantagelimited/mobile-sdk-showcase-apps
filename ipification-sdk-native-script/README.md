@@ -16,6 +16,7 @@ cd mobile-sdk-showcase-apps/ipification-sdk-native-script
 
 * Download and run command to add IPification plugin
 ```
+tns plugin remove @nativescript/ipification (if exists)
 tns plugin add /path/to/ipification_plugin
 ```
 * Add configuration file  (please follow the document)
