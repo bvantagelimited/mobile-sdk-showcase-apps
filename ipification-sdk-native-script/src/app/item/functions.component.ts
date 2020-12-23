@@ -1,11 +1,11 @@
-import { Component, NgZone, OnInit } from "@angular/core";
+import { Component, NgZone, OnInit, OnDestroy } from "@angular/core";
 import { Button, EventData } from "@nativescript/core";
 // import { Ipification } from 'ipification';
 import {IPification} from '@nativescript/ipification';
 @Component({
     templateUrl: "./functions.component.html"
 })
-export class Functions implements OnInit {
+export class Functions implements OnInit , OnDestroy{
    
     isBusy: boolean = false;
 
@@ -39,11 +39,11 @@ export class Functions implements OnInit {
         var ip = new IPification()
         ip.checkCoverage().then((success) => {
             console.log('success: ', success);
-            self.setAvailable(success.parseResponse())
+            self.setAvailable(success.isAvailable())
         })
         .catch((error) => {
-            console.log('error: ', error.getException().getMessage());
-            self.setAvailable(error.getException().getMessage())
+            console.log('error: ', error.getErrorMessage());
+            self.setAvailable(error.getErrorMessage())
         });
     }
 
@@ -53,11 +53,16 @@ export class Functions implements OnInit {
         var ip = new IPification()
         ip.doAuthorization("381123456789").then((success) => {
             console.log('success: ', success);
-            self.setCode(success.parseResponse())
+            self.setCode(success.getCode())
         })
         .catch((error) => {
             console.log('error: ', error);
-            self.setCode(error.getException().getMessage())
+            self.setCode(error.getErrorMessage())
         });
+    }
+    ngOnDestroy() {
+        var ip = new IPification()
+        ip.unregister()
+        console.log('Items destroyed');
     }
 }
