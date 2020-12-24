@@ -291,6 +291,13 @@ class MainActivity : AppCompatActivity() {
             .setIcon(android.R.drawable.ic_dialog_alert)
             .show()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        val result =  CellularService.Companion.unregisterNetwork(this)
+        Log.d("onDestroy", "unregisterNetwork: $result")
+
+    }
 }
 
 fun View.hideKeyboard() {

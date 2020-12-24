@@ -250,4 +250,10 @@ public class MainActivity extends AppCompatActivity {
             callBack.onError(new CellularException(e));
         }
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        boolean result = CellularService.Companion.unregisterNetwork(this);
+        Log.d("onDestroy", "unregisterNetwork: " + result);
+    }
 }
