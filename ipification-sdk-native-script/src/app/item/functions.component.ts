@@ -62,7 +62,7 @@ export class Functions implements OnInit , OnDestroy{
     }
     ngOnDestroy() {
         var ip = new IPification()
-        ip.unregister()
-        console.log('Items destroyed');
+        var result = ip.unregister()
+        console.log('Items destroyed ' + result);
     }
 }
