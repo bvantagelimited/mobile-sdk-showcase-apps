@@ -45,7 +45,7 @@
 
 To get a local copy up and running follow these simple example steps.
 # iOS
-1. Put the IPification SDK  ```(IPificationSDK.framework)``` inside the ```sdk/``` folder of ios project
+1. Put the IPification SDK  ```(IPificationSDK.xcframework)``` inside the ```sdk/``` folder of ios project
 2. Add This Folder to your Xcode project
 # Android
 1. Put the IPification SDK  ```(ipification-auth-x.x.aar)``` inside the ```app/libs/``` folder of android project
