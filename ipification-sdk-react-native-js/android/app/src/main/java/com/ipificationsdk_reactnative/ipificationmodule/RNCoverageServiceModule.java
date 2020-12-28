@@ -17,7 +17,7 @@ import com.ipification.mobile.sdk.android.response.CoverageResponse;
 import org.jetbrains.annotations.NotNull;
 
 public class RNCoverageServiceModule extends ReactContextBaseJavaModule {
-    private Context context;
+    private final Context context;
 
     RNCoverageServiceModule(ReactApplicationContext context) {
         super(context);
@@ -36,14 +36,14 @@ public class RNCoverageServiceModule extends ReactContextBaseJavaModule {
         checkCoverage(new CellularCallback<CoverageResponse>() {
             @Override
             public void onSuccess(CoverageResponse coverageResponse) {
-                Log.d("DEBUG", "onSuccess " + coverageResponse.responseData);
-                successCallback.invoke(null, coverageResponse.parseResponse());
+                Log.d("DEBUG", "onSuccess " + coverageResponse.isAvailable());
+                successCallback.invoke(null, coverageResponse.isAvailable());
             }
 
             @Override
             public void onError(@NotNull CellularException e) {
-                Log.d("DEBUG", "onError " + e.exception.getMessage());
-                errorCallback.invoke(null, e.exception.getMessage());
+                Log.d("DEBUG", "onError " + e.getErrorMessage());
+                errorCallback.invoke(null, e.getErrorMessage());
             }
         });
 
@@ -53,7 +53,6 @@ public class RNCoverageServiceModule extends ReactContextBaseJavaModule {
 
     private void checkCoverage(CellularCallback<CoverageResponse> callback) {
         CellularService<CoverageResponse> checkCoverageService = new CellularService<>(this.context);
-        checkCoverageService.registerCallback(callback);
-        checkCoverageService.checkCoverage();
+        checkCoverageService.checkCoverage(callback);
     }
 }

@@ -39,14 +39,14 @@ public class RNAuthenticationServiceModule extends ReactContextBaseJavaModule {
         doAuthorization(new CellularCallback<AuthResponse>() {
             @Override
             public void onSuccess(AuthResponse authResponse) {
-                Log.d("DEBUG", "onSuccess " + authResponse.responseData);
-                successCallback.invoke(null, authResponse.parseResponse());
+                Log.d("DEBUG", "onSuccess " + authResponse.getCode());
+                successCallback.invoke(null, authResponse.getCode());
             }
 
             @Override
             public void onError(@NotNull CellularException e) {
-                Log.d("DEBUG", "onError " + e.exception.getMessage());
-                errorCallback.invoke(null, e.exception.getMessage());
+                Log.d("DEBUG", "onError " + e.getErrorMessage());
+                errorCallback.invoke(null, e.getErrorMessage());
             }
         });
 
@@ -58,14 +58,14 @@ public class RNAuthenticationServiceModule extends ReactContextBaseJavaModule {
         doAuthorizationWithParams(params, new CellularCallback<AuthResponse>() {
             @Override
             public void onSuccess(AuthResponse authResponse) {
-                Log.d("DEBUG", "onSuccess " + authResponse.parseResponse());
-                successCallback.invoke(null, authResponse.parseResponse());
+                Log.d("DEBUG", "onSuccess " + authResponse.getCode());
+                successCallback.invoke(null, authResponse.getCode());
             }
 
             @Override
             public void onError(@NotNull CellularException e) {
-                Log.d("DEBUG", "onError " + e.exception.getMessage());
-                errorCallback.invoke(null, e.exception.getMessage());
+                Log.d("DEBUG", "onError " + e.getErrorMessage());
+                errorCallback.invoke(null, e.getErrorMessage());
             }
         });
 
@@ -75,16 +75,10 @@ public class RNAuthenticationServiceModule extends ReactContextBaseJavaModule {
 
     private void doAuthorization(CellularCallback<AuthResponse> cb) {
         CellularService<AuthResponse> doAuthService = new CellularService<>(context);
-        doAuthService.registerCallback(cb);
-//        AuthRequest.Builder authRequestBuilder = new AuthRequest.Builder();
-//        authRequestBuilder.addQueryParam("login_hint", "381692023534");
-
-//        AuthRequest authRequest = authRequestBuilder.build();
-        doAuthService.performAuth(null);
+        doAuthService.performAuth(cb);
     }
     private void doAuthorizationWithParams(ReadableMap params, CellularCallback<AuthResponse> cb) {
         CellularService<AuthResponse> doAuthService = new CellularService<>(context);
-        doAuthService.registerCallback(cb);
         AuthRequest.Builder authRequestBuilder = new AuthRequest.Builder();
         try {
 
@@ -94,7 +88,7 @@ public class RNAuthenticationServiceModule extends ReactContextBaseJavaModule {
                 authRequestBuilder.addQueryParam(key.toString(), data.get(key).toString());
             }
             AuthRequest authRequest = authRequestBuilder.build();
-            doAuthService.performAuth(authRequest);
+            doAuthService.performAuth(authRequest, cb);
         }catch(Exception e){
             cb.onError(new CellularException(e));
         }
