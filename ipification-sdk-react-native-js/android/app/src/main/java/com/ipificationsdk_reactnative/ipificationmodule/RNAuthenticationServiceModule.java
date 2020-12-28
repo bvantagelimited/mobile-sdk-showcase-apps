@@ -71,7 +71,10 @@ public class RNAuthenticationServiceModule extends ReactContextBaseJavaModule {
 
 
     }
-
+	@ReactMethod
+    public void unregisterNetwork() {
+        CellularService.Companion.unregisterNetwork(this.context);
+    }
 
     private void doAuthorization(CellularCallback<AuthResponse> cb) {
         CellularService<AuthResponse> doAuthService = new CellularService<>(context);

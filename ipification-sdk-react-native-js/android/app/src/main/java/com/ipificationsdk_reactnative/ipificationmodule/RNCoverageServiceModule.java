@@ -49,7 +49,10 @@ public class RNCoverageServiceModule extends ReactContextBaseJavaModule {
 
 
     }
-
+	@ReactMethod
+    public void unregisterNetwork() {
+        CellularService.Companion.unregisterNetwork(this.context);
+    }
 
     private void checkCoverage(CellularCallback<CoverageResponse> callback) {
         CellularService<CoverageResponse> checkCoverageService = new CellularService<>(this.context);

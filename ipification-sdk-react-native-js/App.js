@@ -17,6 +17,12 @@ export default class App extends Component {
    };
   
  }
+ componentWillUnmount = () => {
+  if (Platform.OS === 'android') {
+    console.log("unregisterNetwork")
+    RNCoverageService.unregisterNetwork();
+  }
+};
   checkCoverage = () => {
    console.log("checkCoverage")
    RNCoverageService.checkCoverage((err, success) => {
