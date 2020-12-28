@@ -51,7 +51,7 @@ To get a local copy up and running follow these simple example steps.
 1. Put the IPification SDK  ```(ipification-auth-x.x.aar)``` inside the ```app/libs/``` folder of android project
 # Start RN Project
 1. Run command: ```yarn install```
-2. Run command : ```npx react-native start``` or ```react-native start```
+2. Run command : ```npx react-native run-android``` or ```npx react-native run-ios```
 
 
 
