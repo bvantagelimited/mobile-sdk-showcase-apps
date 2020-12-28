@@ -45,13 +45,13 @@
 
 To get a local copy up and running follow these simple example steps.
 # iOS
-1. Put the IPification SDK  ```(IPificationSDK.framework)``` inside the ```sdk/``` folder of ios project
+1. Put the IPification SDK  ```(IPificationSDK.xcframework)``` inside the ```sdk/``` folder of ios project
 2. Add This Folder to your Xcode project
 # Android
 1. Put the IPification SDK  ```(ipification-auth-x.x.aar)``` inside the ```app/libs/``` folder of android project
 # Start RN Project
 1. Run command: ```yarn install```
-2. Run command : ```npx react-native start``` or ```react-native start```
+2. Run command : ```npx react-native run-android``` or ```npx react-native run-ios```
 
 
 
