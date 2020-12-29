@@ -43,5 +43,13 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>COVERAGE_ENDPOINT</key>
+	<string>$(COVERAGE_ENDPOINT)</string>
+	<key>AUTHORIZATION_URL</key>
+	<string>$(AUTHORIZATION_URL)</string>
+	<key>REDIRECT_URI</key>
+	<string>$(REDIRECT_URI)</string>
+	<key>CLIENT_ID</key>
+	<string>$(CLIENT_ID)</string>
 </dict>
 </plist>

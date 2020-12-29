@@ -4,3 +4,8 @@
 // To build for device with Xcode 8 you need to specify your development team. More info: https://developer.apple.com/library/prerelease/content/releasenotes/DeveloperTools/RN-Xcode/Introduction.html
 // DEVELOPMENT_TEAM = YOUR_TEAM_ID;
 ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+
+COVERAGE_ENDPOINT = https:\/\/stage.ipification.com/auth/realms/ipification/coverage/202.175.50.128
+AUTHORIZATION_URL = https:\/\/stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth
+REDIRECT_URI = your_redirect_uri
+CLIENT_ID = your_client_id

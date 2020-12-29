@@ -1,6 +1,9 @@
 import { Component, NgZone, OnInit, OnDestroy } from "@angular/core";
 import { Button, EventData } from "@nativescript/core";
 // import { Ipification } from 'ipification';
+import { isAndroid } from "@nativescript/core";
+
+
 import {IPification} from '@nativescript/ipification';
 @Component({
     templateUrl: "./functions.component.html"
@@ -61,8 +64,11 @@ export class Functions implements OnInit , OnDestroy{
         });
     }
     ngOnDestroy() {
-        var ip = new IPification()
-        var result = ip.unregister()
-        console.log('Items destroyed ' + result);
+        if(isAndroid){
+            var ip = new IPification()
+            var result = ip.unregister()
+            console.log('Items destroyed ' + result);
+        }
+        
     }
 }

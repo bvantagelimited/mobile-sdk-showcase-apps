@@ -32,6 +32,7 @@ You can learn more about the NativeScript core theme at https://github.com/nativ
     <Button text="do Authorization" (tap)="doAuthorize($event)"></Button>
 
     <Label [text]="this.code" horizontalAlignment="center" textWrap="true"></Label>
+    <ActivityIndicator [busy]="isBusy" color="#00992e" width="50" height="50"></ActivityIndicator>
 </StackLayout>
-<ActivityIndicator [busy]="isBusy" color="#00992e" width="50" height="50"></ActivityIndicator>
+
 
