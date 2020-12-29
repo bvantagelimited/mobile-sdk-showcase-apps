@@ -23,5 +23,6 @@ tns plugin add /path/to/ipification_plugin
 
 * Run app on device
 ```
+tns run android --available-devices
 tns run android
 ```
