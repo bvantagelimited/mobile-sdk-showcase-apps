@@ -40,6 +40,7 @@ export class Functions implements OnInit , OnDestroy{
         // let button = args.object as Button;
         let self = this
         var ip = new IPification()
+        ip.setAuthorizationServiceConfiguration("ipification-services-pro.json")
         ip.checkCoverage().then((success) => {
             console.log('success: ', success);
             self.setAvailable(success.isAvailable())
@@ -54,6 +55,7 @@ export class Functions implements OnInit , OnDestroy{
         this.isBusy = true
         var self = this
         var ip = new IPification()
+        ip.setAuthorizationServiceConfiguration("ipification-services-pro.json")
         ip.doAuthorization("381123456789").then((success) => {
             console.log('success: ', success);
             self.setCode(success.getCode())

@@ -1,0 +1,6 @@
+{
+  "coverage_url": "https://api.ipification.com/auth/realms/ipification/coverage",
+  "authorization_url": "https://api.ipification.com/auth/realms/ipification/protocol/openid-connect/auth",
+  "redirect_uri": "your_redirect_uri",
+  "client_id":"your_client_id"
+} 
