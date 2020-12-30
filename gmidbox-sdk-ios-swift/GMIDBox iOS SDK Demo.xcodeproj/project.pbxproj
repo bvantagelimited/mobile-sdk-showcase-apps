@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,8 +13,8 @@
 		0A14D78C244195A3004F8B97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A14D78A244195A3004F8B97 /* Main.storyboard */; };
 		0A14D78E244195A5004F8B97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A14D78D244195A5004F8B97 /* Assets.xcassets */; };
 		0A14D791244195A5004F8B97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A14D78F244195A5004F8B97 /* LaunchScreen.storyboard */; };
-		0AE469472484D8EB004B2B3C /* GMiDBOXSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AE469452484D709004B2B3C /* GMiDBOXSDK.framework */; };
-		0AE469482484D8EB004B2B3C /* GMiDBOXSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0AE469452484D709004B2B3C /* GMiDBOXSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0A4DF42F259C626000B25341 /* GMiDBOXSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A4DF42D259C625800B25341 /* GMiDBOXSDK.xcframework */; };
+		0A4DF430259C626000B25341 /* GMiDBOXSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A4DF42D259C625800B25341 /* GMiDBOXSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,7 +24,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0AE469482484D8EB004B2B3C /* GMiDBOXSDK.framework in Embed Frameworks */,
+				0A4DF430259C626000B25341 /* GMiDBOXSDK.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -40,7 +40,7 @@
 		0A14D78D244195A5004F8B97 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A14D790244195A5004F8B97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0A14D792244195A5004F8B97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0AE469452484D709004B2B3C /* GMiDBOXSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GMiDBOXSDK.framework; sourceTree = "<group>"; };
+		0A4DF42D259C625800B25341 /* GMiDBOXSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = GMiDBOXSDK.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0AE469472484D8EB004B2B3C /* GMiDBOXSDK.framework in Frameworks */,
+				0A4DF42F259C626000B25341 /* GMiDBOXSDK.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,7 +89,7 @@
 		0A872DC624631C3300990584 /* sdk */ = {
 			isa = PBXGroup;
 			children = (
-				0AE469452484D709004B2B3C /* GMiDBOXSDK.framework */,
+				0A4DF42D259C625800B25341 /* GMiDBOXSDK.xcframework */,
 			);
 			path = sdk;
 			sourceTree = "<group>";
