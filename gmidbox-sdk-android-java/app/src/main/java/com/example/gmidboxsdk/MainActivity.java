@@ -12,11 +12,11 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.ipification.mobile.auth.gmidbox.CellularCallback;
-import com.ipification.mobile.auth.gmidbox.CellularException;
 import com.ipification.mobile.auth.gmidbox.CellularRequest;
 import com.ipification.mobile.auth.gmidbox.CellularResponse;
 import com.ipification.mobile.auth.gmidbox.CellularService;
+import com.ipification.mobile.auth.gmidbox.callback.CellularCallback;
+import com.ipification.mobile.auth.gmidbox.exception.CellularException;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         textView = findViewById(R.id.textView);
         textInputEditText = findViewById(R.id.input);
-        MaterialButton button = findViewById(R.id.button);
+        MaterialButton button = findViewById(R.id.button_connect);
 
 
 
@@ -54,8 +54,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        MaterialButton disConnectButton = findViewById(R.id.button_disconnect);
+        disConnectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-
+                boolean result  = CellularService.Companion.unregisterNetwork(MainActivity.this);
+                textView.setText("disconnected: " + result);
+           }
+        });
     }
 
     private void dismissKeyboard() {
@@ -81,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setConnectTimeout(10000);
         builder.setReadTimeout(12000);
         cellularRequest = builder.build();
-        cellularService.registerCallback(new CellularCallback() {
+        CellularCallback callback = new CellularCallback() {
             @Override
             public void onSuccess(@NotNull final CellularResponse cellularResponse) {
                 textView.post(new Runnable() {
@@ -111,8 +118,8 @@ public class MainActivity extends AppCompatActivity {
                     });
                 }
             }
-        });
+        };
 
-        cellularService.performRequest(cellularRequest);
+        cellularService.performRequest(cellularRequest, callback);
     }
 }
