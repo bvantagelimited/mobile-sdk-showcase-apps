@@ -1,0 +1,7 @@
+{
+    "coverage_url": "https://stage.ipification.com/auth/realms/ipification/coverage",
+    "authorization_url": "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth",
+    "redirect_uri": "mypackagename://oauth2redirect/",
+    "client_id":"9f49df46a311454d882824607136c68f"
+   }
+   
