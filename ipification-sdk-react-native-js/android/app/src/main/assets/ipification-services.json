@@ -1,5 +1,5 @@
 {
-    "coverage_url": "https://stage.ipification.com/auth/realms/ipification/coverage",
+    "coverage_url": "https://stage.ipification.com/auth/realms/ipification/coverage/202.175.50.128",
     "authorization_url": "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth",
     "redirect_uri": "mypackagename://oauth2redirect/",
     "client_id":"example-client-id"
