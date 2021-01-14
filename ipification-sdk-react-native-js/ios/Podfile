@@ -3,12 +3,12 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'ipificationSDK_ReactNative' do
+target 'firstapp' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
 
-  target 'ipificationSDK_ReactNativeTests' do
+  target 'firstappTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -23,10 +23,10 @@ target 'ipificationSDK_ReactNative' do
   end
 end
 
-target 'ipificationSDK_ReactNative-tvOS' do
-  # Pods for ipificationSDK_ReactNative-tvOS
+target 'firstapp-tvOS' do
+  # Pods for firstapp-tvOS
 
-  target 'ipificationSDK_ReactNative-tvOSTests' do
+  target 'firstapp-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

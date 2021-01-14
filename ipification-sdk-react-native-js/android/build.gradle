@@ -34,7 +34,7 @@ allprojects {
         jcenter()
         maven { url 'https://www.jitpack.io' }
         flatDir {
-            dirs 'libs'
+            dirs "../../node_modules/react-native-ipification-library/android/libs"
         }
     }
 }

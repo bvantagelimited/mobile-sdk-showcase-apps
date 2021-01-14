@@ -1,6 +1,6 @@
 {
-  "name": "ipificationSDK_ReactNative",
-  "version": "0.0.2",
+  "name": "firstapp",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -10,8 +10,9 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "react": "17.0.1",
-    "react-native": "0.63.3"
+    "react": "16.13.1",
+    "react-native": "0.63.4",
+    "react-native-ipification-library": "../IPification-React-Native-Plugin/NativeIPificationLibrary/"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
