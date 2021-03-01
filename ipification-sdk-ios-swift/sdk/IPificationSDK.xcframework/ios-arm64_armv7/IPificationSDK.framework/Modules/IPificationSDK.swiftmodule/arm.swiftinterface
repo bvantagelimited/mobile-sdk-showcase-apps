@@ -43,6 +43,10 @@ public protocol AuthorizationCallback {
 }
 @_hasMissingDesignatedInitializers public class AuthorizationResponse {
   public func getPlainResponse() -> Swift.String
+  public func getCookies() -> [Swift.String]?
+  public func getXRoute() -> Swift.String?
+  public func setCookies(c: [Swift.String])
+  public func setXRoute(c: Swift.String)
   public func getCode() -> Swift.String?
   public func getError() -> Swift.String
   @objc deinit
@@ -60,7 +64,7 @@ public class AuthorizationService : IPificationSDK.AuthorizationCallback, IPific
   public func logUrl(_ url: Swift.String)
   public init()
   public init(authUrlKey: Swift.String = "AUTHORIZATION_URL", redirectUriKey: Swift.String = "REDIRECT_URI", clientIdKey: Swift.String = "CLIENT_ID")
-  public func doAuthorization(_ authorizationRequest: IPificationSDK.AuthorizationRequest? = nil) throws
+  public func doAuthorization(_ authorizationRequest: IPificationSDK.AuthorizationRequest? = nil)
   @objc deinit
 }
 public enum ResponseType {

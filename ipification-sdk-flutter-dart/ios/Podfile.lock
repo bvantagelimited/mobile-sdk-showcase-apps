@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - ip_sdk (1.0.3):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - ip_sdk (from `.symlinks/plugins/ip_sdk/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  ip_sdk:
+    :path: ".symlinks/plugins/ip_sdk/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  ip_sdk: 83e9f3dbd27cd2b00ad95b3d8877318aa3559261
+
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+
+COCOAPODS: 1.10.0
