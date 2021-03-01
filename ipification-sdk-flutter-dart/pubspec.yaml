@@ -20,7 +20,8 @@ dependencies:
     # the parent directory to use the current plugin's version.
     path: ../ipification_flutter/
 
-  
+  intl_phone_number_input: ^0.6.0
+
 
 dev_dependencies:
   flutter_test:

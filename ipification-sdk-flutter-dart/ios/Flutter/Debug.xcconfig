@@ -3,5 +3,5 @@
 COVERAGE_ENDPOINT = https:\/\/stage.ipification.com/auth/realms/ipification/coverage/202.175.50.128
 AUTHORIZATION_URL = https:\/\/stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth
 REDIRECT_URI = demoip:\/\/oauth2redirect/provider
-CLIENT_ID = 9f49df46a311454d882824607136c68f
+CLIENT_ID = your_client_id
 
