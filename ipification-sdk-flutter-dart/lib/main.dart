@@ -123,7 +123,7 @@ class _MyAppState extends State<MyApp> {
             authenCode,
             (success) => {
                   successMessage =
-                      "got accesstoken with Phone Number verified: ${success['phone_number_verified']}" +
+                      "got accessToken with Phone Number verified: ${success['phone_number_verified']}" +
                           "\n\n" +
                           "MobileId: ${success['mobile_id']}" +
                           "\n\n" +
@@ -203,7 +203,7 @@ class _MyAppState extends State<MyApp> {
     if (isAvailable == true) {
       doAuthorization();
     } else {
-      errMessage = "your Telco is not supported IPification";
+      errMessage = errMessage ?? "your Telco is not supported IPification";
       showMessage(errMessage);
     }
   }
