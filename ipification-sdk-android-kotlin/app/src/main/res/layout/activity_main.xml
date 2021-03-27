@@ -1,89 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:padding="40dp"
-    >
 
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:textColor="@android:color/white"
+    tools:context=".MainActivity">
 
-        android:layout_marginTop="50dp"
-        android:text="Next"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneCode" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="10dp"
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
 
-    <EditText
-        android:id="@+id/countryCode"
-        android:layout_width="70dp"
-        android:layout_height="60dp"
-        android:ems="10"
-        android:textSize="18sp"
-        android:editable="false"
-        android:cursorVisible="false"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/lbl1"
-        app:layout_constraintStart_toStartOf="parent"
-        android:inputType="textPersonName"
-        android:text="+381"
+            android:layout_marginBottom="10dp"
+            android:background="@color/colorPrimary"
+            android:text="Login"
+            android:textColor="@android:color/white"
 
-        android:autofillHints="" />
+            app:layout_constraintBottom_toTopOf="@+id/text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/link" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/phoneCode"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:hint=""
-        android:text="123456789"
-        android:inputType="numberSigned|phone"
-        android:textSize="18sp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/countryCode"
-        app:layout_constraintTop_toBottomOf="@+id/lbl1" />
+        <TextView
+            android:id="@+id/confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="Do you allow your phone to be authenticated?"
+            android:textColor="#000000"
+            android:textSize="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/phoneCode"></TextView>
 
-    <TextView
-        android:id="@+id/lbl1"
-        android:textSize="18sp"
-        android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="0dp"
-        android:textColor="@android:color/black"
-        android:text="Please enter your phone number"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal" />
+        <TextView
+            android:id="@+id/link"
+            android:clickable="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:text="Privacy Policy"
+            android:textColor="#000000"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp"
+            android:textSize="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/confirm"></TextView>
 
-    <TextView
-        android:id="@+id/result"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        <EditText
+            android:id="@+id/countryCode"
+            android:layout_width="70dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:autofillHints=""
+            android:cursorVisible="false"
+            android:editable="false"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="+381"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
 
-        app:layout_constraintTop_toBottomOf="@id/button"
-        android:layout_marginTop="40dp"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+            app:layout_constraintTop_toBottomOf="@+id/lbl1" />
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Powered by IPification"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/phoneCode"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
 
+            android:hint=""
+            android:inputType="numberSigned|phone"
+            android:text="123456789"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/countryCode"
+            app:layout_constraintTop_toBottomOf="@+id/lbl1" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+
+            android:id="@+id/lbl1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:text="Please enter your phone number"
+            android:textAlignment="textStart"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="start" />
+
+        <TextView
+            android:id="@+id/result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAlignment="viewStart"
+            android:layout_marginTop="20dp"
+            android:textColor="#808080"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text"
+            android:gravity="start" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Powered by IPification"
+            app:layout_constraintBottom_toTopOf="@id/result"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:id="@+id/loadingLayout"
+        android:layout_width="match_parent"
+        android:background="#8DC1C1C1"
+        android:visibility="gone"
+        android:layout_height="match_parent">
+
+        <com.github.ybq.android.spinkit.SpinKitView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/spin_kit"
+            style="@style/SpinKitView.Large.Circle"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:SpinKit_Color="@color/colorPrimary" />
+
+    </RelativeLayout>
+
+</FrameLayout>
