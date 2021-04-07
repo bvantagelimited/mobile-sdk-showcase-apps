@@ -138,6 +138,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun requestIPification() {
+        loadingLayout.hideKeyboard()
         showMessage("connecting...")
         val isValidPhoneNumber = validatePhoneNumber()
         if (!isValidPhoneNumber){
@@ -212,8 +213,8 @@ class MainActivity : AppCompatActivity() {
         val cellularService = CellularService<AuthResponse>(this)
         val authRequestBuilder = AuthRequest.Builder()
         authRequestBuilder.addQueryParam("login_hint", phone)
-        authRequestBuilder.addQueryParam("state", "213e23423423423423423423") // should be generated
-//            authRequestBuilder.addQueryParam("request",request)
+//        authRequestBuilder.setState("213e23423423423423423423") // should be generated
+//        authRequestBuilder.setScope("openid")
         val authRequest = authRequestBuilder.build()
 
         cellularService.performAuth(authRequest, callback)
