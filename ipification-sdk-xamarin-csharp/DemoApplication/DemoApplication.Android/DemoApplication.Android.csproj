@@ -104,10 +104,6 @@
       <Project>{79ABA28F-CFEA-4570-9C54-67424F1C6368}</Project>
       <Name>DemoApplication</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\IPificationAARBinding\IPificationAARBinding\IPificationAARBinding.csproj">
-      <Project>{6BD27EB7-09B5-4F04-B020-801263B9E5C1}</Project>
-      <Name>IPificationAARBinding</Name>
-    </ProjectReference>
   </ItemGroup>
  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

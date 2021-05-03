@@ -1,3 +1,9 @@
 
 ipification-sdk-flutter-dart/build/
 ipification-sdk-xamarin-csharp/DemoApplication/.vs/DemoApplication/xs/
+ipification-sdk-xamarin-csharp/DemoApplication/DemoApplication.Android/obj/
+ipification-sdk-xamarin-csharp/DemoApplication/DemoApplication.Android/bin/
+ipification-sdk-xamarin-csharp/DemoApplication/DemoApplication.iOS/obj/
+ipification-sdk-xamarin-csharp/DemoApplication/DemoApplication.iOS/bin/
+ipification-sdk-xamarin-csharp/DemoApplication/DemoApplication/obj/
+ipification-sdk-xamarin-csharp/DemoApplication/DemoApplication/bin/

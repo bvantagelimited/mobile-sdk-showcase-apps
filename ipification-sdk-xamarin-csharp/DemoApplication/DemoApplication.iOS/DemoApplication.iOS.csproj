@@ -140,10 +140,6 @@
       <Project>{79ABA28F-CFEA-4570-9C54-67424F1C6368}</Project>
       <Name>DemoApplication</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\IPificationFrameworkBinding\IPificationFrameworkBinding\IPificationFrameworkBinding.csproj">
-      <Project>{ED3C9AFE-C1B6-4636-A823-5C1FF3D56D1F}</Project>
-      <Name>IPificationFrameworkBinding</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\bg1.png" />
