@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="DemoApplication.LoginPages.LoginPage2"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:renderers="clr-namespace:DemoApplication.Renderers"
+    NavigationPage.HasNavigationBar="False">
+    <StackLayout BackgroundColor="#dedede">
+        <AbsoluteLayout>
+            <Grid AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+                <!--<Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>-->
+                <!--<Image
+                    Grid.Row="0"
+                    Aspect="Fill"
+                    Source="bg1" />-->
+                <StackLayout
+                    Grid.Row="0"
+                    
+                    Padding="0,50,0,10"
+                    >
+                    <!--<Image
+                        x:Name="Logo"
+                        Opacity="0"
+                        TranslationY="-40"
+                        WidthRequest="80"
+                        HeightRequest="80"
+                        Source="logo"
+                        BackgroundColor="Black"
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="CenterAndExpand" />-->
+                    <StackLayout
+                        Opacity="0"
+                        x:Name="MainStack"
+                        TranslationY="10"
+                        Margin="10,0,10,0"
+                        Spacing="10"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="CenterAndExpand">
+                        <Label
+                            FontAttributes="Bold"
+                            Text="Enter your phone number"
+                            TextColor="Black"
+                            HorizontalOptions="StartAndExpand" />
+                        <renderers:PancakeView
+                            Padding="10,10,10,10"
+                            HeightRequest="52"
+                            
+                            BackgroundColor="White"
+                            CornerRadius="5"
+                            HorizontalOptions="FillAndExpand">
+                            <renderers:BorderlessEntry
+                                TextColor="Black"
+                                x:Name="PhoneInput" 
+
+                                FontSize="14"
+                                Text="381123456789"
+                                Placeholder="enter your phone number"
+                                PlaceholderColor="Black" />
+                        </renderers:PancakeView>
+                        
+                        <Button
+                            Margin="0,20,0,0"
+                            Clicked="Login"
+                            BackgroundColor="#D7AE89"
+                            FontAttributes="Bold"
+                            Text="login"
+                            TextColor="White"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand" />
+
+
+                        <Label
+                            x:Name="CoverageResultLbl"
+                            Text="Coverage Result"
+                               Margin="0,20,0,0"
+                               
+                               HorizontalOptions="FillAndExpand"
+                               VerticalOptions="FillAndExpand" 
+                               TextColor="Blue"/>
+                        <Label
+                            x:Name="AuthResultLbl"
+                            Text="Authorization Result"
+                               Margin="0,10,0,0"
+                               
+                               HorizontalOptions="FillAndExpand"
+                               VerticalOptions="FillAndExpand" 
+                               TextColor="Blue"/>
+                        <Label
+                            x:Name="PhoneVerifiedLbl"
+                            Text="PhoneVerified Result"
+                               Margin="0,10,0,0"
+                               
+                               HorizontalOptions="FillAndExpand"
+                               VerticalOptions="FillAndExpand" 
+                               TextColor="Blue"/>
+                         <Label
+                            x:Name="SubLbl"
+                            Text="Sub Result"
+                               Margin="0,10,0,0"
+                               
+                               HorizontalOptions="FillAndExpand"
+                               VerticalOptions="FillAndExpand" 
+                               TextColor="Blue"/>
+                        <Label
+                            x:Name="MobileIDLbl"
+                            Text="MobileID Result"
+                               Margin="0,10,0,0"
+                               
+                               HorizontalOptions="FillAndExpand"
+                               VerticalOptions="FillAndExpand" 
+                               TextColor="Blue"/>
+
+                    </StackLayout>
+                </StackLayout>
+            </Grid>
+            
+        </AbsoluteLayout>
+    </StackLayout>
+</ContentPage>
