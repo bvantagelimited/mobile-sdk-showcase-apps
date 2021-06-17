@@ -83,14 +83,14 @@ const App = () => {
  };
  doTokenExchange = async () =>{
   console.log(authorizationResult)
-  
+
   var client_id =  await RNAuthenticationService.getConfigurationByName("client_id")
   var redirect_uri =  await RNAuthenticationService.getConfigurationByName("redirect_uri")
   console.log("client_id,", client_id)
   var details = {
     'client_id': client_id,
     'grant_type': 'authorization_code',
-    'client_secret': 'your_secret_key',
+    'client_secret': 'd6d710ee-68db-4913-934e-b02330523549',
     'redirect_uri': redirect_uri, 
     'code': authorizationResult
 
