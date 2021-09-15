@@ -20,7 +20,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String authenCode = '';
+  String authCode = '';
   String alertMessage = '';
   bool isAvailable = false;
   final String TOKEN_URL =
@@ -81,7 +81,7 @@ class _MyAppState extends State<MyApp> {
                         ),
                         SizedBox(height: 30),
                         ElevatedButton(
-                          child: const Text('Authenticate'),
+                          child: const Text('Authenticating'),
                           onPressed: startFlow,
                         ),
                         SizedBox(height: 30),
@@ -115,12 +115,19 @@ class _MyAppState extends State<MyApp> {
 
       showMessage("call authentication service");
       print(_phoneNum);
-      authenCode = await IpSdk.doAuthentication(loginHint: _phoneNum);
-      showMessage("authenCode $authenCode");
-      if (authenCode.isNotEmpty) {
+      IpSdk.setScope(value: "openid");
+
+      // authenCode = await IpSdk.doAuthentication(loginHint: _phoneNum);
+      var authResponse = await IpSdk.doAuthentication(loginHint: _phoneNum);
+      authCode = authResponse.code;
+      print(authCode);
+      print(authResponse.state);
+      showMessage("authCode $authCode");
+
+      if (authCode.isNotEmpty) {
         var successMessage = "";
         await doTokenExchange(
-            authenCode,
+            authCode,
             (success) => {
                   successMessage =
                       "got accessToken with Phone Number verified: ${success['phone_number_verified']}" +
@@ -138,18 +145,18 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  Future<void> doTokenExchange(var authentCode,
+  Future<void> doTokenExchange(var authCode,
       Function(Map<String, dynamic>) success, Function(String) fail) async {
     var clientID = await IpSdk.getConfigurationByName("client_id");
     String redirectURI = await IpSdk.getConfigurationByName("redirect_uri");
-    log("client_id:$clientID");
-    log("redirect_uri:$redirectURI");
+    print("client_id:$clientID");
+    print("redirect_uri:$redirectURI");
     var details = {
       'client_id': clientID,
       'grant_type': 'authorization_code',
       'client_secret': YOUR_CLIENT_SECRET,
       'redirect_uri': redirectURI,
-      'code': authenCode
+      'code': authCode
     };
     var client = http.Client();
     try {
@@ -181,8 +188,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> startFlow() async {
-   FocusScope.of(context).requestFocus(new FocusNode());
-
+    FocusScope.of(context).requestFocus(new FocusNode());
 
     String errMessage;
     try {
@@ -193,9 +199,15 @@ class _MyAppState extends State<MyApp> {
       //   IpSdk.setAuthorizationServiceConfiguration("ipification_services");
       // }
 
-      isAvailable = await IpSdk.checkCoverage;
+      // isAvailable = await IpSdk.checkCoverage;
+      var coverageResponse = await IpSdk.checkCoverage;
+      isAvailable = coverageResponse.isAvaiable;
       print("isAvailable $isAvailable");
-      showMessage("supported network: $isAvailable");
+
+      var operatorCode = coverageResponse.operatorCode;
+      print("operatorCode $operatorCode");
+
+      showMessage("supported network: $isAvailable $operatorCode");
     } on PlatformException catch (e) {
       isAvailable = false;
       errMessage = e.code + "\n" + e.message;
