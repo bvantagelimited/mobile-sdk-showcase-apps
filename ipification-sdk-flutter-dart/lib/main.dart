@@ -201,7 +201,7 @@ class _MyAppState extends State<MyApp> {
 
       // isAvailable = await IpSdk.checkCoverage;
       var coverageResponse = await IpSdk.checkCoverage;
-      isAvailable = coverageResponse.isAvaiable;
+      isAvailable = coverageResponse.isAvailable;
       print("isAvailable $isAvailable");
 
       var operatorCode = coverageResponse.operatorCode;
