@@ -27,7 +27,7 @@ class NextViewController: UIViewController {
         lblSubValue.text = sub
         lblMobileIDValue.text = mobileID
         
-        lblVerifiedValue.text = "\(isVerifedPhone!)"
+        lblVerifiedValue.text = "\(isVerifedPhone ?? false)"
         
     }
     @IBAction func close(_ sender: Any) {
