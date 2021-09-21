@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         startCoverageTime = System.currentTimeMillis();
         progressing = true;
         CellularService<CoverageResponse> cellularService = new CellularService<>(this);
+//        cellularService.setEnableCarrierHeaders(false);
         cellularService.checkCoverage(new CellularCallback<CoverageResponse>() {
             @Override
             public void onSuccess(CoverageResponse coverageResponse) {
@@ -130,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         });
         startAuthTime = System.currentTimeMillis();
         CellularService<AuthResponse> authService = new CellularService<>(this);
+
         CellularCallback<AuthResponse> callback =  new CellularCallback<AuthResponse>() {
             @Override
             public void onSuccess(AuthResponse authResponse) {
@@ -169,23 +171,24 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    showErrorMessage("Authorization Error: code is null");
+                    showErrorMessage("Authorization failed: code is null");
                 }
             }
 
             @Override
             public void onError(@NotNull CellularException e) {
-                showErrorMessage("Authorization Error: " + e.getError_code() + " - " + e.getException().getMessage());
+                showErrorMessage("Authorization Error: " + e.getError_code() + " - " + e.getErrorMessage());
             }
         };
         AuthRequest.Builder authRequestBuilder = new AuthRequest.Builder();
-        authRequestBuilder.addQueryParam("state", "213e23423423423423423423"); // generate state https://auth0.com/docs/protocols/state-parameters
+        authRequestBuilder.setScope("openid");
         authRequestBuilder.addQueryParam("login_hint", phoneInputText.getText().toString());
+//        authRequestBuilder.addQueryParam("state", "213e23423423423423423423"); // generate state https://auth0.com/docs/protocols/state-parameters
         authService.performAuth(authRequestBuilder.build(), callback);
     }
 
     private void showErrorMessage(final String message) {
-        Log.d("message", "message" + message);
+        Log.d("message", "message " + message);
         runOnUiThread(new Runnable() {
 
             @Override
