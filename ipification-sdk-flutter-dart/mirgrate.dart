@@ -4,7 +4,7 @@
       var isAvailable = await IpSdk.checkCoverage;
 
       // from 1.6.1
-      var coverageResponse = await IpSdk.checkCoverage;
+      var coverageResponse = await IpSdk.checkCoverage();
       var isAvailable = coverageResponse.isAvailable;
       var operatorCode = coverageResponse.operatorCode;
 
