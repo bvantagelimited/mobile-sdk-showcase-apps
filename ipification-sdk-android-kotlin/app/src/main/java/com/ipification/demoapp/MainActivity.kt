@@ -14,10 +14,7 @@ import android.text.style.UnderlineSpan
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.auth0.android.jwt.JWT
 import com.facebook.stetho.Stetho
@@ -46,10 +43,10 @@ class MainActivity : AppCompatActivity() {
     lateinit var link: TextView
     private lateinit var countryCodeTxt: EditText
     private lateinit var phoneCodeTxt: EditText
-
+    private var mMessage: String = ""
 
     private lateinit var phone: String
-    private lateinit var button: Button
+    private lateinit var doAuthBtn: Button
     private lateinit var loadingLayout: RelativeLayout
     private val EXCHANGE_TOKEN_ENDPOINT = "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/token"
 
@@ -69,10 +66,10 @@ class MainActivity : AppCompatActivity() {
             0 // flags
         )
         link.text = text
-        link.setOnClickListener({
+        link.setOnClickListener {
             val myIntent = Intent(this, WebViewActivity::class.java)
             startActivity(myIntent)
-        })
+        }
 
         loadingLayout = find(R.id.loadingLayout)
         countryCodeTxt = findViewById(R.id.countryCode)
@@ -81,8 +78,8 @@ class MainActivity : AppCompatActivity() {
         phoneCodeTxt.requestFocus()
         textResult = findViewById(R.id.result)
 
-        button = findViewById(R.id.button)
-        button.setOnClickListener {
+        doAuthBtn = findViewById(R.id.button)
+        doAuthBtn.setOnClickListener {
             requestIPification()
         }
 
@@ -96,6 +93,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         val picker = builder.build()
+
         val self = this
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             countryCodeTxt.showSoftInputOnFocus = false
@@ -128,17 +126,19 @@ class MainActivity : AppCompatActivity() {
     }
     private fun showMessage(message: String){
         textResult.post {
-            textResult.text = message
+            mMessage += message +"\n"
+            textResult.text = mMessage
         }
     }
     private fun updateButton(enabled: Boolean = true){
-        button.post{
-            button.isEnabled = enabled
-            button.alpha = if (enabled) 1f else 0.5f
+        doAuthBtn.post{
+            doAuthBtn.isEnabled = enabled
+            doAuthBtn.alpha = if (enabled) 1f else 0.5f
         }
     }
     private fun requestIPification() {
         loadingLayout.hideKeyboard()
+        showMessage("------------------------------")
         showMessage("connecting...")
         val isValidPhoneNumber = validatePhoneNumber()
         if (!isValidPhoneNumber){
@@ -147,12 +147,13 @@ class MainActivity : AppCompatActivity() {
         showLoading(true)
         updateButton(false)
 
-        checkCoverage(callback = object : CellularCallback<CoverageResponse> {
+        checkCoverage(phone, callback = object : CellularCallback<CoverageResponse> {
             override fun onSuccess(response: CoverageResponse) {
                 val isAvailable = response.isAvailable()
+                val operatorCode = response.getOperatorCode()
                 Log.d(TAG, "isAvailable $isAvailable")
                 if (isAvailable) {
-                    showMessage("checkCoverage - supported Telco ...")
+                    showMessage("checkCoverage - supported Telco $operatorCode...")
                     doAuthorization()
                 } else {
                     showMessage("checkCoverage - not supported Telco ...")
@@ -165,6 +166,8 @@ class MainActivity : AppCompatActivity() {
                 showMessage("checkCoverage - error: ${error.getErrorMessage()}")
                 handleError()
             }
+
+
         })
 
     }
@@ -176,23 +179,24 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun checkCoverage(callback: CellularCallback<CoverageResponse>) {
+    private fun checkCoverage(phone : String, callback: CellularCallback<CoverageResponse>) {
         val cellularService = CellularService<CoverageResponse>(this)
-//        cellularService.registerCallback(callback)
-        cellularService.checkCoverage(callback)
+        cellularService.checkCoverage(phone, callback)
     }
     private fun doAuthorization(){
-
+        showMessage("doAuthorization" )
         val authCallback = object :
             CellularCallback<AuthResponse> {
             override fun onSuccess(response: AuthResponse) {
                 Log.d(TAG, "response" + response.responseData)
                 val code = response.getCode()
                 Log.d(TAG, "code $code")
+                showMessage("code $code" )
                 if(code != null){
                     // exchange Token
                     doExchangeToken(code)
                 }else{
+                    showMessage("doAuthorization - code null ...")
                     handleError()
                 }
 
@@ -201,8 +205,9 @@ class MainActivity : AppCompatActivity() {
             override fun onError(error: CellularException) {
                 Log.d(TAG, "onFailed " + error.getErrorMessage())
                 handleError()
-                showMessage(error.getErrorMessage())
+                showMessage("auth error ${error.getErrorMessage()} ${error.error_code} ${error.responseCode}" )
             }
+
         }
 
         authorize(authCallback)
@@ -213,10 +218,10 @@ class MainActivity : AppCompatActivity() {
         val cellularService = CellularService<AuthResponse>(this)
         val authRequestBuilder = AuthRequest.Builder()
         authRequestBuilder.addQueryParam("login_hint", phone)
+        authRequestBuilder.setScope("openid ip:phone_verify ip:mobile_id")
 //        authRequestBuilder.setState("213e23423423423423423423") // should be generated
 //        authRequestBuilder.setScope("openid")
         val authRequest = authRequestBuilder.build()
-
         cellularService.performAuth(authRequest, callback)
     }
 
@@ -275,9 +280,11 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onError(error: CellularException) {
-                showMessage("error: ${error.getErrorMessage()}")
+                showMessage("exchange error: ${error.getErrorMessage()}")
                 handleError()
             }
+
+
 
         }
         doExchangeToken(code, callback)
@@ -308,7 +315,7 @@ class MainActivity : AppCompatActivity() {
                 .add("client_id", cellularService.getConfiguration("client_id") ?: "")
                 .add("redirect_uri", cellularService.getConfiguration("redirect_uri") ?: "")
                 .add("grant_type", "authorization_code")
-                .add("client_secret", "d6d710ee-68db-4913-934e-b02330523549")
+                .add("client_secret", "4bc14abb-fd00-4fd7-b274-88205f2f11cb")
                 .add("code", code)
                 .build()
 
