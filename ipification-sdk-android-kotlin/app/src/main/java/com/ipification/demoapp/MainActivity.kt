@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
 
         doAuthBtn = findViewById(R.id.button)
         doAuthBtn.setOnClickListener {
-            requestIPification()
+            doIPificationAuthFlow()
         }
 
 
@@ -120,26 +120,11 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-    private fun handleError() {
-        updateButton(true)
-        showLoading(false)
-    }
-    private fun showMessage(message: String){
-        textResult.post {
-            mMessage += message +"\n"
-            textResult.text = mMessage
-        }
-    }
-    private fun updateButton(enabled: Boolean = true){
-        doAuthBtn.post{
-            doAuthBtn.isEnabled = enabled
-            doAuthBtn.alpha = if (enabled) 1f else 0.5f
-        }
-    }
-    private fun requestIPification() {
+
+    private fun doIPificationAuthFlow() {
         loadingLayout.hideKeyboard()
-        showMessage("------------------------------")
-        showMessage("connecting...")
+        showMessage("-----------------")
+        showMessage("1. check Coverage ...")
         val isValidPhoneNumber = validatePhoneNumber()
         if (!isValidPhoneNumber){
             return
@@ -147,51 +132,40 @@ class MainActivity : AppCompatActivity() {
         showLoading(true)
         updateButton(false)
 
-        checkCoverage(phone, callback = object : CellularCallback<CoverageResponse> {
+        val coverageCallback = object : CellularCallback<CoverageResponse> {
             override fun onSuccess(response: CoverageResponse) {
                 val isAvailable = response.isAvailable()
                 val operatorCode = response.getOperatorCode()
                 Log.d(TAG, "isAvailable $isAvailable")
                 if (isAvailable) {
-                    showMessage("checkCoverage - supported Telco $operatorCode...")
+                    showMessage("checkCoverage Result - supported Telco ($operatorCode)")
                     doAuthorization()
                 } else {
-                    showMessage("checkCoverage - not supported Telco ...")
+                    showMessage("checkCoverage Result - not supported Telco ...")
                     handleError()
                 }
             }
-
             override fun onError(error: CellularException) {
-                Log.d(TAG, "error" + error.exception!!.message)
-                showMessage("checkCoverage - error: ${error.getErrorMessage()}")
+                Log.d(TAG, "error:" + error.exception!!.message)
+                showMessage("checkCoverage Result - error: ${error.getErrorMessage()}")
                 handleError()
             }
-
-
-        })
-
-    }
-
-    private fun showLoading(b: Boolean) {
-        loadingLayout.post {
-            loadingLayout.visibility = if (b) View.VISIBLE else View.GONE
         }
-    }
 
-
-    private fun checkCoverage(phone : String, callback: CellularCallback<CoverageResponse>) {
         val cellularService = CellularService<CoverageResponse>(this)
-        cellularService.checkCoverage(phone, callback)
+        cellularService.checkCoverage(coverageCallback)
+
     }
+
     private fun doAuthorization(){
-        showMessage("doAuthorization" )
+        showMessage("2. do Authorization ..." )
         val authCallback = object :
             CellularCallback<AuthResponse> {
             override fun onSuccess(response: AuthResponse) {
                 Log.d(TAG, "response" + response.responseData)
                 val code = response.getCode()
                 Log.d(TAG, "code $code")
-                showMessage("code $code" )
+                showMessage("Authorization Result:  auth_code: $code" )
                 if(code != null){
                     // exchange Token
                     doExchangeToken(code)
@@ -210,66 +184,40 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        authorize(authCallback)
-
-    }
-
-    private fun authorize(callback: CellularCallback<AuthResponse>){
         val cellularService = CellularService<AuthResponse>(this)
         val authRequestBuilder = AuthRequest.Builder()
-        authRequestBuilder.addQueryParam("login_hint", phone)
         authRequestBuilder.setScope("openid ip:phone_verify ip:mobile_id")
+        authRequestBuilder.addQueryParam("login_hint", phone)
 //        authRequestBuilder.setState("213e23423423423423423423") // should be generated
-//        authRequestBuilder.setScope("openid")
+
         val authRequest = authRequestBuilder.build()
-        cellularService.performAuth(authRequest, callback)
-    }
+        cellularService.performAuth(authRequest, authCallback)
 
-    private fun validatePhoneNumber(): Boolean {
-        if (countryCodeTxt.text.toString().isEmpty()) {
-            showAlert(message = "Country code is empty")
-            return false
-        }
-        if (phoneCodeTxt.text.toString().isEmpty()) {
-            showAlert(message = "Phone number is empty")
-            return false
-        }
-        val countryCode = countryCodeTxt.text.toString().replace("+", "")
-        val phoneNumberUtil = PhoneNumberUtil.getInstance()
-
-        val isoCode =
-            phoneNumberUtil.getRegionCodeForCountryCode(countryCode.toInt())
-        return try {
-            val phoneNumber = phoneNumberUtil.parse(phoneCodeTxt.text.toString(), isoCode)
-            phone = "${phoneNumber.countryCode}${phoneNumber.nationalNumber}"
-            val isValid = phoneNumberUtil.isValidNumber(phoneNumber)
-            if (!isValid) {
-                showAlert(message = "Your Phone number is not correct")
-            }
-
-            isValid
-        } catch (e: Exception) {
-            showAlert(message = "Your Phone number is not correct")
-            false
-        }
     }
 
 
     private fun doExchangeToken(code: String){
+        showMessage("3. Do exchange Token with code (must be performed in your server side)")
         val callback = object : CellularCallback<CellularResponse> {
             override fun onSuccess(response: CellularResponse) {
+                showMessage("\nreceived access_token")
                 try {
                     val jObject = JSONObject(response.responseData)
                     val jtw = JWT(jObject.getString("access_token"))
 //Log.d("aaaaa","aaaa "+ jObject.getString("access_token"))
                     showMessage(
-                        "phone_number_verified: ${
+                        "\nparse token: \nphone_number_verified: ${
                             jtw.getClaim("phone_number_verified").asBoolean()
-                        }\n\nsub: ${
+                        }\nsub: ${
                             jtw.getClaim(
                                 "sub"
                             ).asString()
-                        } "
+                        } \n" +
+                                "mobileID: ${
+                                    jtw.getClaim(
+                                        "mobile_id"
+                                    ).asString()
+                                } "
                     )
                     updateButton()
                     openNextActivity(jtw)
@@ -291,6 +239,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openNextActivity(jtw: JWT) {
+        val result =  CellularService.Companion.unregisterNetwork(this)
+        Log.d("onDestroy", "unregisterNetwork: $result")
         showLoading(false)
         val myIntent = Intent(this, ResultActivity::class.java)
         myIntent.putExtra(
@@ -315,7 +265,7 @@ class MainActivity : AppCompatActivity() {
                 .add("client_id", cellularService.getConfiguration("client_id") ?: "")
                 .add("redirect_uri", cellularService.getConfiguration("redirect_uri") ?: "")
                 .add("grant_type", "authorization_code")
-                .add("client_secret", "4bc14abb-fd00-4fd7-b274-88205f2f11cb")
+                .add("client_secret", "your_client_secret")
                 .add("code", code)
                 .build()
 
@@ -350,7 +300,55 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    private fun showLoading(b: Boolean) {
+        loadingLayout.post {
+            loadingLayout.visibility = if (b) View.VISIBLE else View.GONE
+        }
+    }
 
+
+
+    private fun validatePhoneNumber(): Boolean {
+        if (countryCodeTxt.text.toString().isEmpty()) {
+            showAlert(message = "Country code is empty")
+            return false
+        }
+        if (phoneCodeTxt.text.toString().isEmpty()) {
+            showAlert(message = "Phone number is empty")
+            return false
+        }
+        val countryCode = countryCodeTxt.text.toString().replace("+", "")
+        val phoneNumberUtil = PhoneNumberUtil.getInstance()
+
+        val isoCode =
+            phoneNumberUtil.getRegionCodeForCountryCode(countryCode.toInt())
+        return try {
+            val phoneNumber = phoneNumberUtil.parse(phoneCodeTxt.text.toString(), isoCode)
+            phone = "${phoneNumber.countryCode}${phoneNumber.nationalNumber}"
+            true
+        } catch (e: Exception) {
+            showAlert(message = "Your Phone number is not correct")
+            false
+        }
+    }
+
+
+    private fun handleError() {
+        updateButton(true)
+        showLoading(false)
+    }
+    private fun showMessage(message: String){
+        textResult.post {
+            mMessage += message +"\n"
+            textResult.text = mMessage
+        }
+    }
+    private fun updateButton(enabled: Boolean = true){
+        doAuthBtn.post{
+            doAuthBtn.isEnabled = enabled
+            doAuthBtn.alpha = if (enabled) 1f else 0.5f
+        }
+    }
     private fun showAlert(title: String? = "", message: String?): AlertDialog {
         return AlertDialog.Builder(this)
             .setTitle(title)

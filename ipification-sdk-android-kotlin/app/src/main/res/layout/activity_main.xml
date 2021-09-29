@@ -65,7 +65,7 @@
             android:editable="false"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="+381"
+            android:text="+62"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
 
@@ -104,7 +104,7 @@
             android:id="@+id/result"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:text="log"
+            android:text="Version: 1.6.3"
             android:textAlignment="viewStart"
             android:layout_marginTop="10dp"
             android:scrollbars = "vertical"
