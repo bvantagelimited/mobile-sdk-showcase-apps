@@ -194,7 +194,7 @@ class ViewController: UIViewController {
             }
 //            self.logText += "\n" + "accesToken \(phoneClaim.string)" + "\n"
 //            self.printLog()
-            self.logText += "\n" + "accesToken: \(accesToken)" + "\n"
+            self.logText += "\n" + "accesToken: \(accesToken!)" + "\n"
             self.printLog()
             DispatchQueue.main.async {
                 self.performSegue(withIdentifier: "openResult", sender: nil)
