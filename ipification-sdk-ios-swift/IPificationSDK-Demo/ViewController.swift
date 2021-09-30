@@ -139,7 +139,7 @@ class ViewController: UIViewController {
         self.printLog();
         self.code = code
         var requestBodyComponents = URLComponents()
-        requestBodyComponents.queryItems = [URLQueryItem(name: "client_id", value: "your_client_id"), URLQueryItem(name: "grant_type", value: "authorization_code"), URLQueryItem(name: "client_secret", value: "your_client_secret"), URLQueryItem(name: "redirect_uri", value: "https://api.dev.ipification.com/api/v1/callback"), URLQueryItem(name: "code", value: code)]
+        requestBodyComponents.queryItems = [URLQueryItem(name: "client_id", value: "your_client_id"), URLQueryItem(name: "grant_type", value: "authorization_code"), URLQueryItem(name: "client_secret", value: "your_client_secret"), URLQueryItem(name: "redirect_uri", value: "your_redirect_uri"), URLQueryItem(name: "code", value: code)]
         
         var request = URLRequest(url: URL(string: "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/token")!)
         request.httpMethod = "POST"
