@@ -46,11 +46,15 @@ const App = () => {
    }
  }, [])
  checkCoverage = () => {
+   
+  //  if (Platform.OS === 'android') {
+  //   RNCoverageService.setAuthorizationServiceConfiguration("ipification-services.json")
+  //  }
+   
    console.log('checkCoverage');
-   RNCoverageService.setAuthorizationServiceConfiguration("ipification-services.json")
    RNCoverageService.checkCoverage(
-     (error, isAvailable) => {
-       console.log(' isAvailable ',isAvailable,  error);
+     (error, isAvailable, operatorCode) => {
+       console.log(' isAvailable ',isAvailable,  operatorCode, error);
        if (isAvailable) {
          setCoverageResult(isAvailable);
          doAuthentication()
@@ -65,11 +69,11 @@ const App = () => {
  doAuthentication = () => {
    var state = getRandomValues();
    console.log('doAuthentication',state );
-   RNAuthenticationService.setAuthorizationServiceConfiguration("ipification-services.json")
+  //  RNAuthenticationService.setAuthorizationServiceConfiguration("ipification-services.json")
    RNAuthenticationService.doAuthorization(
-     {login_hint: formattedValue.replace("+",""), state: state},
-     (error, code) => {
-       console.log(error, code);
+     {login_hint: formattedValue.replace("+",""), state: state, scope:"openid ip:phone_verify ip:mobile_id"},
+     (error, code, state, fullResponse) => {
+       console.log(error, code, state, fullResponse);
        if (code != null) {
          setAuthorizationResult(code)
          doTokenExchange()
@@ -90,11 +94,10 @@ const App = () => {
   var details = {
     'client_id': client_id,
     'grant_type': 'authorization_code',
-    'client_secret': 'd6d710ee-68db-4913-934e-b02330523549',
+    'client_secret': 'your_client_secret',
     'redirect_uri': redirect_uri, 
     'code': authorizationResult
-
- };
+  };
   var formBody = [];
   for (var property in details) {
     var encodedKey = encodeURIComponent(property);
@@ -102,7 +105,7 @@ const App = () => {
     formBody.push(encodedKey + "=" + encodedValue);
   }
   formBody = formBody.join("&");
-  console.log(formBody)
+  // console.log(formBody)
   fetch(TOKEN_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
