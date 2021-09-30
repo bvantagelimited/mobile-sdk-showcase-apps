@@ -80,7 +80,7 @@ namespace DemoApplication.LoginPages
             {
                 { "client_id" , IPConstants.ClientId },
                 { "grant_type", "authorization_code" },
-                { "client_secret" , "d6d710ee-68db-4913-934e-b02330523549" },
+                { "client_secret" , "your_client_secret" },
                 { "redirect_uri" , IPConstants.RedirectUri },
                 { "code", code }
             };
