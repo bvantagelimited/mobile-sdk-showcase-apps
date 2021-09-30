@@ -25,13 +25,18 @@ class ViewController: UIViewController {
 
     var mobileID: String?
     var sub : String?
-    var isVerifedPhone: Bool?
+    var isVerifedPhone: String?
 
     var index = 0
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if #available(iOS 13.0, *) {
+            phoneInputTextField.overrideUserInterfaceStyle = .light
+        } else {
+            // Fallback on earlier versions
+        }
         // Do any additional setup after loading the view.
     }
     
@@ -39,7 +44,7 @@ class ViewController: UIViewController {
     @IBAction func doAuthentication(_ sender: Any) {
         showLoadingView()
 //        callCheckIP()
-        logText += "\n\n start \n"
+        logText = "\n\n1. check Coverage ... \n"
 //        print("start")
         index+=1
         printLog()
@@ -49,20 +54,20 @@ class ViewController: UIViewController {
 
         let coverageService = CoverageService()
         coverageService.callbackFailed = { (error) -> Void in
-            self.logText += "\n" + error.localizedDescription + "\n"
+            self.logText += "\n Coverage Result: Error: " + error.localizedDescription + "\n"
             self.printLog()
             self.hideLoadingView()
         }
         coverageService.callbackSuccess = { (response) -> Void in
             print("callbackSuccess", response.isAvailable(), response.getOperatorCode() ?? "",  response.getError(), response.getPlainResponse())
             DispatchQueue.main.async {
-
-                self.logText += "\n" + "isAvailable \(response.isAvailable()) operator_code:\(response.getOperatorCode() ?? "")" + "\n"
+                
+                self.logText += "\n Coverage Result: " + "isAvailable: \(response.isAvailable()) - operator_code:\(response.getOperatorCode() ?? "")" + "\n"
                 self.printLog()
                 if(response.isAvailable()){
                     self.doAuthorization()
                 }else{
-                    self.logText += "\n" + "not support telco. stop" + "\n"
+                    self.logText += "\n Coverage Result: " + "not support telco. end" + "\n"
                     self.printLog()
                     self.hideLoadingView()
                 }
@@ -70,13 +75,7 @@ class ViewController: UIViewController {
 
             }
         }
-//        coverageService.setEnableCarrierHeaders(enable: enableCarrierHeaders)
-        let phone = phoneInputTextField.text!
-        if(phone == ""){
-            logText = "\n phone number error : \(phone)! \n"
-            printLog();
-            return
-        }
+
         coverageService.checkCoverage()
 
         
@@ -84,14 +83,15 @@ class ViewController: UIViewController {
 
     }
     func doAuthorization() {
-        let phone = phoneInputTextField.text!
+        var phone = phoneInputTextField.text!
         if(phone == ""){
             logText = "\n phone number error : \(phone)! \n"
             printLog();
             return
         }
+        phone = phone.replacingOccurrences(of: "+", with: "")
         self.phoneInputTextField.endEditing(true)
-        logText += "\n start authorization with phone : \(phone)! \n"
+        logText += "\n 2. start authorization with phone : \(phone)! \n"
         printLog();
 
 
@@ -99,7 +99,7 @@ class ViewController: UIViewController {
 //        authorizationService.debug = debug
         authorizationService.callbackFailed = { (error) -> Void in
             print("callbackFailed")
-            self.logText += "\n\(error.localizedDescription)! \n"
+            self.logText += "\nAuth Result: Error: \(error.localizedDescription)! \n"
             self.printLog();
             self.hideLoadingView()
         }
@@ -108,7 +108,7 @@ class ViewController: UIViewController {
             print("callbackSuccess", response.getPlainResponse() )
             DispatchQueue.main.async {
                 if(response.getCode() != nil){
-                    self.logText += "\n" + "getCode successfully  \(response.getCode()!) \(response.getState()!)" + "\n"
+                    self.logText += "\n Auth Result: " + "code:  \(response.getCode()!) - state: \(response.getState()!)" + "\n"
                     self.callExchangeToken(code: response.getCode()!)
                     self.printLog()
                 }else{
@@ -122,7 +122,7 @@ class ViewController: UIViewController {
         }
         let authorizationRequest =  AuthorizationRequest.Builder()
         authorizationRequest.setScope(value: "openid ip:phone_verify ip:mobile_id")
-        authorizationRequest.setState(value: "1234abccd")
+//        authorizationRequest.setState(value: "1234abccd")
         authorizationRequest.addQueryParam(key: "login_hint", value: phoneInputTextField.text!)
 //        authorizationRequest.addQueryParam(key: "sleep", value: "12000")
 //        authorizationService.setEnableCarrierHeaders(enable: enableCarrierHeaders)
@@ -135,10 +135,11 @@ class ViewController: UIViewController {
     
     
     func callExchangeToken(code: String){
-        print(code)
+        self.logText += "\n3. Do exchange Token with Code \(code)\n"
+        self.printLog();
         self.code = code
         var requestBodyComponents = URLComponents()
-        requestBodyComponents.queryItems = [URLQueryItem(name: "client_id", value: "your_client_id"), URLQueryItem(name: "grant_type", value: "authorization_code"), URLQueryItem(name: "client_secret", value: "your_client_secret"), URLQueryItem(name: "redirect_uri", value: "your_redirect_uri"), URLQueryItem(name: "code", value: code)]
+        requestBodyComponents.queryItems = [URLQueryItem(name: "client_id", value: "6f2026a683bc439ebb414a03f9012f27"), URLQueryItem(name: "grant_type", value: "authorization_code"), URLQueryItem(name: "client_secret", value: "4bc14abb-fd00-4fd7-b274-88205f2f11cb"), URLQueryItem(name: "redirect_uri", value: "https://api.dev.ipification.com/api/v1/callback"), URLQueryItem(name: "code", value: code)]
         
         var request = URLRequest(url: URL(string: "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/token")!)
         request.httpMethod = "POST"
@@ -180,7 +181,7 @@ class ViewController: UIViewController {
         do{
             let jwt = try decode(jwt: accesToken!)
             let phoneClaim = jwt.claim(name: "phone_number_verified")
-            if let phoneValue = phoneClaim.boolean {
+            if let phoneValue = phoneClaim.string {
                 isVerifedPhone = phoneValue
             }
             let mobileIDClaim = jwt.claim(name: "mobile_id")
@@ -191,6 +192,10 @@ class ViewController: UIViewController {
             if let subValue = subClaim.string {
                 sub = subValue
             }
+//            self.logText += "\n" + "accesToken \(phoneClaim.string)" + "\n"
+//            self.printLog()
+            self.logText += "\n" + "accesToken: \(accesToken)" + "\n"
+            self.printLog()
             DispatchQueue.main.async {
                 self.performSegue(withIdentifier: "openResult", sender: nil)
             }

@@ -18,7 +18,7 @@ class NextViewController: UIViewController {
     var code : String?
     var mobileID: String?
     var sub : String?
-    var isVerifedPhone: Bool? = false
+    var isVerifedPhone: String? = "false"
     
     
     
@@ -27,7 +27,7 @@ class NextViewController: UIViewController {
         lblSubValue.text = sub
         lblMobileIDValue.text = mobileID
         
-        lblVerifiedValue.text = "\(isVerifedPhone ?? false)"
+        lblVerifiedValue.text = "\(isVerifedPhone ?? "false")"
         
     }
     @IBAction func close(_ sender: Any) {
