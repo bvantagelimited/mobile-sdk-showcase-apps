@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
         startCoverageTime = System.currentTimeMillis();
         progressing = true;
         CellularService<CoverageResponse> cellularService = new CellularService<>(this);
-//        cellularService.setEnableCarrierHeaders(false);
         cellularService.checkCoverage(new CellularCallback<CoverageResponse>() {
             @Override
             public void onSuccess(CoverageResponse coverageResponse) {
@@ -120,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 showErrorMessage("checkCoverage Error: " + e.getError_code() + " - " + e.getException().getMessage());
             }
         });
+
     }
 
     private void doAuthorization() {
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onError(@NotNull CellularException e) {
                             if (e.getException() != null) {
-                                showErrorMessage(e.getException().getMessage());
+                                showErrorMessage(e.getErrorMessage());
                             } else {
                                 showErrorMessage(e.getError_code());
                             }
@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         AuthRequest.Builder authRequestBuilder = new AuthRequest.Builder();
-        authRequestBuilder.setScope("openid");
+        authRequestBuilder.setScope("openid ip:phone_verify ip:mobile_id");
 //        authRequestBuilder.setState("your_state"); // generate state https://auth0.com/docs/protocols/state-parameters
         authRequestBuilder.addQueryParam("login_hint", phoneInputText.getText().toString());
         authService.performAuth(authRequestBuilder.build(), callback);
