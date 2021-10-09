@@ -118,7 +118,6 @@ const App = () => {
   .then((responseJson) => {
       console.log("exchange response",responseJson)
       if(responseJson["access_token"]){
-       
         var decoded = jwt_decode(responseJson["access_token"]);
         // console.log(decoded)
         setToken(JSON.stringify(decoded))
