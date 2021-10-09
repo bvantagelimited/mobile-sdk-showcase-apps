@@ -51,10 +51,10 @@ const App = () => {
   //   RNCoverageService.setAuthorizationServiceConfiguration("ipification-services.json")
   //  }
    
-   console.log('checkCoverage');
+   console.log('1. check Coverage');
    RNCoverageService.checkCoverage(
      (error, isAvailable, operatorCode) => {
-       console.log(' isAvailable ',isAvailable,  operatorCode, error);
+       console.log('isAvailable ',isAvailable,  operatorCode, error);
        if (isAvailable) {
          setCoverageResult(isAvailable);
          doAuthentication()
@@ -67,11 +67,13 @@ const App = () => {
  };
 
  doAuthentication = () => {
-   var state = getRandomValues();
-   console.log('doAuthentication',state );
-  //  RNAuthenticationService.setAuthorizationServiceConfiguration("ipification-services.json")
+  //  if (Platform.OS === 'android') {
+  //   RNCoverageService.setAuthorizationServiceConfiguration("ipification-services.json")
+  //  }
+   var state = getRandomValues(); // optional
+   console.log('2. do Authentication');
    RNAuthenticationService.doAuthorization(
-     {login_hint: formattedValue.replace("+",""), state: state, scope:"openid ip:phone_verify ip:mobile_id"},
+     {login_hint: formattedValue, scope:"openid ip:phone_verify ip:mobile_id", state: state},
      (error, code, state, fullResponse) => {
        console.log(error, code, state, fullResponse);
        if (code != null) {
@@ -86,7 +88,7 @@ const App = () => {
    );
  };
  doTokenExchange = async () =>{
-  console.log(authorizationResult)
+  console.log("3. do Token Exchange")
 
   var client_id =  await RNAuthenticationService.getConfigurationByName("client_id")
   var redirect_uri =  await RNAuthenticationService.getConfigurationByName("redirect_uri")
@@ -137,9 +139,9 @@ const App = () => {
       {showMessage && (
         <View style={styles.message}>
           <Text>Formatted Phone Number : {formattedValue}</Text>
-          <Text>Supported Telco : {coverageResult == true ? "true" : coverageResult == false ? "false" : coverageResult}</Text>
-          <Text>Authentication Result : {authorizationResult}</Text>
-          <Text>Access Token : {token}</Text>
+          <Text>1. Supported Telco : {coverageResult == true ? "true" : coverageResult == false ? "false" : coverageResult}</Text>
+          <Text>2. Do Authentication - Result : {authorizationResult}</Text>
+          <Text>3. Token Exchange - Access Token : {token}</Text>
           
         </View>
       )}

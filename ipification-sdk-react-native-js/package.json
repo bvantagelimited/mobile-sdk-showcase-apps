@@ -1,6 +1,6 @@
 {
   "name": "ipdemoapp",
-  "version": "1.6.3",
+  "version": "1.7.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -12,7 +12,7 @@
   "dependencies": {
     "jwt-decode": "^3.1.2",
     "react": "17.0.1",
-    "react-native": ">=0.64.2",
+    "react-native": "^0.64.2",
     "react-native-ipification-library": "./NativeIPificationLibrary",
     "react-native-phone-number-input": "^2.1.0"
   },
@@ -24,6 +24,7 @@
     "eslint": "^6.5.1",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
+    "react-native-codegen": "^0.0.8",
     "react-test-renderer": "17.0.1"
   },
   "jest": {
