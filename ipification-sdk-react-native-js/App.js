@@ -87,6 +87,8 @@ const App = () => {
      }
    );
  };
+
+ // do at your backend server
  doTokenExchange = async () =>{
   console.log("3. do Token Exchange")
 
@@ -114,15 +116,19 @@ const App = () => {
     body: formBody,
   }).then((response) => response.json())
   .then((responseJson) => {
-    console.log(responseJson)
-    console.log("access_token", responseJson["access_token"])
-      
-      var decoded = jwt_decode(responseJson["access_token"]);
-      // console.log(decoded)
-      setToken(JSON.stringify(decoded))
+      console.log("exchange response",responseJson)
+      if(responseJson["access_token"]){
+       
+        var decoded = jwt_decode(responseJson["access_token"]);
+        // console.log(decoded)
+        setToken(JSON.stringify(decoded))
+      }else{
+        setToken(JSON.stringify(responseJson))
+      }
   })
   .catch((error) => {
     console.error(error);
+    setToken(JSON.stringify(error))
   });;
  }
   getRandomValues = () =>{
@@ -187,8 +193,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lighter,
   },
   wrapper: {
+    marginTop: 30,
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
   },
   button: {
