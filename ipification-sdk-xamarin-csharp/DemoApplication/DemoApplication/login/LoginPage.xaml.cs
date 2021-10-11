@@ -10,9 +10,9 @@ using Xamarin.Forms;
 
 namespace DemoApplication.LoginPages
 {
-    public partial class LoginPage2 : ContentPage
+    public partial class LoginPage : ContentPage
     {
-        public LoginPage2()
+        public LoginPage()
         {
             InitializeComponent();
         }

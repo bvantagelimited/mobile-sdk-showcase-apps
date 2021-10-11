@@ -74,7 +74,6 @@
     <Compile Include="RenderersiOS\BorderlessEntryRenderer.cs" />
     <Compile Include="RenderersiOS\ShapeUtils.cs" />
     <Compile Include="RenderersiOS\PancakeViewRenderer.cs" />
-    <Compile Include="IPification\IPCallback.cs" />
     <Compile Include="IPification\IPServiceImpl.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -10,7 +10,7 @@ namespace DemoApplication
         {
             InitializeComponent();
 
-            MainPage = new LoginPages.LoginPage2();
+            MainPage = new LoginPages.LoginPage();
         }
 
         protected override void OnStart()
