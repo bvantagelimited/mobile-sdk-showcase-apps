@@ -6,7 +6,7 @@ namespace DemoApplication
     public interface IIPService
     {
         Task<CoverageResult> CheckCoverage();
-        Task<AuthorizationResult> DoAuthorization(String login_hint);
+        Task<AuthorizationResult> DoAuthorization(string login_hint);
         void Dispose();
     }
 }
