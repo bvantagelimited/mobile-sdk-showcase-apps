@@ -7,7 +7,7 @@
 
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
-COVERAGE_URL = https:\/\/stage.ipification.com/auth/realms/ipification/coverage
-AUTHORIZATION_URL = https:\/\/stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth
+COVERAGE_URL = https:\/\/api.ipification.com/auth/realms/ipification/coverage
+AUTHORIZATION_URL = https:\/\/api.ipification.com/auth/realms/ipification/protocol/openid-connect/auth
 REDIRECT_URI = your_bundle_id:\/\/oauth2redirect/
 CLIENT_ID = your-stage-client-id
