@@ -7,8 +7,6 @@ const helmet = require("fastify-helmet");
 const Rollbar = require("rollbar");
 const dirTree = require("directory-tree");
 
-// require("dotenv").config();
-
 if (process.env.ROLLBAR_TOKEN) {
   new Rollbar({
     accessToken: process.env.ROLLBAR_TOKEN,
@@ -21,10 +19,7 @@ module.exports = async (fastify, opts) => {
   fastify
     .register(Env, {
       schema: S.object()
-        .prop("ROOT_URL", S.string().required())
-        .prop("KEYCLOAK_AUTH_URL", S.string().required())
-        .prop("APP_ID", S.string().required())
-        .prop("APP_SECRET", S.string().required())
+        .prop("NOTIFICATION_SECRET_KEY", S.string().required())
         .prop("FIREBASE_SERVER_KEY", S.string().required())
         .valueOf(),
     })
