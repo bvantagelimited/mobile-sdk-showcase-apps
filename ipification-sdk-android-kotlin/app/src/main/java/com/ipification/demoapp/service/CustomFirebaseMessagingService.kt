@@ -10,7 +10,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ipification.demoapp.R
 import com.ipification.demoapp.activity.HomeActivity
-import com.ipification.demoapp.util.ApiUtil
+import com.ipification.demoapp.manager.APIManager
 import com.ipification.mobile.sdk.android.IPConfiguration
 import com.ipification.mobile.sdk.im.ui.IMVerificationActivity
 
@@ -110,7 +110,7 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
      */
     private fun sendRegistrationToServer(token: String) {
         // TODO: Implement this method to send token to your app server.
-        ApiUtil.registerDevice(deviceToken = token)
+        APIManager.registerDevice(deviceToken = token)
     }
 
     private val isNotificationActivityRunning: Boolean

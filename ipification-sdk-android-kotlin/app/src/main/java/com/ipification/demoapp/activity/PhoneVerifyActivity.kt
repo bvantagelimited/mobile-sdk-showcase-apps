@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.facebook.stetho.Stetho
 import com.ipification.demoapp.data.TokenInfo
 import com.ipification.demoapp.databinding.ActivityPhoneVerifyBinding
+import com.ipification.demoapp.manager.APIManager
+import com.ipification.demoapp.manager.TokenCallback
 import com.ipification.demoapp.util.*
 import com.ipification.mobile.sdk.android.CellularService
 //import com.ipification.mobile.sdk.android.IPIMServices
@@ -148,7 +150,7 @@ class PhoneVerifyActivity : AppCompatActivity() {
 
 
     private fun callTokenExchange(code: String) {
-        ApiUtil.doPostToken(code, callback = object: TokenCallback {
+        APIManager.doPostToken(code, callback = object: TokenCallback {
             override fun onSuccess(response: String) {
                 handleTokenExchangeSuccess(response)
             }

@@ -1,4 +1,4 @@
-package com.ipification.demoapp.util;
+package com.ipification.demoapp.manager;
 
 import android.util.Log
 import com.facebook.stetho.okhttp3.StethoInterceptor
@@ -9,10 +9,10 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
-class ApiUtil {
+class APIManager {
 
     companion object Factory {
-        private const val TAG = "ApiUtil"
+        private const val TAG = "ApiManager"
         var currentState : String? = null
         fun doPostToken(code: String, callback: TokenCallback) {
             val url = Constant.TOKEN_URL
@@ -59,7 +59,7 @@ class ApiUtil {
             val JSON = ("application/json; charset=utf-8").toMediaType();
             val url = Constant.DEVICE_TOKEN_REGISTRATION_URL
             val json =
-                "{\"device_id\":\"${currentState}\",\"device_token\":\"${deviceToken}\", \"device_type\":\"android\"}";
+                "{\"device_id\":\"$currentState\",\"device_token\":\"${deviceToken}\", \"device_type\":\"android\"}";
             Log.d(TAG, "registerDevice $json")
             val requestBody = json.toRequestBody(JSON)
 

@@ -9,6 +9,8 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ipification.demoapp.data.TokenInfo
 import com.ipification.demoapp.databinding.ActivityHomeBinding
+import com.ipification.demoapp.manager.APIManager
+import com.ipification.demoapp.manager.TokenCallback
 import com.ipification.demoapp.util.*
 import com.ipification.mobile.sdk.android.IPificationServices
 import com.ipification.mobile.sdk.android.callback.IPificationCallback
@@ -29,7 +31,7 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ApiUtil.currentState = IPificationServices.generateState()
+        APIManager.currentState = IPificationServices.generateState()
 
 
         binding.ipButton.setOnClickListener {
@@ -108,14 +110,14 @@ class HomeActivity : AppCompatActivity() {
             }
             // Get new FCM registration token
             val token = task.result.toString()
-            ApiUtil.registerDevice(token, ApiUtil.currentState)
+            APIManager.registerDevice(token, APIManager.currentState)
         })
     }
 
 
     private fun doIMAuth(callback: IPificationCallback) {
         val authRequestBuilder = AuthRequest.Builder()
-        authRequestBuilder.setState(ApiUtil.currentState)
+        authRequestBuilder.setState(APIManager.currentState)
         authRequestBuilder.setScope("openid ip:phone")
         authRequestBuilder.addQueryParam("channel", "wa viber telegram")
         // 5
@@ -125,7 +127,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun callTokenExchange(code: String) {
-        ApiUtil.doPostToken(code, callback = object: TokenCallback {
+        APIManager.doPostToken(code, callback = object: TokenCallback {
             override fun onSuccess(response: String) {
                 handleTokenExchangeSuccess(response)
             }
