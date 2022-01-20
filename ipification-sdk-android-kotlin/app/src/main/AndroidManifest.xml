@@ -13,17 +13,65 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".WebViewActivity"></activity>
-        <activity android:name=".ResultActivity" />
+
+        <activity android:name=".activity.FailResultActivity" />
+        <activity android:name=".activity.SuccessResultActivity" />
+        <activity android:name=".activity.PhoneVerifyActivity" android:exported="true" />
         <activity
-            android:name=".MainActivity"
-            android:windowSoftInputMode="stateAlwaysHidden">
+            android:name=".activity.HomeActivity"
+            android:launchMode="singleInstance"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.ipification.mobile.sdk.im.ui.IMVerificationActivity"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="your_deeplink"
+                    android:scheme="https" />
+            </intent-filter>
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.VIEW" /> -->
+
+
+            <!-- <category android:name="android.intent.category.BROWSABLE" /> -->
+            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+            <!-- <data -->
+            <!-- android:scheme="com.ipification.myapplication" android:host="auth" /> -->
+
+
+            <!-- </intent-filter> -->
+
+        </activity>
+
+        <service
+            android:name=".service.CustomFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/notification_channel_id" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_launcher" />
     </application>
 
 </manifest>

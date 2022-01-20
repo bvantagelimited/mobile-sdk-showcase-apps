@@ -5,23 +5,26 @@ buildscript {
     ext.anko_version = '0.10.8'
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.3.10'
+
+        classpath 'com.android.tools.build:gradle:4.0.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20"
     }
 }
 
-plugins {
-    id "com.jfrog.artifactory" version "4.15.1"
-}
 
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven { url "https://jitpack.io" }
+        //ipification maven
+        maven {
+            url "https://artifacts.ipification.com/artifactory/mobile-libs-release/"
+        }
     }
 }
 
