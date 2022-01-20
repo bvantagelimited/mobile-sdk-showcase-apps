@@ -131,8 +131,8 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
     private fun sendNotification(messageBody: String?) {
         var accessClass: Class<*> = IMVerificationActivity::class.java
         if (!isNotificationActivityRunning) {
-            // if app is not
-            accessClass = HomeActivity::class.java
+            // if app is not running
+            return;
         }
         Log.d(TAG, "isNotificationActivityRunning()$isNotificationActivityRunning")
         val intent = Intent(this, accessClass)
