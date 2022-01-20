@@ -35,15 +35,18 @@ class ApiUtil {
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-                    val responseBody = response.body!!.string()
-                    Log.d(TAG, "doPostToken response : $responseBody")
-                    if (response.isSuccessful) {
-                        callback.onSuccess(responseBody)
-                    } else {
-                        callback.onError(responseBody)
+                    try {
+                        val responseBody = response.body!!.string()
+                        if (response.isSuccessful) {
+                            callback.onSuccess(responseBody)
+                        } else {
+                            callback.onError(responseBody)
+                        }
+                        Log.d(TAG, "doPostToken response : $responseBody")
+                    }catch(e: Exception){
+                        e.printStackTrace()
                     }
                 }
-
             })
 
         }
@@ -69,7 +72,7 @@ class ApiUtil {
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-                    Log.d(TAG, "registered successfully")
+                    Log.d(TAG, "registered successfully - " + response.body?.string())
                 }
 
             })
