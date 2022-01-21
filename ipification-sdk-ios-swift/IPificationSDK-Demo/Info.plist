@@ -2,8 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AUTHORIZATION_URL</key>
+	<string>$(AUTHORIZATION_URL)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>IPification</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -16,20 +20,44 @@
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleURLSchemes</key>
+	<string>https://im.ipification.com</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.ipification.demoapp</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>https://im.ipification.com</string>
+			</array>
+		</dict>
+		<dict/>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>CLIENT_ID</key>
 	<string>$(CLIENT_ID)</string>
-	<key>COVERAGE_ENDPOINT</key>
-	<string>$(COVERAGE_ENDPOINT)</string>
-	<key>AUTHORIZATION_URL</key>
-	<string>$(AUTHORIZATION_URL)</string>
-	<key>REDIRECT_URI</key>
-	<string>$(REDIRECT_URI)</string>
-	<key>SEND_DEVICE_INFO</key>
-	<string>$(SEND_DEVICE_INFO)</string>
+	<key>COVERAGE_URL</key>
+	<string>$(COVERAGE_URL)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>whatsapp</string>
+		<string>telegram</string>
+		<string>viber</string>
+		<string>https</string>
+		<string>snapchat</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>REDIRECT_URI</key>
+	<string>$(REDIRECT_URI)</string>
+	<key>SCSDKClientId</key>
+	<string>c9909573-1369-4eeb-a671-503eadd3fdde</string>
+	<key>SCSDKRedirectUrl</key>
+	<string>https://im.ipification.com</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -70,5 +98,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>light</string>
 </dict>
 </plist>

@@ -2,8 +2,8 @@
 //  BaseViewController.swift
 //  IPificationSDK-Demo
 //
-//  Created by Nguyen Huu Tinh on 16/12/2021.
-//  Copyright © 2021 Nguyen Huu Tinh. All rights reserved.
+//  Created by IPification on 16/12/2021.
+//  Copyright © 2021 IPification. All rights reserved.
 //
 
 import Foundation

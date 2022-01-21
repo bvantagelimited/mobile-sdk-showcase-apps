@@ -1,0 +1,15 @@
+//
+//  Debug.xcconfig
+//  IPificationSDK-Demo
+//
+//  Created by IPification on 5/10/2021.
+//  Copyright © 2021 IPification. All rights reserved.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+COVERAGE_URL = https:\/\/stage.ipification.com/auth/realms/ipification/coverage
+AUTHORIZATION_URL = https:\/\/stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth
+REDIRECT_URI = https:\/\/cases.ipification.com/merchant-service/ipification/callback
+CLIENT_ID = 6f2026a683bc439ebb414a03f9012f27
