@@ -113,8 +113,7 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
         APIManager.registerDevice(deviceToken = token)
     }
 
-    private val isNotificationActivityRunning: Boolean
-        get() {
+    private fun isNotificationActivityRunning(): Boolean{
             val activityManager = baseContext.getSystemService(ACTIVITY_SERVICE) as ActivityManager
             val tasks = activityManager.getRunningTasks(Int.MAX_VALUE)
             for (task in tasks) {
@@ -130,11 +129,12 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
      */
     private fun sendNotification(messageBody: String?) {
         var accessClass: Class<*> = IMVerificationActivity::class.java
-        if (!isNotificationActivityRunning) {
+        Log.d(TAG, "isNotificationActivityRunning ${isNotificationActivityRunning()}")
+
+        if (!isNotificationActivityRunning()) {
             // if app is not running
             return;
         }
-        Log.d(TAG, "isNotificationActivityRunning()$isNotificationActivityRunning")
         val intent = Intent(this, accessClass)
         intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT)
         val pendingIntent = PendingIntent.getActivity(
