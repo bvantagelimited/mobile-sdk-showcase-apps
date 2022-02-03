@@ -14,12 +14,14 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.facebook.stetho.Stetho
+import com.ipification.demoapp.Constant
 import com.ipification.demoapp.data.TokenInfo
 import com.ipification.demoapp.databinding.ActivityPhoneVerifyBinding
 import com.ipification.demoapp.manager.APIManager
 import com.ipification.demoapp.manager.TokenCallback
 import com.ipification.demoapp.util.*
 import com.ipification.mobile.sdk.android.CellularService
+import com.ipification.mobile.sdk.android.IPConfiguration
 //import com.ipification.mobile.sdk.android.IPIMServices
 import com.ipification.mobile.sdk.android.IPificationServices
 import com.ipification.mobile.sdk.android.callback.IPificationCallback
@@ -39,16 +41,16 @@ class PhoneVerifyActivity : AppCompatActivity() {
     var log = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-        Stetho.initializeWithDefaults(this)
         binding = ActivityPhoneVerifyBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initView()
+    }
 
+    private fun initView() {
         binding.countryCodeEditText.hideKeyboard()
-
         binding.loginBtn.setOnClickListener {
-            requestIPification()
+            startIPAuth()
         }
 
         val builder = CountryPicker.Builder().with(this)
@@ -57,6 +59,7 @@ class PhoneVerifyActivity : AppCompatActivity() {
                 binding.countryCodeEditText.setText(country?.dialCode)
                 binding.phoneCodeEditText.requestFocus()
             }
+
         binding.phoneCodeEditText.requestFocus()
         val picker = builder.build()
         val self = this
@@ -83,32 +86,31 @@ class PhoneVerifyActivity : AppCompatActivity() {
         val actionbar = supportActionBar
         actionbar?.setDisplayHomeAsUpEnabled(true)
     }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-                // API 5+ solution
-                onBackPressed()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+
+
+    override fun onResume() {
+        super.onResume()
+        APIManager.currentState = IPificationServices.generateState()
+        APIManager.registerDevice()
     }
 
 
+    private fun startIPAuth() {
 
-    private fun requestIPification() {
         hideKeyboard()
 
         updateButton(isEnable = false)
         log += "\n"
         log += "#####################################\n"
         log += "1. DO AUTHORIZATION - start\n\n"
-
+        showlog()
         val phoneNumber  = "${binding.countryCodeEditText.text}${binding.phoneCodeEditText.text}"
         val authRequestBuilder = AuthRequest.Builder()
         authRequestBuilder.setScope("openid ip:phone_verify")
         authRequestBuilder.addQueryParam("login_hint", phoneNumber)
+        authRequestBuilder.setState(APIManager.currentState)
         //add channel
+
         authRequestBuilder.addQueryParam("channel", "ip wa viber telegram")
 
         IPificationServices.startAuthentication(this, authRequestBuilder.build(), object: IPificationCallback{
@@ -117,6 +119,7 @@ class PhoneVerifyActivity : AppCompatActivity() {
                 val code = response.getCode()
                 if(code != null){
                     callTokenExchange(response.getCode()!!)
+                    updateButton(isEnable = true)
                 }else{
                     binding.result1.post {
                         log += "Result: AUTH ERROR : ${response.responseData}"
@@ -138,6 +141,8 @@ class PhoneVerifyActivity : AppCompatActivity() {
                     updateButton(isEnable = true)
                 }
             }
+
+
         })
     }
 
@@ -162,8 +167,11 @@ class PhoneVerifyActivity : AppCompatActivity() {
 
     private fun handleTokenExchangeSuccess(response: String) {
         try{
+            log += "handleTokenExchangeSuccess\n"
             val jObject = JSONObject(response)
             val accessToken = jObject.getString("access_token")
+            log += "accessToken: ${accessToken}\n"
+            showlog()
             val tokenInfo = Util.parseAccessToken(accessToken)
             if(tokenInfo != null && tokenInfo.phoneNumberVerified){
                 openSuccessActivity(tokenInfo)
@@ -176,6 +184,8 @@ class PhoneVerifyActivity : AppCompatActivity() {
     }
 
     private fun handleTokenExchangeError(error: String) {
+        log += "handleTokenExchangeError: ${error}\n"
+        showlog()
         if(error != "USER_CANCELED"){
             openErrorActivity(error)
         }
@@ -205,6 +215,17 @@ class PhoneVerifyActivity : AppCompatActivity() {
     }
 
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                // API 5+ solution
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun updateButton(isEnable: Boolean) {
         if (isEnable) {
             binding.loginBtn.post {
@@ -228,8 +249,7 @@ class PhoneVerifyActivity : AppCompatActivity() {
 //        logTextView.post {
 //            logTextView.text = log
 //        }
-//        Constant.getInstance().LOG = log
-
+//        Constant.LOG = log
     }
 
 }
@@ -246,19 +266,4 @@ fun View.hideKeyboard() {
     val inputMethodManager: InputMethodManager =
         context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
-}
-
-
-fun Activity.showAlert(title: String? = "", message: String?): AlertDialog{
-    return AlertDialog.Builder(this)
-        .setTitle(title)
-        .setMessage(message) // Specifying a listener allows you to take an action before dismissing the dialog.
-        // The dialog is automatically dismissed when a dialog button is clicked.
-        .setPositiveButton(android.R.string.yes,
-            DialogInterface.OnClickListener { dialog, which ->
-                // Continue with delete operation
-            }) // A null listener allows the button to dismiss the dialog and take no further action.
-//            .setNegativeButton(android.R.string.no, null)
-        .setIcon(android.R.drawable.ic_dialog_alert)
-        .show()
 }

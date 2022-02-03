@@ -36,9 +36,9 @@ class FailResultActivity : AppCompatActivity() {
         binding.tvMainDetail.text = result
 
 
-        binding.btnRestart.setOnClickListener{
-            back()
-        }
+//        binding.btnRestart.setOnClickListener{
+//            back()
+//        }
         val actionbar = supportActionBar
         //set actionbar title
         actionbar!!.title = "Result"

@@ -9,7 +9,6 @@ import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ipification.demoapp.R
-import com.ipification.demoapp.activity.HomeActivity
 import com.ipification.demoapp.manager.APIManager
 import com.ipification.mobile.sdk.android.IPConfiguration
 import com.ipification.mobile.sdk.im.ui.IMVerificationActivity
@@ -110,7 +109,8 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
      */
     private fun sendRegistrationToServer(token: String) {
         // TODO: Implement this method to send token to your app server.
-        APIManager.registerDevice(deviceToken = token)
+        APIManager.deviceToken = token
+        APIManager.registerDevice(token)
     }
 
     private fun isNotificationActivityRunning(): Boolean{
@@ -137,14 +137,23 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
         }
         val intent = Intent(this, accessClass)
         intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT)
-        val pendingIntent = PendingIntent.getActivity(
-            this, 0 /* Request code */, intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
+        val pendingIntent : PendingIntent
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            pendingIntent = PendingIntent.getActivity(
+                this, 0 /* Request code */, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+        }else{
+            pendingIntent = PendingIntent.getActivity(
+                this, 0 /* Request code */, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
+        }
+
         val channelId = getString(R.string.notification_channel_id)
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(R.drawable.ic_stat_name)
             .setContentTitle(getString(R.string.app_name))
             .setContentText(messageBody)
             .setAutoCancel(true)

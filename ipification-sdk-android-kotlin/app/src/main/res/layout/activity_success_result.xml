@@ -64,7 +64,7 @@
         tools:text="" />
     <Button
         android:width="200dp"
-        android:id="@+id/btnRestart"
+        android:id="@+id/btnSendLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"

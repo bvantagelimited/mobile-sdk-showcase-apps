@@ -14,6 +14,7 @@ class APIManager {
     companion object Factory {
         private const val TAG = "ApiManager"
         var currentState : String? = null
+        var deviceToken : String? = null
         fun doPostToken(code: String, callback: TokenCallback) {
             val url = Constant.TOKEN_URL
             val body: RequestBody = FormBody.Builder()
@@ -24,7 +25,7 @@ class APIManager {
                 .add("code", code)
                 .build();
 
-            val client = OkHttpClient.Builder().addNetworkInterceptor(StethoInterceptor()).build()
+            val client = OkHttpClient.Builder().build()
             val request: Request = Request.Builder().url(url).post(body)
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -51,8 +52,8 @@ class APIManager {
 
         }
 
-        fun registerDevice(deviceToken: String, state: String? = currentState) {
-            if(deviceToken.isEmpty() || state.isNullOrEmpty()){
+        fun registerDevice(dToken: String? = deviceToken, state: String? = currentState) {
+            if(dToken?.isEmpty() != false || state.isNullOrEmpty()){
                 Log.d(TAG, "deviceToken or state null. failed")
                 return
             }
@@ -63,7 +64,7 @@ class APIManager {
             Log.d(TAG, "registerDevice $json")
             val requestBody = json.toRequestBody(JSON)
 
-            val client = OkHttpClient.Builder().addNetworkInterceptor(StethoInterceptor()).build()
+            val client = OkHttpClient.Builder().build()
             val request: Request = Request.Builder().url(url).post(requestBody)
                 .build()
             client.newCall(request).enqueue(object : Callback {

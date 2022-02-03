@@ -34,9 +34,9 @@ class SuccessResultActivity : AppCompatActivity() {
 
         binding.tvMainDetail.text = result
         binding.detail.text = "$result $sub $mobileID"
-        binding.btnRestart.setOnClickListener{
-            back()
-        }
+//        binding.btnSendLog.setOnClickListener{
+//            back()
+//        }
         val actionbar = supportActionBar
         //set actionbar title
         actionbar!!.title = "Result"

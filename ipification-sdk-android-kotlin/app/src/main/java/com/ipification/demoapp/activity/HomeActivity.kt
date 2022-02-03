@@ -4,14 +4,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
+import com.ipification.demoapp.Constant
 import com.ipification.demoapp.data.TokenInfo
 import com.ipification.demoapp.databinding.ActivityHomeBinding
 import com.ipification.demoapp.manager.APIManager
 import com.ipification.demoapp.manager.TokenCallback
 import com.ipification.demoapp.util.*
+import com.ipification.mobile.sdk.android.IPConfiguration
 import com.ipification.mobile.sdk.android.IPificationServices
 import com.ipification.mobile.sdk.android.callback.IPificationCallback
 import com.ipification.mobile.sdk.android.exception.IPificationError
@@ -31,9 +34,6 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        APIManager.currentState = IPificationServices.generateState()
-
-
         binding.ipButton.setOnClickListener {
             doIPFlow()
         }
@@ -44,6 +44,20 @@ class HomeActivity : AppCompatActivity() {
         initFirebase()
     }
 
+
+
+
+    override fun onResume() {
+        super.onResume()
+        updateState()
+    }
+
+    //TODO
+    // make sure that state always be updated to your backend.
+    private fun updateState() {
+        APIManager.currentState = IPificationServices.generateState()
+        APIManager.registerDevice(APIManager.deviceToken, APIManager.currentState)
+    }
 
     // 4. Update onActivityResult
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -59,7 +73,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun doIMFlow() {
-
         // disable button
         disableButton(binding.imButton)
 
@@ -84,23 +97,11 @@ class HomeActivity : AppCompatActivity() {
                 enableButton(binding.imButton)
             }
 
+
         })
     }
 
 
-    private fun enableButton(view: View) {
-        view.post {
-            view.alpha = 1f
-            view.isEnabled = true
-        }
-    }
-
-    private fun disableButton(view: View) {
-        view.post {
-            view.alpha = 0.2f
-            view.isEnabled = false
-        }
-    }
 
     private fun initFirebase() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
@@ -110,19 +111,26 @@ class HomeActivity : AppCompatActivity() {
             }
             // Get new FCM registration token
             val token = task.result.toString()
-            APIManager.registerDevice(token, APIManager.currentState)
+            APIManager.deviceToken = token
+            APIManager.registerDevice()
         })
     }
 
 
     private fun doIMAuth(callback: IPificationCallback) {
         val authRequestBuilder = AuthRequest.Builder()
+        Log.d(TAG,"state " + APIManager.currentState )
         authRequestBuilder.setState(APIManager.currentState)
         authRequestBuilder.setScope("openid ip:phone")
         authRequestBuilder.addQueryParam("channel", "wa viber telegram")
-        // 5
-//        IPificationServices.theme = IMTheme(backgroundColor = Color.parseColor("#FFFFFF"), toolbarTitle="IPification Verification", toolbarTextColor = Color.parseColor("#E35259"), toolbarColor = Color.parseColor("#ACE1AF"),  toolbarVisibility = View.VISIBLE)
-//        IPificationServices.locale = IMLocale("IPification", description = "Description", whatsappText = "Whatsapp", viberText = "Viber", telegramText = "Telegram")
+
+//        ## 4. Edit IM Verification Theme
+//        IPificationServices.theme = IMTheme(backgroundColor = Color.parseColor("#FFFFFF"), toolbarTextColor = Color.parseColor("#FFFFFF"), toolbarColor = Color.parseColor("#E35259"),  toolbarTitle="IPification Verification", toolbarVisibility = View.VISIBLE)
+
+
+//        ## 5. Edit IM Verification Locale
+//        IPificationServices.locale = IMLocale(mainTitle= "your_title", description = "your_desc", whatsappText = "Quick Login via Whatsapp", telegramText = "Quick Login via Telegram", viberText = "Quick Login via Viber")
+
         IPificationServices.startIMAuthentication(this, authRequestBuilder.build(), callback)
     }
 
@@ -157,12 +165,16 @@ class HomeActivity : AppCompatActivity() {
             openErrorActivity(error)
         }
     }
+
+
     private fun openSuccessActivity(tokenInfo: TokenInfo) {
         val intent = Intent(this, SuccessResultActivity::class.java)
         intent.putExtra("tokenInfo", tokenInfo)
         startActivity(intent)
 
     }
+
+
     private fun openErrorActivity(error: String, tokenInfo: TokenInfo? = null){
         val intent = Intent(this, FailResultActivity::class.java)
         intent.putExtra(
@@ -173,6 +185,21 @@ class HomeActivity : AppCompatActivity() {
             intent.putExtra("tokenInfo", tokenInfo)
         }
         startActivity(intent)
+    }
+
+
+    private fun enableButton(view: View) {
+        view.post {
+            view.alpha = 1f
+            view.isEnabled = true
+        }
+    }
+
+    private fun disableButton(view: View) {
+        view.post {
+            view.alpha = 0.2f
+            view.isEnabled = false
+        }
     }
 
 }
