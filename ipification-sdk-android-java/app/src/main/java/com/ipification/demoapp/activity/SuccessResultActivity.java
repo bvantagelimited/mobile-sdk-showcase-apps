@@ -31,7 +31,7 @@ public class SuccessResultActivity extends AppCompatActivity {
         if(tokenInfo == null){
             return;
         }
-        Log.d("tokenInfo", ""+ tokenInfo.phoneNumber);
+        Log.d("tokenInfo", "phoneNumber : "+ tokenInfo.phoneNumber);
         String phoneNumber = tokenInfo.phoneNumber;
         boolean phoneNumberVerified = tokenInfo.phoneNumberVerified;
         String sub = tokenInfo.sub != null ? " | sub: " + tokenInfo.sub : "";

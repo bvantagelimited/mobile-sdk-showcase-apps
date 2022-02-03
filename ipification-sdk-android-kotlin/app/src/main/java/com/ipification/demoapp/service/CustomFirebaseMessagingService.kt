@@ -132,7 +132,7 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
         Log.d(TAG, "isNotificationActivityRunning ${isNotificationActivityRunning()}")
 
         if (!isNotificationActivityRunning()) {
-            // if app is not running
+            // if app is not running, do nothing
             return;
         }
         val intent = Intent(this, accessClass)

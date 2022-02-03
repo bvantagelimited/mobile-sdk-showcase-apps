@@ -68,15 +68,26 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
     private void sendNotification(String messageBody) {
         Class accessClass = IMVerificationActivity.class;
         if (!isNotificationActivityRunning()) {
+            // if app is not running , do nothing
             return;
         }
         Log.d(TAG, "isNotificationActivityRunning()$isNotificationActivityRunning");
         Intent intent = new Intent(this, accessClass);
         intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-        PendingIntent pendingIntent = PendingIntent.getActivity(
-                this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-        );
+        PendingIntent pendingIntent;
+        // support android 12
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            pendingIntent = PendingIntent.getActivity(
+                    this, 0 /* Request code */, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+            );
+        }else{
+            pendingIntent = PendingIntent.getActivity(
+                    this, 0 /* Request code */, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT
+            );
+        }
+
         String channelId = getString(R.string.notification_channel_id);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
