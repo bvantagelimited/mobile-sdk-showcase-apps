@@ -1,5 +1,5 @@
 
-<h1 align="center">IPificatio Sample Project</h1>
+<h1 align="center">IPification Sample Project</h1>
 
 <p align="center">
 
