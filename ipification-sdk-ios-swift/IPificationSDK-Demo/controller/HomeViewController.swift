@@ -26,10 +26,7 @@ class HomeViewController : BaseViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpView()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        print("viewWillAppear")
+        
         //FCM push token
         Messaging.messaging().token { token, error in
           if let error = error {
@@ -43,6 +40,11 @@ class HomeViewController : BaseViewController{
               
           }
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("viewWillAppear")
+        APIManager.sharedInstance.initStateAndRegister()        
     }
     
     private func setUpView(){
