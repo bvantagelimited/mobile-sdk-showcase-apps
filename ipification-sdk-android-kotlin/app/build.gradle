@@ -2,9 +2,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
     buildToolsVersion "29.0.3"
     defaultConfig {
         multiDexEnabled true
@@ -12,9 +13,9 @@ android {
 
         applicationId "com.ipification.demoapp"
         minSdkVersion 19
-        targetSdkVersion 31
-        versionCode 20
-        versionName "2.0.0"
+        targetSdkVersion 32
+        versionCode 24
+        versionName "2.0.25"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -53,9 +54,12 @@ dependencies {
     implementation 'com.auth0.android:jwtdecode:2.0.0'
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
 
-    implementation 'com.ipification.mobile.android:ipification-auth:2.0.12'
+    implementation 'com.ipification.mobile.android:ipification-auth:2.0.25'
 
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
+
     implementation 'com.google.firebase:firebase-messaging-ktx:23.0.0'
 
 }

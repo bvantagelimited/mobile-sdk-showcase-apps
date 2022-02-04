@@ -78,12 +78,12 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
         // support android 12
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             pendingIntent = PendingIntent.getActivity(
-                    this, 0 /* Request code */, intent,
+                    this, IPConfiguration.getInstance().getREQUEST_CODE() /* Request code */, intent,
                     PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
             );
         }else{
             pendingIntent = PendingIntent.getActivity(
-                    this, 0 /* Request code */, intent,
+                    this, IPConfiguration.getInstance().getREQUEST_CODE()  /* Request code */, intent,
                     PendingIntent.FLAG_UPDATE_CURRENT
             );
         }
