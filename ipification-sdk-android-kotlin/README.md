@@ -38,7 +38,7 @@ Update `CLIENT_SECRET`
 ## 3. IM Authentication
 Set up FCM and `google-services.json`
 
-Update `DEVICE_TOKEN_REGISTRATION_URL` (for IM Authentication) and
+Update `DEVICE_TOKEN_REGISTRATION_URL` (for IM Authentication)
 
 
 # Document
