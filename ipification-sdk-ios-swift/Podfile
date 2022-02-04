@@ -8,7 +8,6 @@ target 'IPificationSDK-Demo' do
   # Pods for IPificationSDK-Demo
   pod 'JWTDecode', '~> 2.6'
   pod 'Firebase/Auth'
-  pod 'Firebase/Firestore'
   pod 'Firebase/Messaging'
 
 end
