@@ -32,8 +32,15 @@ Update `client_id` and `redirect_uri`
   ```
   
 ## 2. Constant.kt
-Update `DEVICE_TOKEN_REGISTRATION_URL` (for IM Authentication) and `CLIENT_SECRET`
+Update `CLIENT_SECRET`
   <br/><br/>
+  
+## 3. IM Authentication
+Set up FCM and `google-services.json`
+
+Update `DEVICE_TOKEN_REGISTRATION_URL` (for IM Authentication) and
+
+
 # Document
 
 https://docs.google.com/document/d/1WKoWe5kLiVREcm0zuroxrtJT4XoeR0FKnYJv06wU8Lk
