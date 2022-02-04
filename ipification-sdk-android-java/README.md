@@ -31,7 +31,7 @@ Update `client_id` and `redirect_uri`
   }
   ```
   
-## 2. Constant.kt
+## 2. Constant.java
 Update `CLIENT_SECRET`
 <br/><br/>
   
