@@ -42,14 +42,7 @@ class BaseViewController : UIViewController{
         child!.view.frame = view.frame
         view.addSubview(child!.view)
         child!.didMove(toParent: self)
-//
-//        // wait two seconds to simulate some work happening
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//            // then remove the spinner view controller
-//            self.child?.willMove(toParent: nil)
-//            self.child?.view.removeFromSuperview()
-//            self.child?.removeFromParent()
-//        }
+
     }
     func hideLoadingView(){
         child?.willMove(toParent: nil)

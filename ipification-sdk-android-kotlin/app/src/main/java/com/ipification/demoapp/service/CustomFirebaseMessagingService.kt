@@ -140,12 +140,12 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
         val pendingIntent : PendingIntent
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             pendingIntent = PendingIntent.getActivity(
-                this, 0 /* Request code */, intent,
+                this, IPConfiguration.getInstance().REQUEST_CODE /* Request code */, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         }else{
             pendingIntent = PendingIntent.getActivity(
-                this, 0 /* Request code */, intent,
+                this, IPConfiguration.getInstance().REQUEST_CODE /* Request code */, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
         }
