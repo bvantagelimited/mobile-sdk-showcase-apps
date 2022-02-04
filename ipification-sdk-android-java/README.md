@@ -1,63 +1,46 @@
 
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
+<h1 align="center">IPification Sample Project</h1>
 
-
-<!-- PROJECT LOGO -->
-<br />
 <p align="center">
-  <a href="https://ipification.com">
-    <img src="https://www.ipification.com/images/ipification-opengraph-default.png" alt="Logo" width="auto" height="500">
-  </a>
 
-  <h3 align="center">IPification SDK Application Showcases</h3>
+<img src='https://user-images.githubusercontent.com/4114159/152466467-55a3d411-9206-4975-95fd-868f7b0ed081.png' width='220'>
+<img src='https://user-images.githubusercontent.com/4114159/152466836-9da8ee53-7bd3-4c1e-b4c5-4b10dc328d44.png' width='220'>
+<img src='https://user-images.githubusercontent.com/4114159/152466843-85e0da80-4337-4ef8-a1a3-54df9189de2b.png' width='220'>
 
-  <p align="center">
-    Applications that showcases the features of IPification.
-    <br />
-    <br />
-    <a href="https://github.com/bvantagelimited/mobile-sdk-showcase-apps">View Demo</a>
-    ·
-    <a href="https://github.com/bvantagelimited/mobile-sdk-showcase-apps/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/bvantagelimited/mobile-sdk-showcase-apps/issues">Request Feature</a>
-  </p>
+</p>
+<p align="center">
+
+<img src='https://user-images.githubusercontent.com/4114159/152466467-55a3d411-9206-4975-95fd-868f7b0ed081.png' width='220'>
+<img src='https://user-images.githubusercontent.com/4114159/152466933-805eedac-9414-48f7-821c-f1dc21be4dfe.png' width='220'>
+<img src='https://user-images.githubusercontent.com/4114159/152467595-8e5c7933-01b6-4b9f-b2f5-dee9a133fdf7.png' width='220'>
+<img src='https://user-images.githubusercontent.com/4114159/152466843-85e0da80-4337-4ef8-a1a3-54df9189de2b.png' width='220'>
 </p>
 
 
+# How to set up demo project 
 
-<!-- TABLE OF CONTENTS -->
-## Table of Contents
-* [Usage](#usage)
-* [Contact](#contact)
+### 1. ipification-services.json
+Update `client_id` and `redirect_uri`
 
+  ```json
+  {
+  "coverage_url": "https://stage.ipification.com/auth/realms/ipification/coverage",
+  "authorization_url": "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth",
+  "client_id": "your_client_id",
+  "redirect_uri": "your_redirect_uri"
+  }
+  ```
+  
+## 2. Constant.kt
+Update `CLIENT_SECRET`
+<br/><br/>
+  
+## 3. IM Authentication
+Set up FCM and `google-services.json`
 
-
-
-<!-- GETTING STARTED -->
-## Getting Started
-
-To get a local copy up and running follow these simple example steps.
-
-1. Put the IPification SDK  ```(ipification-auth-x.x.aar)``` inside the ```app/libs/``` folder
-2. Run project
-
-
-
-<!-- CONTACT -->
-## Contact
-
-Ipification - info@ipification.com
-
-Units 823-825, Level 8,
-Cyberport 1, 100 Cyberport Road, Hong Kong
+Update `DEVICE_TOKEN_REGISTRATION_URL` (for IM Authentication)
 
 
+# Document
 
-
+https://developer.ipification.com/#/android/latest/
