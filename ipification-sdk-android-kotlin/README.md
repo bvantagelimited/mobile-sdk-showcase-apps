@@ -43,4 +43,4 @@ Update `DEVICE_TOKEN_REGISTRATION_URL` (for IM Authentication)
 
 # Document
 
-https://docs.google.com/document/d/1WKoWe5kLiVREcm0zuroxrtJT4XoeR0FKnYJv06wU8Lk
+https://developer.ipification.com/#/android/latest/
