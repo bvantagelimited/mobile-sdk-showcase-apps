@@ -11,5 +11,5 @@
 
 COVERAGE_URL = https:\/\/stage.ipification.com/auth/realms/ipification/coverage
 AUTHORIZATION_URL = https:\/\/stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth
-REDIRECT_URI = https:\/\/cases.ipification.com/merchant-service/ipification/callback
-CLIENT_ID = 6f2026a683bc439ebb414a03f9012f27
+REDIRECT_URI = your-redirect-uri
+CLIENT_ID = your-client-id
