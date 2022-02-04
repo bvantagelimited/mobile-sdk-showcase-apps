@@ -11,15 +11,12 @@ import Foundation
 import UIKit
 import IPificationSDK
 class SuccessViewController: UIViewController {
+    
     @IBOutlet weak var lblVerifiedValue: UILabel!
     @IBOutlet weak var lblMainInfo: UILabel!
     @IBOutlet weak var lblDetailInfo: UILabel!
 
-    
     var tokenInfo : TokenInfo = TokenInfo()
-    
-    
-    
     
     override func viewDidLoad() {
     
@@ -29,11 +26,9 @@ class SuccessViewController: UIViewController {
         }else if(tokenInfo.isVerifedPhone == true){
             lblMainInfo.text = "Phone Verified : \(tokenInfo.isVerifedPhone!) - Phone Number: \(tokenInfo.loginHint ?? "")"
         }
-        APIManager.sharedInstance.resetState()
         lblDetailInfo.text = ""
-        
     }
     @IBAction func sendLog(_ sender: Any) {
-//        dismiss(animated: true, completion: nil)
+        print(IPConfiguration.sharedInstance.log)
     }
 }

@@ -6,8 +6,8 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>webcredentials:im.ipification.com</string>
-		<string>applinks:im.ipification.com</string>
+		<string>webcredentials:ip-demo-app.ipification.com</string>
+		<string>applinks:ip-demo-app.ipification.com</string>
 	</array>
 </dict>
 </plist>

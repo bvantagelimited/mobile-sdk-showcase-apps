@@ -100,5 +100,7 @@
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>light</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<string>NO</string>
 </dict>
 </plist>

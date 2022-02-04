@@ -41,6 +41,9 @@ class IPViewController: BaseViewController {
         verifyBtn.layer.cornerRadius = 5
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        APIManager.sharedInstance.initStateAndRegister()
+    }
     
     @IBAction func doAuthentication(_ sender: Any) {
         showLoadingViewAutoEnd()
@@ -101,7 +104,7 @@ class IPViewController: BaseViewController {
     }
     
     // TODO: do this at your backend side
-    func callExchangeToken(code: String){
+    private func callExchangeToken(code: String){
         DispatchQueue.main.async {
             self.showLoadingView()
             self.logText += "\n3. Do exchange Token with Code \(code)\n"
@@ -170,6 +173,8 @@ class IPViewController: BaseViewController {
         activityViewController.popoverPresentationController?.sourceView = self.view
         self.present(activityViewController, animated: true, completion: nil)
     }
+    
+    
     @IBAction func policyView(_ sender: Any) {
         guard let url = URL(string: "https://ipification.com/legal") else { return }
         UIApplication.shared.open(url)
@@ -178,14 +183,6 @@ class IPViewController: BaseViewController {
    
 }
 
-extension String {
-    var trimmingTrailingSpaces: String {
-        if let range = rangeOfCharacter(from: .whitespacesAndNewlines, options: [.anchored, .backwards]) {
-            return String(self[..<range.lowerBound]).trimmingTrailingSpaces
-        }
-        return self
-    }
-}
 
 extension IPViewController{
     func doErrorPage(_ errorMessage: String?, tokenInfo : TokenInfo?){

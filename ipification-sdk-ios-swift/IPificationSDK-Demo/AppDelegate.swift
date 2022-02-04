@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Print full message.
         print(userInfo)
-
+        IPConfiguration.sharedInstance.log += "didReceiveRemoteNotification userInfo \(userInfo)"
         completionHandler(UIBackgroundFetchResult.newData)
       }
 
@@ -76,6 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       func application(_ application: UIApplication,
                        didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Unable to register for remote notifications: \(error.localizedDescription)")
+        IPConfiguration.sharedInstance.log += "Unable to register for remote notifications: \(error.localizedDescription)"
       }
 
       // This function is added here only for debugging purposes, and can be removed if swizzling is enabled.
@@ -84,9 +85,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       func application(_ application: UIApplication,
                        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         print("APNs token retrieved: \(deviceToken)")
-
+            
         // With swizzling disabled you must set the APNs token here.
-        // Messaging.messaging().apnsToken = deviceToken
+        Messaging.messaging().apnsToken = deviceToken
       }
     
 }
@@ -96,17 +97,11 @@ extension AppDelegate: MessagingDelegate {
   func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
     print("Firebase registration token: \(String(describing: fcmToken))")
 
-    let dataDict: [String: String] = ["token": fcmToken ?? ""]
-    NotificationCenter.default.post(
-      name: Notification.Name("FCMToken"),
-      object: nil,
-      userInfo: dataDict
-    )
       
-
+    print("didReceiveRegistrationToken" , fcmToken)
+    IPConfiguration.sharedInstance.log += "[FCM] receiveRegistrationToken: \(fcmToken ?? "") \n"
     APIManager.sharedInstance.deviceToken = fcmToken ?? ""
-    APIManager.sharedInstance.state = IPConfiguration.sharedInstance.generateState()
-    APIManager.sharedInstance.registerDevice()
+    APIManager.sharedInstance.initStateAndRegister()
   }
 
   // [END refresh_token]

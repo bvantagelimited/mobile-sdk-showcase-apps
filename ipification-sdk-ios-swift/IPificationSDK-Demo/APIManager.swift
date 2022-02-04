@@ -13,20 +13,25 @@ import IPificationSDK
 @objc class APIManager: NSObject {
    
     public static let sharedInstance = APIManager()
-    public var deviceToken = ""
+    public var deviceToken : String = ""
     
     public var state : String = IPConfiguration.sharedInstance.generateState()
     
     private override init() {
         super.init()
     }
-    func resetState()
+    func initStateAndRegister()
     {
         state = IPConfiguration.sharedInstance.generateState()
+        registerDevice()
     }
     func registerDevice()
     {
-        print(String(format: "%@  |   %@", deviceToken, state))
+        if(deviceToken == ""){
+            return
+        }
+        print(String(format: "register device: %@  with state:   %@", deviceToken, state))
+        IPConfiguration.sharedInstance.log += String(format: "\n\n[registerDevice] device_token: %@ with state: %@ \n", deviceToken, state)
         let url = URL(string: String(format: Constants.REGISTER_DEVICE_URL))!
         
         
@@ -43,21 +48,27 @@ import IPificationSDK
         let session = URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: nil)
         let loadDataTask = session.dataTask(with: request) { (data, response, error) in
             if let err = error {
-                print("registerDevice error", err)
+                print("[registerDevice] error", err)
+                IPConfiguration.sharedInstance.log += "[registerDevice] error \(err.localizedDescription) \n"
+
                 return
             }
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode != 200){
-                    print("registerDevice error", httpResponse.statusCode)
+                    print("[registerDevice] error", httpResponse.statusCode)
+                    IPConfiguration.sharedInstance.log += "[registerDevice] error \(httpResponse.statusCode) \n"
+
                 }
                 do{
                     let json = try JSONSerialization.jsonObject(with: data!) as! Dictionary<String, AnyObject>
-                    print("json", json)
+                    IPConfiguration.sharedInstance.log += "[registerDevice] success \(json) \n"
                 } catch {
                     print("error")
+                    IPConfiguration.sharedInstance.log += "[registerDevice] error parse json \n"
                 }
             } else{
                 print("registerDevice error")
+                IPConfiguration.sharedInstance.log += "[registerDevice] error general \n"
             }
             
         }
@@ -112,6 +123,11 @@ import IPificationSDK
 
         task.resume()
     }
+    func sendLog(success successBlock: @escaping (_ result: Bool) -> Void)
+    {
+        //TODO
+    }
+    
 }
 extension APIManager: URLSessionDelegate, URLSessionTaskDelegate {
     func urlSession(_ session: URLSession, task: URLSessionTask, willPerformHTTPRedirection response: HTTPURLResponse, newRequest request: URLRequest, completionHandler: @escaping (URLRequest?) -> Void) {

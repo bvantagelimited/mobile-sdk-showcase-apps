@@ -20,12 +20,12 @@ class BaseViewController : UIViewController{
     func showLoadingViewAutoEnd() {
         child = LoadingViewController()
         
-        // add the spinner view controller
         addChild(child!)
+        
         child!.view.frame = view.frame
         view.addSubview(child!.view)
         child!.didMove(toParent: self)
-//
+        
         // wait two seconds to simulate some work happening
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             // then remove the spinner view controller
@@ -34,16 +34,17 @@ class BaseViewController : UIViewController{
             self.child?.removeFromParent()
         }
     }
+    
     func showLoadingView() {
         child = LoadingViewController()
         
-        // add the spinner view controller
         addChild(child!)
         child!.view.frame = view.frame
         view.addSubview(child!.view)
         child!.didMove(toParent: self)
 
     }
+    
     func hideLoadingView(){
         child?.willMove(toParent: nil)
         child?.view.removeFromSuperview()

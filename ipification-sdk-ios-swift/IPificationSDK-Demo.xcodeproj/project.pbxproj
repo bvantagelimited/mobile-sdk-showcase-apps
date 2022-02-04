@@ -3,28 +3,36 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A29A77E248E3FC400B52E90 /* IPificationSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A29A77C248E2F0500B52E90 /* IPificationSDK.framework */; };
-		0A29A77F248E3FC400B52E90 /* IPificationSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A29A77C248E2F0500B52E90 /* IPificationSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0A16D1A5276B6FA0007F0EB8 /* FailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A16D1A4276B6FA0007F0EB8 /* FailViewController.swift */; };
+		0A81B41B278D99BE00B46746 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A81B418278D99BE00B46746 /* GoogleService-Info.plist */; };
+		0A8B3FC4261B4D3400FA3DE0 /* SuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8B3FC3261B4D3400FA3DE0 /* SuccessViewController.swift */; };
+		0AB2A45C279432020094EDD5 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB2A45B279432020094EDD5 /* APIManager.swift */; };
+		0ABAB97D276AFD4600CF9AF2 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABAB97C276AFD4600CF9AF2 /* HomeViewController.swift */; };
+		0ABAB97F276B0AE500CF9AF2 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABAB97E276B0AE500CF9AF2 /* BaseViewController.swift */; };
+		0ABAB981276B0B1300CF9AF2 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABAB980276B0B1300CF9AF2 /* LoadingViewController.swift */; };
 		0AD40BAD248753FA00B0D1A6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD40BAC248753FA00B0D1A6 /* AppDelegate.swift */; };
 		0AD40BAF248753FA00B0D1A6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD40BAE248753FA00B0D1A6 /* SceneDelegate.swift */; };
-		0AD40BB1248753FA00B0D1A6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD40BB0248753FA00B0D1A6 /* ViewController.swift */; };
+		0AD40BB1248753FA00B0D1A6 /* IPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD40BB0248753FA00B0D1A6 /* IPViewController.swift */; };
 		0AD40BB4248753FA00B0D1A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AD40BB2248753FA00B0D1A6 /* Main.storyboard */; };
 		0AD40BB6248753FA00B0D1A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AD40BB5248753FA00B0D1A6 /* Assets.xcassets */; };
 		0AD40BB9248753FA00B0D1A6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AD40BB7248753FA00B0D1A6 /* LaunchScreen.storyboard */; };
+		0ADC4736279A4A62004B9C7B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADC4735279A4A62004B9C7B /* Constants.swift */; };
+		0ADC473C279A4FD0004B9C7B /* TokenInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADC473B279A4FD0004B9C7B /* TokenInfo.swift */; };
+		0ADC473E279A503D004B9C7B /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADC473D279A503D004B9C7B /* Util.swift */; };
+		A591AA3726AAC2EFB1B72B95 /* Pods_IPificationSDK_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EE857D6521419F86EA13A94 /* Pods_IPificationSDK_Demo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		0AD40BC52487A61E00B0D1A6 /* Embed Frameworks */ = {
+		0A8762CA27A3971D00D65BAD /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0A29A77F248E3FC400B52E90 /* IPificationSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -32,16 +40,31 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0A29A778248E112C00B52E90 /* ipification.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ipification.xcconfig; sourceTree = "<group>"; };
-		0A29A77C248E2F0500B52E90 /* IPificationSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IPificationSDK.framework; sourceTree = "<group>"; };
+		04371C3A07B849742CC39F0A /* Pods-IPificationSDK-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IPificationSDK-Demo.release.xcconfig"; path = "Target Support Files/Pods-IPificationSDK-Demo/Pods-IPificationSDK-Demo.release.xcconfig"; sourceTree = "<group>"; };
+		0A16D1A4276B6FA0007F0EB8 /* FailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailViewController.swift; sourceTree = "<group>"; };
+		0A16D1A6276B8D33007F0EB8 /* IPificationSDK-Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "IPificationSDK-Demo.entitlements"; sourceTree = "<group>"; };
+		0A6ED279270BF5E00071E443 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		0A6ED27A270BF5E90071E443 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		0A81B418278D99BE00B46746 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0A8588A4277993F5007651CE /* IPificationSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = IPificationSDK.xcframework; path = sdk/IPificationSDK.xcframework; sourceTree = "<group>"; };
+		0A8B3FC3261B4D3400FA3DE0 /* SuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessViewController.swift; sourceTree = "<group>"; };
+		0AB2A45B279432020094EDD5 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		0ABAB97C276AFD4600CF9AF2 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		0ABAB97E276B0AE500CF9AF2 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		0ABAB980276B0B1300CF9AF2 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		0AD40BA9248753FA00B0D1A6 /* IPificationSDK-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IPificationSDK-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AD40BAC248753FA00B0D1A6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0AD40BAE248753FA00B0D1A6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		0AD40BB0248753FA00B0D1A6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		0AD40BB0248753FA00B0D1A6 /* IPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPViewController.swift; sourceTree = "<group>"; };
 		0AD40BB3248753FA00B0D1A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0AD40BB5248753FA00B0D1A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0AD40BB8248753FA00B0D1A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0AD40BBA248753FA00B0D1A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0ADC4735279A4A62004B9C7B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		0ADC473B279A4FD0004B9C7B /* TokenInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfo.swift; sourceTree = "<group>"; };
+		0ADC473D279A503D004B9C7B /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		2942E4DA307D7B90EF1260BE /* Pods-IPificationSDK-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IPificationSDK-Demo.debug.xcconfig"; path = "Target Support Files/Pods-IPificationSDK-Demo/Pods-IPificationSDK-Demo.debug.xcconfig"; sourceTree = "<group>"; };
+		3EE857D6521419F86EA13A94 /* Pods_IPificationSDK_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IPificationSDK_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,28 +72,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A29A77E248E3FC400B52E90 /* IPificationSDK.framework in Frameworks */,
+				A591AA3726AAC2EFB1B72B95 /* Pods_IPificationSDK_Demo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0A29A779248E27EF00B52E90 /* sdk */ = {
+		0AAB35B92769B535006A0698 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0A29A77C248E2F0500B52E90 /* IPificationSDK.framework */,
+				3EE857D6521419F86EA13A94 /* Pods_IPificationSDK_Demo.framework */,
+				0A8588A4277993F5007651CE /* IPificationSDK.xcframework */,
 			);
-			path = sdk;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		0AD40BA0248753FA00B0D1A6 = {
 			isa = PBXGroup;
 			children = (
-				0A29A779248E27EF00B52E90 /* sdk */,
-				0A29A778248E112C00B52E90 /* ipification.xcconfig */,
+				0A6ED27A270BF5E90071E443 /* Release.xcconfig */,
+				0A6ED279270BF5E00071E443 /* Debug.xcconfig */,
 				0AD40BAB248753FA00B0D1A6 /* IPificationSDK-Demo */,
 				0AD40BAA248753FA00B0D1A6 /* Products */,
+				0AAB35B92769B535006A0698 /* Frameworks */,
+				9EFF493E919AAE1939778ED2 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -85,15 +111,51 @@
 		0AD40BAB248753FA00B0D1A6 /* IPificationSDK-Demo */ = {
 			isa = PBXGroup;
 			children = (
+				0ADC473A279A4FC3004B9C7B /* data */,
+				0ADC4739279A4B74004B9C7B /* controller */,
+				0A81B418278D99BE00B46746 /* GoogleService-Info.plist */,
+				0A16D1A6276B8D33007F0EB8 /* IPificationSDK-Demo.entitlements */,
 				0AD40BAC248753FA00B0D1A6 /* AppDelegate.swift */,
 				0AD40BAE248753FA00B0D1A6 /* SceneDelegate.swift */,
-				0AD40BB0248753FA00B0D1A6 /* ViewController.swift */,
 				0AD40BB2248753FA00B0D1A6 /* Main.storyboard */,
 				0AD40BB5248753FA00B0D1A6 /* Assets.xcassets */,
 				0AD40BB7248753FA00B0D1A6 /* LaunchScreen.storyboard */,
 				0AD40BBA248753FA00B0D1A6 /* Info.plist */,
+				0AB2A45B279432020094EDD5 /* APIManager.swift */,
+				0ADC4735279A4A62004B9C7B /* Constants.swift */,
+				0ADC473D279A503D004B9C7B /* Util.swift */,
 			);
 			path = "IPificationSDK-Demo";
+			sourceTree = "<group>";
+		};
+		0ADC4739279A4B74004B9C7B /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				0ABAB97E276B0AE500CF9AF2 /* BaseViewController.swift */,
+				0A16D1A4276B6FA0007F0EB8 /* FailViewController.swift */,
+				0AD40BB0248753FA00B0D1A6 /* IPViewController.swift */,
+				0ABAB980276B0B1300CF9AF2 /* LoadingViewController.swift */,
+				0ABAB97C276AFD4600CF9AF2 /* HomeViewController.swift */,
+				0A8B3FC3261B4D3400FA3DE0 /* SuccessViewController.swift */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		0ADC473A279A4FC3004B9C7B /* data */ = {
+			isa = PBXGroup;
+			children = (
+				0ADC473B279A4FD0004B9C7B /* TokenInfo.swift */,
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
+		9EFF493E919AAE1939778ED2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2942E4DA307D7B90EF1260BE /* Pods-IPificationSDK-Demo.debug.xcconfig */,
+				04371C3A07B849742CC39F0A /* Pods-IPificationSDK-Demo.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -103,16 +165,20 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0AD40BBD248753FA00B0D1A6 /* Build configuration list for PBXNativeTarget "IPificationSDK-Demo" */;
 			buildPhases = (
+				D962D5601FC72F0DF14406CD /* [CP] Check Pods Manifest.lock */,
 				0AD40BA5248753FA00B0D1A6 /* Sources */,
 				0AD40BA6248753FA00B0D1A6 /* Frameworks */,
 				0AD40BA7248753FA00B0D1A6 /* Resources */,
-				0AD40BC52487A61E00B0D1A6 /* Embed Frameworks */,
+				A15EFD051A33FB1B625A4937 /* [CP] Embed Pods Frameworks */,
+				0A8762CA27A3971D00D65BAD /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "IPificationSDK-Demo";
+			packageProductDependencies = (
+			);
 			productName = "IPificationSDK-Demo";
 			productReference = 0AD40BA9248753FA00B0D1A6 /* IPificationSDK-Demo.app */;
 			productType = "com.apple.product-type.application";
@@ -141,6 +207,8 @@
 				Base,
 			);
 			mainGroup = 0AD40BA0248753FA00B0D1A6;
+			packageReferences = (
+			);
 			productRefGroup = 0AD40BAA248753FA00B0D1A6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -156,6 +224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AD40BB9248753FA00B0D1A6 /* LaunchScreen.storyboard in Resources */,
+				0A81B41B278D99BE00B46746 /* GoogleService-Info.plist in Resources */,
 				0AD40BB6248753FA00B0D1A6 /* Assets.xcassets in Resources */,
 				0AD40BB4248753FA00B0D1A6 /* Main.storyboard in Resources */,
 			);
@@ -163,14 +232,65 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		A15EFD051A33FB1B625A4937 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IPificationSDK-Demo/Pods-IPificationSDK-Demo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IPificationSDK-Demo/Pods-IPificationSDK-Demo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IPificationSDK-Demo/Pods-IPificationSDK-Demo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D962D5601FC72F0DF14406CD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-IPificationSDK-Demo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0AD40BA5248753FA00B0D1A6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0AD40BB1248753FA00B0D1A6 /* ViewController.swift in Sources */,
+				0ABAB981276B0B1300CF9AF2 /* LoadingViewController.swift in Sources */,
+				0ABAB97D276AFD4600CF9AF2 /* HomeViewController.swift in Sources */,
+				0AD40BB1248753FA00B0D1A6 /* IPViewController.swift in Sources */,
+				0ADC473C279A4FD0004B9C7B /* TokenInfo.swift in Sources */,
+				0A8B3FC4261B4D3400FA3DE0 /* SuccessViewController.swift in Sources */,
 				0AD40BAD248753FA00B0D1A6 /* AppDelegate.swift in Sources */,
+				0AB2A45C279432020094EDD5 /* APIManager.swift in Sources */,
+				0ADC473E279A503D004B9C7B /* Util.swift in Sources */,
 				0AD40BAF248753FA00B0D1A6 /* SceneDelegate.swift in Sources */,
+				0ADC4736279A4A62004B9C7B /* Constants.swift in Sources */,
+				0A16D1A5276B6FA0007F0EB8 /* FailViewController.swift in Sources */,
+				0ABAB97F276B0AE500CF9AF2 /* BaseViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,7 +318,7 @@
 /* Begin XCBuildConfiguration section */
 		0AD40BBB248753FA00B0D1A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0A29A778248E112C00B52E90 /* ipification.xcconfig */;
+			baseConfigurationReference = 0A6ED279270BF5E00071E443 /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -259,6 +379,7 @@
 		};
 		0AD40BBC248753FA00B0D1A6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0A6ED27A270BF5E90071E443 /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -313,11 +434,13 @@
 		};
 		0AD40BBE248753FA00B0D1A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0A29A778248E112C00B52E90 /* ipification.xcconfig */;
+			baseConfigurationReference = 2942E4DA307D7B90EF1260BE /* Pods-IPificationSDK-Demo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "IPificationSDK-Demo/IPificationSDK-Demo.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = MZTCFJJ5R8;
+				CURRENT_PROJECT_VERSION = 20;
+				DEVELOPMENT_TEAM = 33X8PA8375;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/sdk",
@@ -327,7 +450,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "bvl.IPificationSDK-Demo";
+				MARKETING_VERSION = 2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ipification.demoapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -336,10 +460,13 @@
 		};
 		0AD40BBF248753FA00B0D1A6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 04371C3A07B849742CC39F0A /* Pods-IPificationSDK-Demo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "IPificationSDK-Demo/IPificationSDK-Demo.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = MZTCFJJ5R8;
+				CURRENT_PROJECT_VERSION = 20;
+				DEVELOPMENT_TEAM = 33X8PA8375;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/sdk",
@@ -349,7 +476,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "bvl.IPificationSDK-Demo";
+				MARKETING_VERSION = 2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ipification.demoapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
