@@ -54,7 +54,7 @@ dependencies {
     implementation 'com.auth0.android:jwtdecode:2.0.0'
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
 
-    implementation 'com.ipification.mobile.android:ipification-auth:2.0.25'
+    implementation 'com.ipification.mobile.android:ipification-auth:2.0.0'
 
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
     implementation 'com.google.firebase:firebase-crashlytics'
