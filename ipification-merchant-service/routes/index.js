@@ -18,10 +18,19 @@ module.exports = async (fastify, options) => {
       return;
     }
 
-    const device_id = req.body ? req.body.device_id : null;
+    const device_id = req.body ? req.body.state : null;
+    const notification_type = req.body ? req.body.notification_type : null;
+    const channel = req.body ? req.body.channel : null;
+
     if(!device_id) {
       fastify.log.debug(`[ipification_notification] device_id is required`);
       res.status(400).send("device_id is required");
+      return;
+    }
+
+    if(!notification_type) {
+      fastify.log.debug(`[ipification_notification] notification_type is required`);
+      res.status(400).send("notification_type is required");
       return;
     }
 
@@ -35,14 +44,17 @@ module.exports = async (fastify, options) => {
     }
 
     try {
+      fastify.log.debug(`[ipification_notification] invoke send_notification`);
+      const push_message = notification_type === 'session_completed' ? 'Verification is successful. please back to your app/website' : 'Your session is expired. Please back into your application';
       // send push notification to mobile app
-      fastify.send_notification(device_info,
+      await fastify.send_notification(device_info,
         'Merchant Service',
-        'Verification is successful. please back to your app/website'
+        push_message
       );
 
       res.send();
     } catch (error) {
+      fastify.log.error(error);
       res.status(400).send(error.message);
     }
   });
