@@ -22,7 +22,7 @@
 To get a local copy up and running follow these simple example steps:
 
 ### 1. /assets/ipification-services.json
-Update your `client_id` and `redirect_uri`
+Update your `client_id` and `redirect_uri`values
 
   ```json
   {
