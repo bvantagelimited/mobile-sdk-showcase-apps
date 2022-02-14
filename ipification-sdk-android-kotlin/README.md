@@ -34,7 +34,7 @@ Update your `client_id` and `redirect_uri`values
   ```
   
 ## 2. Constant.kt
-Update `CLIENT_SECRET`
+Update your `CLIENT_SECRET` value
   <br/><br/>
   
 ## 3. IM Authentication
