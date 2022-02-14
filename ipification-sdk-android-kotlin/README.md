@@ -16,10 +16,12 @@
 <img src='https://user-images.githubusercontent.com/4114159/152466843-85e0da80-4337-4ef8-a1a3-54df9189de2b.png' width='220'>
 </p>
 
+<!-- GETTING STARTED -->
+## Getting Started
 
-# Set up the sample project 
+To get a local copy up and running follow these simple example steps:
 
-### 1. ipification-services.json
+### 1. /assets/ipification-services.json
 Update `client_id` and `redirect_uri`
 
   ```json
