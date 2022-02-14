@@ -17,7 +17,7 @@
 </p>
 
 
-# How to set up demo project 
+# Set up the Sample project 
 
 ### 1. ipification-services.json
 Update `client_id` and `redirect_uri`
@@ -36,7 +36,7 @@ Update `CLIENT_SECRET`
 <br/><br/>
   
 ## 3. IM Authentication
-Set up FCM and `google-services.json`
+Set up FCM and override `google-services.json`
 
 Update `DEVICE_TOKEN_REGISTRATION_URL` (for IM Authentication)
 
