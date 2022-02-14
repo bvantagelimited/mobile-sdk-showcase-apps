@@ -2,7 +2,7 @@
 <h1 align="center">IPification Sample Project</h1>
 
 <p align="center">
-    <img src='https://user-images.githubusercontent.com/4114159/153820731-6cf4d6ed-cc37-4cc2-8a16-8baccb41b9d3.jpg' width='180'>
+    <img src='https://user-images.githubusercontent.com/4114159/153820731-6cf4d6ed-cc37-4cc2-8a16-8baccb41b9d3.jpg' width='220'>
 
   <img src='https://user-images.githubusercontent.com/4114159/153834085-686378a6-97e2-4c49-9871-f12db5fc16e1.png' width='220'>
 
