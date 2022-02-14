@@ -17,7 +17,7 @@
 </p>
 
 
-# Set up the demo project 
+# Set up the sample project 
 
 ### 1. ipification-services.json
 Update `client_id` and `redirect_uri`
