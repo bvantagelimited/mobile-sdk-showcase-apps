@@ -1,64 +1,42 @@
 
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
+<h1 align="center">IPification Sample Project</h1>
 
-
-<!-- PROJECT LOGO -->
-<br />
 <p align="center">
-  <a href="https://ipification.com">
-    <img src="https://www.ipification.com/images/ipification-opengraph-default.png" alt="Logo" width="auto" height="500">
-  </a>
-
-  <h3 align="center">IPification SDK Application Showcases</h3>
-
-  <p align="center">
-    Applications that showcases the features of IPification.
-    <br />
-    <br />
-    <a href="https://github.com/bvantagelimited/mobile-sdk-showcase-apps">View Demo</a>
-    ·
-    <a href="https://github.com/bvantagelimited/mobile-sdk-showcase-apps/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/bvantagelimited/mobile-sdk-showcase-apps/issues">Request Feature</a>
-  </p>
+<img src='https://user-images.githubusercontent.com/4114159/153820731-6cf4d6ed-cc37-4cc2-8a16-8baccb41b9d3.jpg' width='220'>
+<img src='https://user-images.githubusercontent.com/4114159/153820778-b4e6cb13-e4b9-4eb9-96ec-b7596617d906.jpg' width='220'>
+<img src='https://user-images.githubusercontent.com/4114159/153820768-fe862eb3-01b2-46de-b140-5ac55e6008bf.jpg' width='220'>
 </p>
+<p align="center">
+<img src='https://user-images.githubusercontent.com/4114159/153820759-4400b6d1-8766-46bd-bcfa-0f1d55d4dc3b.jpg' width='220'>
+<img src='https://user-images.githubusercontent.com/4114159/153820738-72700115-97b0-427e-9dd8-e102f2da3282.jpg' width='220'>
 
-
-
-<!-- TABLE OF CONTENTS -->
-## Table of Contents
-* [Usage](#usage)
-* [Contact](#contact)
-
-
-
+</p>
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get a local copy up and running follow these simple example steps.
+To get a local copy up and running follow these simple example steps:
 
-1. Put the IPification SDK  ```(IPificationSDK.framework)``` inside the ```sdk/``` folder
-2. Add This Folder to your Xcode project
-3. Run project
+### 1. Edit Debug.xcconfig
+Update your `client_id` and `redirect_uri`values
+
+  ```json
+COVERAGE_URL = https:\/\/stage.ipification.com/auth/realms/ipification/coverage
+AUTHORIZATION_URL = https:\/\/stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth
+REDIRECT_URI = your-redirect-uri
+CLIENT_ID = your-client-id
+  ```
+  
+## 2. Constants.swift
+Update your `CLIENT_SECRET` value
+  <br/><br/>
+  
+## 3. IM Authentication
+Set up your FCM and override `google-services.json`
+
+Update `REGISTER_DEVICE_URL` (for IM Authentication)
 
 
+# Document
 
-<!-- CONTACT -->
-## Contact
-
-Ipification - info@ipification.com
-
-Units 823-825, Level 8,
-Cyberport 1, 100 Cyberport Road, Hong Kong
-
-
-
-
+https://developer.ipification.com/#/ios/latest/
