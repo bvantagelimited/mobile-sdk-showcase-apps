@@ -17,10 +17,15 @@
 </p>
 
 
-# Set up the Sample project 
 
+<!-- GETTING STARTED -->
+## Getting Started
+
+To get a local copy up and running follow these simple example steps:
+
+### 1. /assets/ipification-services.json
 ### 1. ipification-services.json
-Update `client_id` and `redirect_uri`
+Update your `client_id` and `redirect_uri` values
 
   ```json
   {
@@ -32,15 +37,14 @@ Update `client_id` and `redirect_uri`
   ```
   
 ## 2. Constant.java
-Update `CLIENT_SECRET`
+Update your `CLIENT_SECRET` value
 <br/><br/>
   
 ## 3. IM Authentication
 Set up FCM and override `google-services.json`
 
-Update `DEVICE_TOKEN_REGISTRATION_URL` (for IM Authentication)
+Update your backend `DEVICE_TOKEN_REGISTRATION_URL` (for IM Authentication)
 
 
 # Document
-
 https://developer.ipification.com/#/android/latest/
