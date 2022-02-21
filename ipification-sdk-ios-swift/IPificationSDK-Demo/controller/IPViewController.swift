@@ -48,11 +48,15 @@ class IPViewController: BaseViewController {
     @IBAction func doAuthentication(_ sender: Any) {
         showLoadingViewAutoEnd()
         self.phoneInputTextField.endEditing(true)
-        doIPificationAuthorization()
+
+        doIPIMAuthorization()
+        
+//        checkCoverageAPI()
     }
     
-    
-    func doIPificationAuthorization() {
+    // call IPification Authorization API with IM Flow
+    func doIPIMAuthorization() {
+        
         var phone = phoneInputTextField.text!
         if(phone == ""){
             logText = "\n phone number error : \(phone)! \n"
@@ -62,10 +66,10 @@ class IPViewController: BaseViewController {
         
         phone = phone.replacingOccurrences(of: "+", with: "")
         self.phoneInputTextField.endEditing(true)
-        logText += "\n 2. start authorization with phone : \(phone) \n"
+        logText += "\n 1. start authorization with phone : \(phone) \n"
         printLog();
 
-
+        
         let authorizationService =  AuthorizationService()
         authorizationService.callbackFailed = { (error) -> Void in
             print("callbackFailed", error.localizedDescription)
@@ -101,6 +105,80 @@ class IPViewController: BaseViewController {
 
         
         
+    }
+    
+    func checkCoverageAPI() {
+        logText += "\n 1. Check Coverage \n"
+        printLog();
+        
+        let coverageService = CoverageService()
+        coverageService.callbackFailed = { (error) -> Void in
+            print("CoverageService callbackFailed ", error.localizedDescription)
+            self.logText += "\nCoverageService Result : Error: \(error.localizedDescription)! \n"
+            self.printLog();
+        }
+
+        coverageService.callbackSuccess = { (response) -> Void in
+            print("CoverageService ", response.isAvailable(), response.getOperatorCode() ?? "" )
+            self.logText += "\nCoverageService Result: \(response.isAvailable()) - Code: \( response.getOperatorCode() ?? "") \n"
+            self.printLog()
+            if(response.isAvailable()){
+                
+                // call Authorization API
+                self.doIPAuthenticationAPI()
+            } else{
+                // TODO: TELCO is not supported
+            }
+        }
+        coverageService.checkCoverage()
+    }
+    
+    // call IPification Authorization API Only (No IM Auth Flow)
+    func doIPAuthenticationAPI(){
+        var phone = phoneInputTextField.text!
+        if(phone == ""){
+            logText = "\n phone number error : \(phone)! \n"
+            printLog();
+            return
+        }
+        
+        phone = phone.replacingOccurrences(of: "+", with: "")
+        self.phoneInputTextField.endEditing(true)
+        logText += "\n 2. Start Authorization with phone : \(phone) \n"
+        printLog();
+
+        
+        let authorizationService =  AuthorizationService()
+        authorizationService.callbackFailed = { (error) -> Void in
+            print("callbackFailed", error.localizedDescription)
+            self.logText += "\nAuth Result : Error: \(error.localizedDescription)! \n"
+            self.printLog();
+            self.hideLoadingView()
+        }
+        
+        authorizationService.callbackSuccess = { (response) -> Void in
+            print("callbackSuccess", response.getPlainResponse() )
+            DispatchQueue.main.async {
+                
+                if(response.getCode() != nil){
+                    self.logText += "\n Auth Result: " + "code:  \(response.getCode()!) - state: \(response.getState()!)" + "\n"
+                    self.callExchangeToken(code: response.getCode()!)
+                    self.printLog()
+                }else{
+                    self.logText += "\n" + " Auth Result: getCode failed" + "\n"
+                    self.printLog()
+                }
+                self.hideLoadingView()
+            }
+        }
+        
+        let authorizationRequest =  AuthorizationRequest.Builder()
+        authorizationRequest.setScope(value: "openid ip:phone_verify")
+        authorizationRequest.addQueryParam(key: "login_hint", value: phoneInputTextField.text!)
+
+        let authRequest = authorizationRequest.build()
+        authorizationService.startAuthorization(viewController: self, authRequest)
+
     }
     
     // TODO: do this at your backend side
