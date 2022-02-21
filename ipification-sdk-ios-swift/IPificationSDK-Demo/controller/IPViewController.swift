@@ -50,7 +50,6 @@ class IPViewController: BaseViewController {
         self.phoneInputTextField.endEditing(true)
 
         doIPIMAuthorization()
-        
 //        checkCoverageAPI()
     }
     
@@ -81,7 +80,6 @@ class IPViewController: BaseViewController {
         authorizationService.callbackSuccess = { (response) -> Void in
             print("callbackSuccess", response.getPlainResponse() )
             DispatchQueue.main.async {
-                
                 if(response.getCode() != nil){
                     self.logText += "\n Auth Result: " + "code:  \(response.getCode()!) - state: \(response.getState()!)" + "\n"
                     self.callExchangeToken(code: response.getCode()!)
@@ -123,7 +121,6 @@ class IPViewController: BaseViewController {
             self.logText += "\nCoverageService Result: \(response.isAvailable()) - Code: \( response.getOperatorCode() ?? "") \n"
             self.printLog()
             if(response.isAvailable()){
-                
                 // call Authorization API
                 self.doIPAuthenticationAPI()
             } else{
