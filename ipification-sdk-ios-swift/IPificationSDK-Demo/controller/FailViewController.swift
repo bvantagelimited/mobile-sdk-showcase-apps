@@ -27,6 +27,5 @@ class FailViewController: UIViewController {
     
     
     @IBAction func sendLog(_ sender: Any) {
-        print(IPConfiguration.sharedInstance.log)
     }
 }

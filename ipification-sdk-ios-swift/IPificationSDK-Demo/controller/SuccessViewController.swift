@@ -29,6 +29,5 @@ class SuccessViewController: UIViewController {
         lblDetailInfo.text = ""
     }
     @IBAction func sendLog(_ sender: Any) {
-        print(IPConfiguration.sharedInstance.log)
     }
 }
