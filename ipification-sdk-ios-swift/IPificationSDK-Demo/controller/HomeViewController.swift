@@ -98,7 +98,7 @@ class HomeViewController : BaseViewController{
             }
             
         }
-        IPificationLocale.sharedInstance.updateScreen(titleBar:"IPification", title:"Phone Number Verify",  description:"Please tap on the preferred messaging app then follow our instruction on the screen", whatsappBtnText:"Quick Login via Whatsapp", viberBtnText : "Quick Login via Viber", telegramBtnText : "Quick Login via Telegram", doneBtnText:"Done")
+//        IPificationLocale.sharedInstance.updateScreen(titleBar:"IPification", title:"Phone Number Verify",  description:"Please tap on the preferred messaging app then follow our instruction on the screen", whatsappBtnText:"Quick Login via Whatsapp", viberBtnText : "Quick Login via Viber", telegramBtnText : "Quick Login via Telegram", cancelBtnText:"Done")
         
         let authorizationRequest =  AuthorizationRequest.Builder()
         authorizationRequest.setState(value: APIManager.sharedInstance.state)
