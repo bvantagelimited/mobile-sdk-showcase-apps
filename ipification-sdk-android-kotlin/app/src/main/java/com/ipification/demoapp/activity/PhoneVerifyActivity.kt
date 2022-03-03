@@ -24,10 +24,13 @@ import com.ipification.mobile.sdk.android.CellularService
 import com.ipification.mobile.sdk.android.IPConfiguration
 //import com.ipification.mobile.sdk.android.IPIMServices
 import com.ipification.mobile.sdk.android.IPificationServices
+import com.ipification.mobile.sdk.android.callback.CellularCallback
 import com.ipification.mobile.sdk.android.callback.IPificationCallback
+import com.ipification.mobile.sdk.android.exception.CellularException
 import com.ipification.mobile.sdk.android.exception.IPificationError
 import com.ipification.mobile.sdk.android.request.AuthRequest
 import com.ipification.mobile.sdk.android.response.AuthResponse
+import com.ipification.mobile.sdk.android.response.CoverageResponse
 //import com.ipification.mobile.sdk.android.utils.Constant
 import com.ipification.mobile.sdk.im.IMService
 import com.mukesh.countrypicker.CountryPicker
@@ -96,6 +99,8 @@ class PhoneVerifyActivity : AppCompatActivity() {
 
 
     private fun startIPAuth() {
+        // TODO
+//        checkCoverageAPI()
 
         hideKeyboard()
 
@@ -141,11 +146,26 @@ class PhoneVerifyActivity : AppCompatActivity() {
                     updateButton(isEnable = true)
                 }
             }
-
-
         })
     }
 
+    private fun checkCoverageAPI(){
+        val coverageCallback = object : CellularCallback<CoverageResponse>
+        {
+            override fun onSuccess(res: CoverageResponse) {
+                if(res.isAvailable()) {
+                    // supported Telco. Collect User Phone Number then Call Authorization API
+                } else {
+                    // unsupported Telco. Fallback to another authentication service flow
+                }
+            }
+            override fun onError(error: CellularException) {
+                Log.d("IPificationSDK", "checkCoverage - error : " + error.responseCode + " - " + error.getErrorMessage())
+                // error, handle it with another authentication service flow
+            }
+        }
+        IPificationServices.startCheckCoverage(context = this, callback = coverageCallback)
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
