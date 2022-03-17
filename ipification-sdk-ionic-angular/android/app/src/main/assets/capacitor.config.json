@@ -1,0 +1,12 @@
+{
+	"appId": "com.ipification.demo",
+	"appName": "demo App",
+	"webDir": "www",
+	"bundledWebRuntime": false,
+	"server": {
+		"allowNavigation": [
+			"https://stage.ipification.com"
+		],
+		"url": "http://192.168.1.6:8100"
+	}
+}

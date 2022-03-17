@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      IPification Sample App
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <div id="container">
+    <form #loginForm="ngForm" novalidate id="form">
+      <ion-list>
+        <br />
+        <ion-item>
+          <ion-label position="stacked">Input Your Phone Number</ion-label>
+          <ion-input [(ngModel)]="phoneNumber" name="phoneNumber" #username="ngModel" spellcheck="false"
+            autocapitalize="off" type="tel" placeholder="381123456789" value="84921744713"></ion-input>
+        </ion-item>
+        <br /><br />
+        <ion-button id="login_button" (click)="onLogin(loginForm)" type="submit" expand="block">Login</ion-button>
+        <br />
+        <br />
+      </ion-list>
+    </form>
+
+
+
+  </div>
+  <div id="divider"></div>
+  <div id="result"> Result:
+    <br /><br />
+    <div>
+      + Check Coverage: {{coverageResult && coverageResult.isAvailable}} {{coverageResult && coverageResult.operatorCode}}<br /><br />
+      + Authorization Code: {{authResult && authResult.code}}<br /><br />
+      <!-- + Authorization State: {{authResult && authResult.state}}<br /><br /> -->
+
+      + Token Exchange Info:<br/> {{tokenExchangeResult && "- phone_number_verified: " + tokenExchangeResult.phone_number_verified}}<br/>
+      {{tokenExchangeResult && "- login_hint: " + tokenExchangeResult.login_hint}}<br/>
+      {{tokenExchangeResult && "- sub: " + tokenExchangeResult.sub}}<br/>
+
+      {{tokenExchangeError && "+ Token Exchange Error: " && tokenExchangeError}}<br /><br />
+      {{authError && "+ Authorization Error: " && authError}}<br />
+      {{coverageError && "+ Coverage Error: " && coverageError}}<br />
+    </div>
+  </div>
+</ion-content>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
