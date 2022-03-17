@@ -2,5 +2,10 @@
 	"appId": "com.ipification.demo",
 	"appName": "demo App",
 	"webDir": "www",
-	"bundledWebRuntime": false
+	"bundledWebRuntime": false,
+	"server": {
+		"allowNavigation": [
+			"https://stage.ipification.com"
+		]
+	}
 }
