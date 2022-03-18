@@ -5,7 +5,6 @@ const config: CapacitorConfig = {
   appName: 'demo App',
   webDir: 'www',
   bundledWebRuntime: false,
-  server: { "allowNavigation": [ "https://stage.ipification.com" ] }
 };
 
 export default config;
