@@ -1,0 +1,47 @@
+#container {
+  text-align: center;
+  // position: absolute;
+  // width: 100%;
+  // left: 0;
+  // right: 0;
+  // top: 5%;
+  display: flex;
+  justify-content: center;
+}
+
+#container strong {
+  font-size: 16px;
+  line-height: 26px;
+}
+
+#container p {
+  font-size: 16px;
+  line-height: 22px;
+
+  color: #8c8c8c;
+
+  margin: 0;
+}
+#title{
+  font-size: 20px;
+  width: 100%;
+}
+#container a {
+  text-decoration: none;
+}
+#login_button
+{
+  width: 120px;
+  margin: 0 auto;
+}
+
+
+#result{
+  padding: 20px;
+}
+
+#divider{
+  width: 100%;
+  height: 1px;
+  background-color: #8c8c8c;
+}
