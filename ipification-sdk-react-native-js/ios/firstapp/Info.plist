@@ -26,8 +26,8 @@
 	<string>1</string>
 	<key>CLIENT_ID</key>
 	<string>$(CLIENT_ID)</string>
-	<key>COVERAGE_ENDPOINT</key>
-	<string>$(COVERAGE_ENDPOINT)</string>
+	<key>COVERAGE_URL</key>
+	<string>$(COVERAGE_URL)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -61,5 +61,12 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>  
+		<string>whatsapp</string>  
+		<string>telegram</string>  
+		<string>viber</string>  
+		<string>https</string>
+	</array>
 </dict>
 </plist>

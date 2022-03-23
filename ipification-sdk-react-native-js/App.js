@@ -37,7 +37,14 @@ const App = () => {
   
 
  useEffect(() => {
-   
+  if(Platform.OS === 'android'){
+    RNAuthenticationService.updateAndroidLocale({"mainTitle":"hello", "description": "description", "whatsappText":"whatsappText", "telegramText": "telegramText", "viberText": "viberText"})
+    RNAuthenticationService.updateAndroidTheme({"backgroundColor":"#FF0000", "toolbarTextColor": "#8fce00", "toolbarColor":"#6fa8dc", "toolbarTitle": "toolbarTitle", "isVisible": false})
+ }
+ if(Platform.OS === 'ios'){
+    RNAuthenticationService.updateIOSLocale({"titleBar":"hello", "title": "description", "whatsappText":"whatsappText", "telegramText": "telegramText", "viberText": "viberText", "cancelBtnText":"cancel"})
+    RNAuthenticationService.updateIOSTheme({"toolbarTitleColor":"#FF0000", "cancelBtnColor": "#8fce00", "titleColor":"#6fa8dc", "descColor": "#6fa8dc", "backgroundColor": "#6fa8dc"})
+  }
    return () => {
     if (Platform.OS === 'android') {
       console.log("componentWillUnmount android")
@@ -61,19 +68,20 @@ const App = () => {
        } else {
         setCoverageResult(isAvailable || error);
         setDisabled(false)
+        doAuthentication()
        }
      }
    );
  };
 
  doAuthentication = () => {
-  //  if (Platform.OS === 'android') {
-  //   RNCoverageService.setAuthorizationServiceConfiguration("ipification-services.json")
-  //  }
+
    var state = getRandomValues(); // optional
    console.log('2. do Authentication');
+  
    RNAuthenticationService.doAuthorization(
-     {login_hint: formattedValue, scope:"openid ip:phone_verify ip:mobile_id", state: state},
+    {login_hint: formattedValue, scope:"openid ip:phone", state: state, channel:'wa'},
+    
      (error, code, state, fullResponse) => {
        console.log(error, code, state, fullResponse);
        if (code != null) {
