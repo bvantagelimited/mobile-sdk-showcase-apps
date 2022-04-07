@@ -49,7 +49,7 @@ public class ApiManager {
                     }else{
                         if(response.body() != null){
                            callback.onError(response.body().string());
-                            Log.e(TAG, "token exchange error: " + response.body().string());
+//                            Log.e(TAG, "token exchange error: " + response.body().string());
                         }
                     }
                 }
