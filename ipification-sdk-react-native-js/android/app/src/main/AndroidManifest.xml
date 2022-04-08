@@ -23,6 +23,21 @@
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+
+            <activity
+          android:name="com.ipification.mobile.sdk.im.ui.IMVerificationActivity"
+          android:exported="true"
+          android:windowSoftInputMode="adjustPan"
+          android:launchMode="singleInstance">
+          <intent-filter android:autoVerify="true">
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <!--optional: set up Android App Link-->
+            <data android:host="your_deep_link_host"
+                  android:scheme="https" />
+          </intent-filter>
+      </activity>
     </application>
 
 </manifest>
