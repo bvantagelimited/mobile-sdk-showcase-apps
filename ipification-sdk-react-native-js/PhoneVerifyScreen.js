@@ -137,17 +137,7 @@ const PhoneVerifyScreen = ({navigation}) => {
     };
   }, []);
   //util
-  // getRandomStateValues = () => {
-  //   const validChars =
-  //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  //   var result = "";
-  //   for (var i = 0; i < 40; i++) {
-  //     result += validChars.charAt(
-  //       Math.floor(Math.random() * validChars.length)
-  //     );
-  //   }
-  //   return result;
-  // };
+  
 
   
   return (

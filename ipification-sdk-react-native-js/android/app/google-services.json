@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "543210972010",
+    "project_id": "fir-ip-8a30e",
+    "storage_bucket": "fir-ip-8a30e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:543210972010:android:0e006fcf3382a4510dbb13",
+        "android_client_info": {
+          "package_name": "com.ipification.demo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "543210972010-95lnus4srhcqnd55dm6olm0sbamqpqbu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ipification.demo",
+            "certificate_hash": "b3c2cd99c17d35872fa4b4fbb8aecd3afffb7770"
+          }
+        },
+        {
+          "client_id": "543210972010-clkmtvqepvh77krulst8v5rbuq0db1n4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvfJJiVh38J5gRdjSinU8W1Kedpy_a3-w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "543210972010-clkmtvqepvh77krulst8v5rbuq0db1n4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "543210972010-v4ig3831am2vpd88jen968jl6d9nq5t7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ipification.demoapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:543210972010:android:ba41bc340816da9e0dbb13",
+        "android_client_info": {
+          "package_name": "com.ipification.demoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "543210972010-9k2aqmkohgbpehsbij6kproqjvla54eo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ipification.demoapp",
+            "certificate_hash": "670bc5c17e80817a6e1851ea0e13765a4ff1c982"
+          }
+        },
+        {
+          "client_id": "543210972010-jdunool8r8fdip042sddmf3c8njgr166.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ipification.demoapp",
+            "certificate_hash": "b3c2cd99c17d35872fa4b4fbb8aecd3afffb7770"
+          }
+        },
+        {
+          "client_id": "543210972010-clkmtvqepvh77krulst8v5rbuq0db1n4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvfJJiVh38J5gRdjSinU8W1Kedpy_a3-w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "543210972010-clkmtvqepvh77krulst8v5rbuq0db1n4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "543210972010-v4ig3831am2vpd88jen968jl6d9nq5t7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ipification.demoapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,241 +1,202 @@
-/**
-* Sample React Native App
-* https://github.com/facebook/react-native
-*
-* @format
-* @flow strict-local
-*/
-import React, {useState, useRef, useEffect} from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import React, {useEffect} from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import PhoneVerifyScreen from './PhoneVerifyScreen';
+import HomeScreen from './Home';
+import ResultScreen from './Result';
+import messaging from '@react-native-firebase/messaging';
+import { Platform } from "react-native";
+import Constants from './Constants';
+import { SafeAreaView, StyleSheet, View, NativeModules, ToastAndroid } from 'react-native';
+const { RNIPNotification} = NativeModules;
 
-import {
-  SafeAreaView,
-  StyleSheet,
-  View,
-  StatusBar,
-  TouchableOpacity,
-  Text,
-  NativeModules
-} from 'react-native';
-const {RNCoverageService, RNAuthenticationService} = NativeModules;
-import {Platform} from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import PhoneInput from 'react-native-phone-number-input';
 
-import jwt_decode from "jwt-decode";
+const Stack = createNativeStackNavigator();
 
 const App = () => {
-  const TOKEN_URL = "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/token"
-
-  const [phoneNumber, setPhoneNumnber] = useState('123456789');
-  const [token, setToken] = useState('');
-  const [formattedValue, setFormattedValue] = useState('381123456789');
-  const [coverageResult, setCoverageResult] = useState(false);
-  const [authorizationResult, setAuthorizationResult] = useState();
-  const [disabled, setDisabled] = useState(false);
-  const [showMessage, setShowMessage] = useState(false);
-  const phoneInput = useRef<PhoneInput>(null);
-  
-
- useEffect(() => {
-  if(Platform.OS === 'android'){
-    RNAuthenticationService.updateAndroidLocale({"mainTitle":"hello", "description": "description", "whatsappText":"whatsappText", "telegramText": "telegramText", "viberText": "viberText"})
-    RNAuthenticationService.updateAndroidTheme({"backgroundColor":"#FF0000", "toolbarTextColor": "#8fce00", "toolbarColor":"#6fa8dc", "toolbarTitle": "toolbarTitle", "isVisible": false})
- }
- if(Platform.OS === 'ios'){
-    RNAuthenticationService.updateIOSLocale({"titleBar":"hello", "title": "description", "whatsappText":"whatsappText", "telegramText": "telegramText", "viberText": "viberText", "cancelBtnText":"cancel"})
-    RNAuthenticationService.updateIOSTheme({"toolbarTitleColor":"#FF0000", "cancelBtnColor": "#8fce00", "titleColor":"#6fa8dc", "descColor": "#6fa8dc", "backgroundColor": "#6fa8dc"})
-  }
-   return () => {
-    if (Platform.OS === 'android') {
-      console.log("componentWillUnmount android")
-      RNCoverageService.unregisterNetwork();
-    }
-   }
- }, [])
- checkCoverage = () => {
-   
-  //  if (Platform.OS === 'android') {
-  //   RNCoverageService.setAuthorizationServiceConfiguration("ipification-services.json")
-  //  }
-   
-   console.log('1. check Coverage');
-   RNCoverageService.checkCoverage(
-     (error, isAvailable, operatorCode) => {
-       console.log('isAvailable ',isAvailable,  operatorCode, error);
-       if (isAvailable) {
-         setCoverageResult(isAvailable);
-         doAuthentication()
-       } else {
-        setCoverageResult(isAvailable || error);
-        setDisabled(false)
-        doAuthentication()
-       }
-     }
-   );
- };
-
- doAuthentication = () => {
-
-   var state = getRandomValues(); // optional
-   console.log('2. do Authentication');
-  
-   RNAuthenticationService.doAuthorization(
-    {login_hint: formattedValue, scope:"openid ip:phone", state: state, channel:'wa'},
-    
-     (error, code, state, fullResponse) => {
-       console.log(error, code, state, fullResponse);
-       if (code != null) {
-         setAuthorizationResult(code)
-         doTokenExchange()
-       }
-       else{
-        setAuthorizationResult(error)
-       }
-       setDisabled(false)
-     }
-   );
- };
-
- // do at your backend server
- doTokenExchange = async () =>{
-  console.log("3. do Token Exchange")
-
-  var client_id =  await RNAuthenticationService.getConfigurationByName("client_id")
-  var redirect_uri =  await RNAuthenticationService.getConfigurationByName("redirect_uri")
-  console.log("client_id,", client_id)
-  var details = {
-    'client_id': client_id,
-    'grant_type': 'authorization_code',
-    'client_secret': 'your_client_secret',
-    'redirect_uri': redirect_uri, 
-    'code': authorizationResult
-  };
-  var formBody = [];
-  for (var property in details) {
-    var encodedKey = encodeURIComponent(property);
-    var encodedValue = encodeURIComponent(details[property]);
-    formBody.push(encodedKey + "=" + encodedValue);
-  }
-  formBody = formBody.join("&");
-  // console.log(formBody)
-  fetch(TOKEN_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: formBody,
-  }).then((response) => response.json())
-  .then((responseJson) => {
-      console.log("exchange response",responseJson)
-      if(responseJson["access_token"]){
-        var decoded = jwt_decode(responseJson["access_token"]);
-        // console.log(decoded)
-        setToken(JSON.stringify(decoded))
-      }else{
-        setToken(JSON.stringify(responseJson))
-      }
-  })
-  .catch((error) => {
-    console.error(error);
-    setToken(JSON.stringify(error))
-  });;
- }
-  getRandomValues = () =>{
-    const validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var result = '';
-      for ( var i = 0; i < 40; i++ ) {
-          result += validChars.charAt(Math.floor(Math.random() * validChars.length));
-      }
-      return result;
-  }
-   return (
-    <View style={styles.container}>
-    <SafeAreaView style={styles.wrapper}>
-      {showMessage && (
-        <View style={styles.message}>
-          <Text>Formatted Phone Number : {formattedValue}</Text>
-          <Text>1. Supported Telco : {coverageResult == true ? "true" : coverageResult == false ? "false" : coverageResult}</Text>
-          <Text>2. Do Authentication - Result : {authorizationResult}</Text>
-          <Text>3. Token Exchange - Access Token : {token}</Text>
-          
-        </View>
-      )}
-      <PhoneInput
-        ref={phoneInput}
-        defaultValue={phoneNumber}
-        defaultCode="RS"
-        layout="first"
-        onChangeText={(text) => {
-          setPhoneNumnber(text);
-        }}
-        onChangeFormattedText={(text) => {
-          setFormattedValue(text);
-          // setCountryCode(phoneInput.current?.getCountryCode() || '');
-        }}
-        countryPickerProps={{withAlphaFilter:true}}
-        disabled={disabled}
-        withDarkTheme
-        withShadow
-        autoFocus
-      />
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          const checkValid = phoneInput.current?.isValidNumber(phoneNumber);
-          console.log(checkValid)
-          // setDisabled(true)
-          setShowMessage(true);
-          checkCoverage()
-        }}>
-        <Text style={styles.buttonText}>Authorize</Text>
-      </TouchableOpacity>
+  useEffect(() => {
+    initNotification()
+    receiveNotificationFromQuitState();
+    receiveBackgroundNotification();
+    backgroundThread();
+    //iOS
+    requestUserPermission()
+    return () => {
       
-    </SafeAreaView>
-  </View>
-   );
- }
+    }
+  }, [])
+  // do at your backend server
+  registerDevice = async (device_id, device_token) => {
+    console.log("1. register FCM device token to your backend server ");
 
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.lighter,
-  },
-  wrapper: {
-    marginTop: 30,
-    flex: 1,
-    alignItems: 'center',
-  },
-  button: {
-    marginTop: 20,
-    height: 50,
-    width: 300,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#7CDB8A',
-    shadowColor: 'rgba(0,0,0,0.4)',
-    shadowOffset: {
-      width: 1,
-      height: 5,
-    },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
-    elevation: 10,
-  },
-  buttonText:{
-    color: 'white',
-    fontSize: 14,
-  },
-  redColor: {
-    backgroundColor: '#F57777'
-  },
-  message: {
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 20,
-    marginBottom: 20,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-  },
-});
+    var details = {
+      device_id: device_id,
+      device_token: device_token,
+      device_type: Platform.OS,
+    };
+    
 
+    
+    fetch(Constants.REGISTER_DEVICE_TOKEN_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+      body: JSON.stringify(details),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log("REGISTER_DEVICE_TOKEN_URL response", responseJson);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  async function requestUserPermission() {
+    const authorizationStatus = await messaging().requestPermission();
+  
+    if (authorizationStatus) {
+      console.log('Permission status:', authorizationStatus);
+    }
+  }
+  async function initNotification() {
+    // Register the device with FCM
+    await messaging().registerDeviceForRemoteMessages();
+  
+    // Get the token
+    const token = await messaging().getToken();
+    console.log(token)
+    var state = Constants.getRandomStateValues();
+    Constants.CURRENT_STATE = state;
+    await registerDevice(state, token);
+    // Save the token
+    // await postToApi('/users/1234/tokens', { token });
+  }
+  const receiveNotificationFromQuitState = () => {
+    messaging()
+    .getInitialNotification()
+    .then(async (remoteMessage) => {
+      // if (remoteMessage) {
+      //  showToast(
+      //  'getInitialNotification:' +
+      //  'Notification caused app to open from quit state',
+      //  );
+      // }
+     });
+  }
+  const receiveBackgroundNotification = () => {
+    messaging().onNotificationOpenedApp(async (remoteMessage) => {
+    //  if (remoteMessage) {
+    //   showToast(
+    //   'onNotificationOpenedApp: ' +
+    //   'Notification caused app to open from background state',
+    //   );
+    //  }
+    });
+  }
+  const backgroundThread = () => {  
+    //It's called when the app is in the background or terminated
+      messaging().setBackgroundMessageHandler(
+       async (remoteMessage) => {
+        //  showToast("Background notification" +  JSON.stringify(remoteMessage));
+         display(remoteMessage);
+       });
+     }
+    const showToast = (message) => {
+      if (Platform.OS == 'ios') {
+        alert(message);
+      } else {
+        ToastAndroid.show(message, ToastAndroid.SHORT);
+      }
+  };
+
+  const display = (remoteMessage) =>{
+    RNIPNotification.showNotification(remoteMessage.body.title,  "mipmap", "ic_notification")
+  }
+  const createChannel = ()=>{
+    // PushNotification.createChannel(
+    //   {
+    //     channelId: "first_app", // (required)
+    //     channelName: "first_app", // (required)
+    //     channelDescription: "A channel to categorise your notifications", // (optional) default: undefined.
+    //     playSound: false, // (optional) default: true
+    //     soundName: "default", // (optional) See `soundName` parameter of `localNotification` function
+    //     importance: 4, // (optional) default: 4. Int value of the Android notification importance
+    //     vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
+    //   },
+    //   (created) => console.log(`createChannel returned '${created}'`) // (optional) callback returns whether the channel was created, false means it already existed.
+    // );
+  }
+
+  // const showLocalNotification = ({title, body, id, number}, messageId) =>
+    // PushNotification.localNotification({
+    //   channelId: 'first_app', // (required) channelId, if the channel doesn't exist, notification will not trigger.
+    //   ticker: 'Hey', // (optional)
+    //   showWhen: true, // (optional) default: true
+    //   autoCancel: true, // (optional) default: true
+    //   largeIcon: 'ic_launcher', // (optional) default: "ic_launcher". Use "" for no large icon.
+    //   // largeIconUrl: 'https://www.example.tld/picture.jpg', // (optional) default: undefined
+    //   smallIcon: 'ic_launcher', // (optional) default: "ic_notification" with fallback for "ic_launcher". Use "" for default small icon.
+    //   // bigText: '', // (optional) default: "message" prop
+    //   // subText: '', // (optional) default: none
+    //   // bigPictureUrl: 'https://www.example.tld/picture.jpg', // (optional) default: undefined
+    //   bigLargeIcon: 'ic_launcher', // (optional) default: undefined
+    //   // bigLargeIconUrl: 'https://www.example.tld/bigicon.jpg', // (optional) default: undefined
+    //   // color: 'red', // (optional) default: system default
+    //   vibrate: true, // (optional) default: true
+    //   vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000
+    //   tag: 'some_tag', // (optional) add tag to message
+    //   group: 'group', // (optional) add group to message
+    //   groupSummary: false, // (optional) set this notification to be the group summary for a group of notifications, default: false
+    //   ongoing: false, // (optional) set whether this is an "ongoing" notification
+    //   priority: 'high', // (optional) set notification priority, default: high
+    //   visibility: 'private', // (optional) set notification visibility, default: private
+    //   ignoreInForeground: false, // (optional) if true, the notification will not be visible when the app is in the foreground (useful for parity with how iOS notifications appear). should be used in combine with `com.dieam.reactnativepushnotification.notification_foreground` setting
+    //   shortcutId: 'shortcut-id', // (optional) If this notification is duplicative of a Launcher shortcut, sets the id of the shortcut, in case the Launcher wants to hide the shortcut, default undefined
+    //   onlyAlertOnce: true, // (optional) alert will open only once with sound and notify, default: false
+
+    //   when: null, // (optional) Add a timestamp (Unix timestamp value in milliseconds) pertaining to the notification (usually the time the event occurred). For apps targeting Build.VERSION_CODES.N and above, this time is not shown anymore by default and must be opted into by using `showWhen`, default: null.
+    //   usesChronometer: false, // (optional) Show the `when` field as a stopwatch. Instead of presenting `when` as a timestamp, the notification will show an automatically updating display of the minutes and seconds since when. Useful when showing an elapsed time (like an ongoing phone call), default: false.
+    //   timeoutAfter: null, // (optional) Specifies a duration in milliseconds after which this notification should be canceled, if it is not already canceled, default: null
+
+    //   messageId: `${number}:${id}`, // (optional) added as `message_id` to intent extras so opening push notification can find data stored by @react-native-firebase/messaging module.
+
+    //   // actions: ['Yes', 'No'], // (Android only) See the doc for notification actions to know more
+    //   invokeApp: true, // (optional) This enable click on actions to bring back the application to foreground or stay in background, default: true
+    //   // repeatType: 'day', // (optional) Repeating interval. Check 'Repeating Notifications' section for more info.
+    //   /* iOS only properties */
+    //   category: '', // (optional) default: empty string
+    //   // subtitle: 'My Notification Subtitle', // (optional) smaller title below notification title
+
+    //   /* iOS and Android properties */
+    //   id, // (optional) Valid unique 32 bit integer specified as string. default: Autogenerated Unique ID
+    //   title: title, // (optional)
+    //   message: body, // (required)
+    //   // picture: 'https://www.example.tld/picture.jpg', // (optional) Display an picture with the notification, alias of `bigPictureUrl` for Android. default: undefined
+    //   userInfo: {}, // (optional) default: {} (using null throws a JSON value '<null>' error)
+    //   playSound: true, // (optional) default: true
+    //   importance: Importance.HIGH,
+    //   soundName: 'notification.mp3', // (optional) Sound to play when the notification is shown. Value of 'default' plays the default sound. It can be set to a custom sound such as 'android.resource://com.xyz/raw/my_sound'. It will look for the 'my_sound' audio file in 'res/raw' directory and play it. default: 'default' (default sound is played)
+    //   number, // (optional) Valid 32 bit integer specified as string. default: none (Cannot be zero)
+    // });
+  
+  return (
+    <NavigationContainer>
+     <Stack.Navigator>
+      <Stack.Screen name="Home Screen" component={HomeScreen} />
+
+        <Stack.Screen
+          name="PhoneVerifyScreen"
+          component={PhoneVerifyScreen}
+          options={{ title: 'Phone Verify Screen' }}
+        />
+        <Stack.Screen
+          name="ResultScreen"
+          component={ResultScreen}
+          options={{ title: 'Result Screen' }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 
 export default App;

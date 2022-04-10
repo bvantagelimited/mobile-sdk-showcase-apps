@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.firstapp">
+  package="com.ipification.demoapp">
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -38,6 +39,28 @@
                   android:scheme="https" />
           </intent-filter>
       </activity>
+
+      <!-- <service
+      android:name=".CustomFirebaseMessagingService"
+      android:exported="false">
+      <intent-filter>
+          <action android:name="com.google.firebase.MESSAGING_EVENT" />
+      </intent-filter>
+  </service> -->
+
+  <!-- <meta-data
+      android:name="com.google.firebase.messaging.default_notification_channel_id"
+      android:value="@string/notification_channel_id" /> -->
+  <!-- <meta-data
+      android:name="com.google.firebase.messaging.default_notification_icon"
+      android:resource="@mipmap/ic_launcher" /> -->
+      <!-- <meta-data
+      android:name="com.google.firebase.messaging.default_notification_channel_id"
+      android:value="@string/default_notification_channel_id" /> -->
+      <!-- <meta-data
+      android:name="com.google.firebase.messaging.default_notification_channel_id"
+      android:value="first_app" /> -->
+
     </application>
 
 </manifest>

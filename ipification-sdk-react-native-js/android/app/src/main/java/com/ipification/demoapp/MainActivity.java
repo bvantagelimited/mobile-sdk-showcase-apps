@@ -1,4 +1,4 @@
-package com.firstapp;
+package com.ipification.demoapp;
 
 import com.facebook.react.ReactActivity;
 

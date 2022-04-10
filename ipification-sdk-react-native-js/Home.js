@@ -24,6 +24,7 @@ const HomeScreen = ({navigation}) => {
 
   useEffect(() => {
     localize()
+    
   }, []);
   localize = async () => {
     if (Platform.OS === 'android') {
@@ -73,12 +74,13 @@ const HomeScreen = ({navigation}) => {
   
 
   doIMAuthentication = () => {
-    // var state = getRandomValues(); // optional
-    console.log("2. do IM Authentication");
+    var state = Constants.CURRENT_STATE
+    console.log("2. do IM Authentication with state", state);
     RNAuthenticationService.startAuthorization(
       {
         scope: "openid ip:phone",
         channel: "wa viber telegram",
+        state: state
       },
       (error, code, state, fullResponse) => {
         console.log(code, state, fullResponse, error);
@@ -115,6 +117,8 @@ const HomeScreen = ({navigation}) => {
     }
     formBody = formBody.join("&");
     // console.log(formBody)
+
+
     fetch(Constants.TOKEN_URL, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
