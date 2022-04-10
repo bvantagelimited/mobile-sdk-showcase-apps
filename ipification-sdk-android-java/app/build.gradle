@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     buildToolsVersion "29.0.3"
 
     lintOptions {
@@ -13,9 +13,9 @@ android {
     defaultConfig {
         applicationId "com.ipification.demoapp"
         minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 18
-        versionName "2.0.0"
+        targetSdkVersion 30
+        versionCode 21
+        versionName "2.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -34,7 +34,7 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.ipification.mobile.android:ipification-auth:2.0.0'
+    implementation 'com.ipification.mobile.android:ipification-auth:2.0.2'
 
     implementation 'com.auth0.android:jwtdecode:2.0.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'
