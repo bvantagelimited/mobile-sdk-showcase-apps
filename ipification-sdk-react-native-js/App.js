@@ -88,12 +88,14 @@ const App = () => {
 
   const display = (remoteMessage) => {
     console.log(remoteMessage)
-    RNIPNotification.showNotification(
-      "IPification",
-      remoteMessage.data.body,
-      "mipmap",
-      "ic_notification"
-    );
+    if(Platform.OS == "android"){
+      RNIPNotification.showNotification(
+        "IPification",
+        remoteMessage.data.body,
+        "mipmap",
+        "ic_notification"
+      );
+    }
   };
   // do at your backend server
   registerDeviceToServer = async (device_id, device_token) => {
