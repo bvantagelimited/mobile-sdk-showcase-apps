@@ -7,80 +7,87 @@
  */
 import React, { useEffect, useState } from "react";
 import {
-  NativeModules, Platform, SafeAreaView,
-  StyleSheet, Text, TouchableOpacity, View
+  NativeModules,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import Constants from "./Constants";
 
-const { RNAuthenticationService , RNIPConfiguration} = NativeModules;
+const { RNAuthenticationService, RNIPConfiguration } = NativeModules;
 
-
-const HomeScreen = ({navigation}) => {
- 
+const HomeScreen = ({ navigation }) => {
   const [authorizationResult, setAuthorizationResult] = useState();
   const [disabled, setDisabled] = useState(false);
 
-
   useEffect(() => {
-    localize()
-    
+    localize();
   }, []);
   localize = async () => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       RNAuthenticationService.updateAndroidLocale({
-        "mainTitle": "Phone Number Verification",
-        "description": "Please tap on the preferred messaging app then follow instructions on the screen",
-        "whatsappBtnText": "Login with WhatsApp",
-        "telegramBtnText": "Login with Telegram",
-        "viberBtnText": "Login with Viber"
-      })
+        mainTitle: "Phone Number Verification",
+        description:
+          "Please tap on the preferred messaging app then follow instructions on the screen",
+        whatsappBtnText: "Login with WhatsApp C",
+        telegramBtnText: "Login with Telegram",
+        viberBtnText: "Login with Viber",
+      });
       RNAuthenticationService.updateAndroidTheme({
-        "backgroundColor": "#ffffff",
-        "toolbarTextColor": "#000000",
-        "toolbarColor": "#000000",
-        "toolbarTitle": "toolbarTitle",
-        "isVisible": false
-      })
+        backgroundColor: "#ffffff",
+        toolbarTextColor: "#000000",
+        toolbarColor: "#000000",
+        toolbarTitle: "toolbarTitle",
+        isVisible: false,
+      });
     }
+
+    // set configuration runtime
     // RNIPConfiguration.setCheckCoverageUrl("https://stage.ipification.com/auth/realms/ipification/coverage/202.175.50.128")
     // RNIPConfiguration.setAuthorizationUrl("https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth")
     // RNIPConfiguration.setClientId("your-clien-id")
     // RNIPConfiguration.setRedirectUri("your-redirect-uri")
+    
+    // android only
     // RNIPConfiguration.setConfigFileName("ipification-services_dev.json")
-    RNIPConfiguration.enableValidateIMApps(false)
+    
+    // RNIPConfiguration.enableValidateIMApps(false);
 
     // var clientId = await RNIPConfiguration.getClientId()
     // var redirectUri = await RNIPConfiguration.getRedirectUri()
 
-    if (Platform.OS === 'ios') {
+    if (Platform.OS === "ios") {
       RNAuthenticationService.updateIOSLocale({
-        "titleBar": "IPification",
-        "description": "Please tap on the preferred messaging app then follow instructions on the screen",
-        "whatsappBtnText": "Login with WhatsApp",
-        "telegramBtnText": "Login with Telegram",
-        "viberBtnText": "Login with Viber",
-        "cancelBtnText": "Cancel"
-      })
+        titleBar: "IPification",
+        description:
+          "Please tap on the preferred messaging app then follow instructions on the screen",
+        whatsappBtnText: "Login with WhatsApp",
+        telegramBtnText: "Login with Telegram",
+        viberBtnText: "Login with Viber",
+        cancelBtnText: "Cancel",
+      });
       RNAuthenticationService.updateIOSTheme({
-        "toolbarTitleColor": "#000000",
-        "cancelBtnColor": "#000000",
-        "titleColor": "#000000",
-        "descColor": "#000000",
-        "backgroundColor": "#ffffff"
-      })
+        toolbarTitleColor: "#000000",
+        cancelBtnColor: "#000000",
+        titleColor: "#000000",
+        descColor: "#000000",
+        backgroundColor: "#ffffff",
+      });
     }
   };
-  
 
   doIMAuthentication = () => {
-    var state = Constants.CURRENT_STATE
+    var state = Constants.CURRENT_STATE;
     console.log("2. do IM Authentication with state", state);
     RNAuthenticationService.startAuthorization(
       {
         scope: "openid ip:phone",
         channel: "wa viber telegram",
-        state: state
+        state: state,
       },
       (error, code, state, fullResponse) => {
         console.log(code, state, fullResponse, error);
@@ -94,13 +101,13 @@ const HomeScreen = ({navigation}) => {
       }
     );
   };
-  
+
   // do at your backend server
   doTokenExchange = async () => {
     console.log("3. do Token Exchange (call from your backend service)");
 
-    var client_id = await RNIPConfiguration.getClientId()
-    var redirect_uri = await RNIPConfiguration.getRedirectUri()
+    var client_id = await RNIPConfiguration.getClientId();
+    var redirect_uri = await RNIPConfiguration.getRedirectUri();
 
     var details = {
       client_id: client_id,
@@ -118,7 +125,6 @@ const HomeScreen = ({navigation}) => {
     formBody = formBody.join("&");
     // console.log(formBody)
 
-
     fetch(Constants.TOKEN_URL, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -131,14 +137,14 @@ const HomeScreen = ({navigation}) => {
           navigation.navigate("ResultScreen", {
             name: "ResultScreen",
             success: true,
-            accessToken: responseJson["access_token"]
-          })
+            accessToken: responseJson["access_token"],
+          });
         } else {
           navigation.navigate("ResultScreen", {
             name: "Result",
             success: false,
-            error: JSON.stringify(responseJson)
-          })
+            error: JSON.stringify(responseJson),
+          });
         }
       })
       .catch((error) => {
@@ -168,7 +174,6 @@ const HomeScreen = ({navigation}) => {
   //   return result;
   // };
 
-  
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.wrapper}>
@@ -181,9 +186,14 @@ const HomeScreen = ({navigation}) => {
             })
           }
         >
-        <Text style={styles.IPbuttonText}>Phone Verify</Text>
+          <Text style={styles.IPbuttonText}>Phone Verify</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.imbutton} onPress={() => {doIMAuthentication()}}>
+        <TouchableOpacity
+          style={styles.imbutton}
+          onPress={() => {
+            doIMAuthentication();
+          }}
+        >
           <Text style={styles.IMbuttonText}>IM Login</Text>
         </TouchableOpacity>
       </SafeAreaView>
@@ -216,7 +226,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.34,
     shadowRadius: 6.27,
     elevation: 10,
-    borderRadius: 5
+    borderRadius: 5,
   },
   ipbutton: {
     marginTop: 20,
@@ -233,7 +243,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.34,
     shadowRadius: 6.27,
     elevation: 10,
-    borderRadius: 5
+    borderRadius: 5,
   },
   IMbuttonText: {
     color: "white",

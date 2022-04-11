@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 import React, { useState, useRef, useEffect } from "react";
-import { Keyboard } from 'react-native'
+import { Keyboard } from "react-native";
 
 import {
   SafeAreaView,
@@ -16,15 +16,15 @@ import {
   Text,
   NativeModules,
 } from "react-native";
-const { RNCoverageService, RNAuthenticationService , RNIPConfiguration} = NativeModules;
+const { RNCoverageService, RNAuthenticationService, RNIPConfiguration } =
+  NativeModules;
 import { Platform } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import PhoneInput from "react-native-phone-number-input";
 
 import Constants from "./Constants";
 
-const PhoneVerifyScreen = ({navigation}) => {
- 
+const PhoneVerifyScreen = ({ navigation }) => {
   const [phoneNumber, setPhoneNumnber] = useState("");
   const [token, setToken] = useState("");
   const [formattedValue, setFormattedValue] = useState("");
@@ -34,21 +34,22 @@ const PhoneVerifyScreen = ({navigation}) => {
   const [showMessage, setShowMessage] = useState(false);
   const phoneInput = useRef<PhoneInput>(null);
 
-  useEffect(() => {
-    
-  }, []);
-  
-  checkCoverage = () => {
-    Keyboard.dismiss()
+  useEffect(() => {}, []);
 
-    
+  checkCoverage = () => {
+    Keyboard.dismiss();
+
     console.log("1. check Coverage");
     RNCoverageService.checkCoverage((error, isAvailable, operatorCode) => {
-      console.log("Check Coverage Result - isAvailable ", isAvailable, operatorCode, error);
+      console.log(
+        "Check Coverage Result - isAvailable ",
+        isAvailable,
+        operatorCode,
+        error
+      );
       if (isAvailable) {
         setCoverageResult(isAvailable);
         doIPAuthentication();
-       
       } else {
         setCoverageResult(isAvailable || error);
         setDisabled(false);
@@ -56,14 +57,13 @@ const PhoneVerifyScreen = ({navigation}) => {
     });
   };
 
-  
   doIPAuthentication = () => {
     // var state = getRandomValues(); // optional
     console.log("2. do IM Authentication");
     RNAuthenticationService.startAuthorization(
       {
         scope: "openid ip:phone_verify",
-        login_hint: formattedValue
+        login_hint: formattedValue,
       },
       (error, code, state, fullResponse) => {
         console.log(code, state, fullResponse, error);
@@ -81,9 +81,9 @@ const PhoneVerifyScreen = ({navigation}) => {
   doTokenExchange = async () => {
     console.log("3. do Token Exchange (call from your backend service)");
 
-    var client_id = await RNIPConfiguration.getClientId()
+    var client_id = await RNIPConfiguration.getClientId();
     console.log("client_id,", client_id);
-    var redirect_uri = await RNIPConfiguration.getRedirectUri()
+    var redirect_uri = await RNIPConfiguration.getRedirectUri();
     var details = {
       client_id: client_id,
       grant_type: "authorization_code",
@@ -106,20 +106,20 @@ const PhoneVerifyScreen = ({navigation}) => {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson)
+        console.log(responseJson);
         if (responseJson["access_token"]) {
-          setToken(responseJson["access_token"])
+          setToken(responseJson["access_token"]);
           navigation.navigate("ResultScreen", {
             name: "ResultScreen",
             success: true,
-            accessToken: responseJson["access_token"]
-          })
+            accessToken: responseJson["access_token"],
+          });
         } else {
           navigation.navigate("ResultScreen", {
             name: "Result",
             success: false,
-            error: JSON.stringify(responseJson)
-          })
+            error: JSON.stringify(responseJson),
+          });
         }
       })
       .catch((error) => {
@@ -137,13 +137,10 @@ const PhoneVerifyScreen = ({navigation}) => {
     };
   }, []);
   //util
-  
 
-  
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.wrapper}>
-       
         <PhoneInput
           ref={phoneInput}
           defaultValue={phoneNumber}
@@ -171,7 +168,7 @@ const PhoneVerifyScreen = ({navigation}) => {
                 ? "true"
                 : coverageResult == false
                 ? "false"
-                : "false - " +coverageResult}
+                : "false - " + coverageResult}
             </Text>
             <Text>2. Do Authentication - Result : {authorizationResult}</Text>
             <Text>3. Token Exchange - Access Token : {token}</Text>
