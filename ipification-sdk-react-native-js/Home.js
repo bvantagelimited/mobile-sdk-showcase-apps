@@ -57,8 +57,7 @@ const HomeScreen = ({ navigation }) => {
     
     // RNIPConfiguration.enableValidateIMApps(false);
 
-    // var clientId = await RNIPConfiguration.getClientId()
-    // var redirectUri = await RNIPConfiguration.getRedirectUri()
+    
 
     if (Platform.OS === "ios") {
       RNAuthenticationService.updateIOSLocale({
@@ -104,6 +103,16 @@ const HomeScreen = ({ navigation }) => {
 
   // do at your backend server
   doTokenExchange = async () => {
+
+    var clientId = await RNIPConfiguration.getClientId()
+    console.log(clientId)
+    var redirectUri = await RNIPConfiguration.getRedirectUri()
+    console.log(redirectUri)
+    var coverageUrl = await RNIPConfiguration.getCheckCoverageUrl()
+    console.log(coverageUrl)
+    var authUrl = await RNIPConfiguration.getAuthorizationUrl()
+    console.log(authUrl)
+    
     console.log("3. do Token Exchange (call from your backend service)");
 
     var client_id = await RNIPConfiguration.getClientId();
