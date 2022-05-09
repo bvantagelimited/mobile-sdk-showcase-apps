@@ -2,11 +2,11 @@
   "object": {
     "pins": [
       {
-        "package": "IPificationFramework",
-        "repositoryURL": "https://github.com/bvantagelimited/IPificationSwiftDistribution.git",
+        "package": "IPificationSDK",
+        "repositoryURL": "https://github.com/bvantagelimited/IPificationSwiftDistribution",
         "state": {
-          "branch": null,
-          "revision": "6bc305de721dc5a8df3da61804dcde8d95c2e5cd",
+          "branch": "master",
+          "revision": "418c1d65eb0db8e0c858e5b31269151bbdb3b718",
           "version": null
         }
       }
