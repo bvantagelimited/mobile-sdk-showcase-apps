@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A0F0BBA2809BA2D000BB8F9 /* IPificationSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0A0F0BB92809BA2D000BB8F9 /* IPificationSDK */; };
 		0A16D1A5276B6FA0007F0EB8 /* FailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A16D1A4276B6FA0007F0EB8 /* FailViewController.swift */; };
 		0A81B41B278D99BE00B46746 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A81B418278D99BE00B46746 /* GoogleService-Info.plist */; };
 		0A8B3FC4261B4D3400FA3DE0 /* SuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8B3FC3261B4D3400FA3DE0 /* SuccessViewController.swift */; };
@@ -24,6 +23,7 @@
 		0ADC4736279A4A62004B9C7B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADC4735279A4A62004B9C7B /* Constants.swift */; };
 		0ADC473C279A4FD0004B9C7B /* TokenInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADC473B279A4FD0004B9C7B /* TokenInfo.swift */; };
 		0ADC473E279A503D004B9C7B /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADC473D279A503D004B9C7B /* Util.swift */; };
+		0AF9B94E282E971C006696F2 /* IPificationSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0AF9B94D282E971C006696F2 /* IPificationSDK */; };
 		A591AA3726AAC2EFB1B72B95 /* Pods_IPificationSDK_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EE857D6521419F86EA13A94 /* Pods_IPificationSDK_Demo.framework */; };
 /* End PBXBuildFile section */
 
@@ -74,7 +74,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A591AA3726AAC2EFB1B72B95 /* Pods_IPificationSDK_Demo.framework in Frameworks */,
-				0A0F0BBA2809BA2D000BB8F9 /* IPificationSDK in Frameworks */,
+				0AF9B94E282E971C006696F2 /* IPificationSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,7 +180,7 @@
 			);
 			name = "IPificationSDK-Demo";
 			packageProductDependencies = (
-				0A0F0BB92809BA2D000BB8F9 /* IPificationSDK */,
+				0AF9B94D282E971C006696F2 /* IPificationSDK */,
 			);
 			productName = "IPificationSDK-Demo";
 			productReference = 0AD40BA9248753FA00B0D1A6 /* IPificationSDK-Demo.app */;
@@ -211,7 +211,7 @@
 			);
 			mainGroup = 0AD40BA0248753FA00B0D1A6;
 			packageReferences = (
-				0A0F0BB82809BA2D000BB8F9 /* XCRemoteSwiftPackageReference "IPificationSwiftDistribution" */,
+				0AF9B94C282E971C006696F2 /* XCRemoteSwiftPackageReference "IPificationSwiftDistribution" */,
 			);
 			productRefGroup = 0AD40BAA248753FA00B0D1A6 /* Products */;
 			projectDirPath = "";
@@ -512,20 +512,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		0A0F0BB82809BA2D000BB8F9 /* XCRemoteSwiftPackageReference "IPificationSwiftDistribution" */ = {
+		0AF9B94C282E971C006696F2 /* XCRemoteSwiftPackageReference "IPificationSwiftDistribution" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/bvantagelimited/IPificationSwiftDistribution";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = exactVersion;
+				version = 2.0.3;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0A0F0BB92809BA2D000BB8F9 /* IPificationSDK */ = {
+		0AF9B94D282E971C006696F2 /* IPificationSDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0A0F0BB82809BA2D000BB8F9 /* XCRemoteSwiftPackageReference "IPificationSwiftDistribution" */;
+			package = 0AF9B94C282E971C006696F2 /* XCRemoteSwiftPackageReference "IPificationSwiftDistribution" */;
 			productName = IPificationSDK;
 		};
 /* End XCSwiftPackageProductDependency section */

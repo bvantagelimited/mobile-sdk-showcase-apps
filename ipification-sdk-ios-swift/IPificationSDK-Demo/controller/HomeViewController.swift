@@ -68,6 +68,7 @@ class HomeViewController : BaseViewController{
     }
     
     private func startIMAuthorization() {
+        IPConfiguration.sharedInstance.debug = true
         showLoadingViewAutoEnd()
         let d = Date()
         let df = DateFormatter()

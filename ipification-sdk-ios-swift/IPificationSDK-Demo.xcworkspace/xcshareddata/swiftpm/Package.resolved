@@ -1,16 +1,14 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "IPificationSDK",
-        "repositoryURL": "https://github.com/bvantagelimited/IPificationSwiftDistribution",
-        "state": {
-          "branch": "master",
-          "revision": "418c1d65eb0db8e0c858e5b31269151bbdb3b718",
-          "version": null
-        }
+  "pins" : [
+    {
+      "identity" : "ipificationswiftdistribution",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/bvantagelimited/IPificationSwiftDistribution.git",
+      "state" : {
+        "revision" : "418c1d65eb0db8e0c858e5b31269151bbdb3b718",
+        "version" : "2.0.3"
       }
-    ]
-  },
-  "version": 1
+    }
+  ],
+  "version" : 2
 }

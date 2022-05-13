@@ -55,7 +55,7 @@ class IPViewController: BaseViewController {
     
     // call IPification Authorization API with IM Flow
     func doIPIMAuthorization() {
-        
+        IPConfiguration.sharedInstance.debug = true
         var phone = phoneInputTextField.text!
         if(phone == ""){
             logText = "\n phone number error : \(phone)! \n"
