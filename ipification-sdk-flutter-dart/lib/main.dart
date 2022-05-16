@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
                         InternationalPhoneNumberInput(
                           onInputChanged: (PhoneNumber number) {
                             setState(() {
-                              _phoneNum = number.phoneNumber;
+                              _phoneNum = number.phoneNumber ?? "";
                             });
                           },
                           hintText: "123456789",
@@ -140,7 +140,7 @@ class _MyAppState extends State<MyApp> {
             (fail) => {errMessage = fail, showMessage(errMessage)});
       }
     } on PlatformException catch (e) {
-      errMessage = e.code + "\n" + e.message;
+      errMessage = e.code + "\n" + (e.message ?? "");
       showMessage(errMessage);
     }
   }
@@ -160,7 +160,7 @@ class _MyAppState extends State<MyApp> {
     };
     var client = http.Client();
     try {
-      var responseJson = await client.post(TOKEN_URL, body: details);
+      var responseJson = await client.post(Uri.parse(TOKEN_URL), body: details);
       // responseJson["access_token"]
 
       Map<String, dynamic> parse = jsonDecode(responseJson.body);
@@ -187,10 +187,26 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void init() {
+    IpSdk.setCheckCoverageUrl(
+        "https://stage.ipification.com/auth/realms/ipification/coverage/202.175.50.128");
+    IpSdk.setAuthorizationUrl(
+        "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth");
+
+    IpSdk.setClientId("6f2026a683bc439ebb414a03f9012f27");
+    IpSdk.setRedirectUri("https://api.dev.ipification.com/api/v1/callback");
+  }
+
+  void init2() {
+    IpSdk.setAuthorizationServiceConfiguration("ipification-services-dev.json");
+  }
+
   Future<void> startFlow() async {
+    init();
+
     FocusScope.of(context).requestFocus(new FocusNode());
 
-    String errMessage;
+    String errMessage = "your Telco is not supported IPification";
     try {
       setState(() {
         alertMessage = "Checking Coverage";
@@ -210,12 +226,12 @@ class _MyAppState extends State<MyApp> {
       showMessage("supported network: $isAvailable $operatorCode");
     } on PlatformException catch (e) {
       isAvailable = false;
-      errMessage = e.code + "\n" + e.message;
+      errMessage = e.code + "\n" + (e.message ?? "");
     }
     if (isAvailable == true) {
       doAuthorization();
     } else {
-      errMessage = errMessage ?? "your Telco is not supported IPification";
+      errMessage = errMessage;
       showMessage(errMessage);
     }
   }
