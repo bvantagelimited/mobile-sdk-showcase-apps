@@ -106,19 +106,18 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+
+  // TODO
   void init() {
     IpSdk.setCheckCoverageUrl(
         "https://stage.ipification.com/auth/realms/ipification/coverage/202.175.50.128");
     IpSdk.setAuthorizationUrl(
         "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth");
 
-    IpSdk.setClientId("6f2026a683bc439ebb414a03f9012f27");
-    IpSdk.setRedirectUri("https://api.dev.ipification.com/api/v1/callback");
+    IpSdk.setClientId("your-client-id");
+    IpSdk.setRedirectUri("your-redirect-uri");
   }
 
-  // void initAndroidOnly() {
-  //   IpSdk.setAuthorizationServiceConfiguration("ipification-services-dev.json");
-  // }
 
   Future<void> startFlow() async {
     init();
