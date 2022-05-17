@@ -4,13 +4,33 @@ Demonstrates how to use the ip_sdk plugin.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+1. Download IPification plugin, copy its path and update `ip_sdk` location in `pubspec.yaml`
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+```
+dependencies:
+  ip_sdk:
+    path: ./IPification-Flutter-Plugin
+```
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+2. Save or Run `pub get` to update the dependencies
+
+
+3. In `lib/main.dart`, let update init() function with your configuration:
+
+```
+IpSdk.setCheckCoverageUrl(
+        "https://stage.ipification.com/auth/realms/ipification/coverage");
+IpSdk.setAuthorizationUrl(
+    "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth");
+
+IpSdk.setClientId("your-client-id");
+IpSdk.setRedirectUri("your-redirect-uri");
+    
+```
+
+
+4. In `lib/constant.dart`, update `YOUR_CLIENT_SECRET` with your provided `client_secret`
+
+5. Run `flutter clean / flutter run` to start project
+
