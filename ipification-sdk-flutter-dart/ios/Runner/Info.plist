@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AUTHORIZATION_URL</key>
+	<string>$(AUTHORIZATION_URL)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -15,21 +17,19 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$(FLUTTER_BUILD_NAME)</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
-	<key>COVERAGE_ENDPOINT</key>
-	<string>$(COVERAGE_ENDPOINT)</string>
-	<key>AUTHORIZATION_URL</key>
-	<string>$(AUTHORIZATION_URL)</string>
-	<key>REDIRECT_URI</key>
-	<string>$(REDIRECT_URI)</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>CLIENT_ID</key>
 	<string>$(CLIENT_ID)</string>
+	<key>COVERAGE_ENDPOINT</key>
+	<string>$(COVERAGE_ENDPOINT)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>REDIRECT_URI</key>
+	<string>$(REDIRECT_URI)</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

@@ -1,7 +1,2 @@
 #include "Pods/Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"
 #include "Generated.xcconfig"
-COVERAGE_ENDPOINT = https:\/\/stage.ipification.com/auth/realms/ipification/coverage/202.175.50.128
-AUTHORIZATION_URL = https:\/\/stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth
-REDIRECT_URI = https:\/\/api.dev.ipification.com/api/v1/callback
-CLIENT_ID = your_client_id
-
