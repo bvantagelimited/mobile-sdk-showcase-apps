@@ -32,6 +32,25 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.ipification.mobile.sdk.im.ui.IMVerificationActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan"
+            android:launchMode="singleInstance"
+            android:theme="@style/Theme.AppCompat.Light"
+            >
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="im.ipification.com"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

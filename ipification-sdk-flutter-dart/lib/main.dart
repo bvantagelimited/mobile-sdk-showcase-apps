@@ -1,17 +1,19 @@
 import 'dart:async';
-import 'dart:convert';
-import "dart:developer";
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:ip_sdk/ip_sdk.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:ip_sdk_example/failed.dart';
+import 'package:ip_sdk_example/network.dart';
+import 'package:ip_sdk_example/phone_verify.dart';
+import 'package:ip_sdk_example/success.dart';
+import 'package:ipification_plugin/ipification.dart';
 
 void main() {
-  runApp(MaterialApp(home: MyApp()));
+  runApp(MaterialApp(
+    home: MyApp(),
+    theme: ThemeData(brightness: Brightness.dark, primaryColor: Colors.red),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -20,165 +22,150 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String authCode = '';
+  String? authCode = '';
   String alertMessage = '';
-  bool isAvailable = false;
-  final String TOKEN_URL =
-      "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/token";
-
-  final String YOUR_CLIENT_SECRET = '';
-
-  final String countryCode = "381";
-  final String phoneNumber = "123456789";
-  String _phoneNum = "381123456789";
-
-  final TextEditingController controller = TextEditingController();
-  String initialCountry = 'RS';
-  PhoneNumber number = PhoneNumber(isoCode: 'RS', phoneNumber: "123456789");
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('IPification SDK example'),
+        title: const Text('IPification Demo App'),
       ),
       body: ConstrainedBox(
           constraints: const BoxConstraints.expand(),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(height: 50),
-                        InternationalPhoneNumberInput(
-                          onInputChanged: (PhoneNumber number) {
-                            setState(() {
-                              _phoneNum = number.phoneNumber;
-                            });
-                          },
-                          hintText: "123456789",
-                          onInputValidated: (bool value) {
-                            // print(value);
-                          },
-                          selectorConfig: SelectorConfig(
-                            selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                          ),
-                          ignoreBlank: true,
-                          autoValidateMode: AutovalidateMode.disabled,
-                          selectorTextStyle: TextStyle(color: Colors.black),
-                          initialValue: number,
-                          textFieldController: controller,
-                          formatInput: true,
-                          keyboardType: TextInputType.numberWithOptions(
-                              signed: true, decimal: true),
-                          inputBorder: OutlineInputBorder(),
-                          onSaved: (PhoneNumber number) {
-                            // print('On Saved: $number');
-                          },
-                        ),
-                        SizedBox(height: 30),
-                        ElevatedButton(
-                          child: const Text('Authenticating'),
-                          onPressed: startFlow,
-                        ),
-                        SizedBox(height: 30),
-                        Text('Result: $alertMessage\n',
-                            textAlign: TextAlign.center),
-                      ],
-                    ))
-              ])),
+          child: Stack(children: [
+            Align(
+              alignment: Alignment.center,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(height: 50),
+                            Text('Choose your login option:',
+                                style: TextStyle(fontSize: 16),
+                                textAlign: TextAlign.center),
+                            SizedBox(height: 20),
+                            ButtonTheme(
+                              height: 40.0,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.7,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Colors.red,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 50, vertical: 15),
+                                      textStyle: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold)),
+                                  child: const Text('Phone Number Verify'),
+                                  onPressed: startIPFlow,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 30),
+                            ButtonTheme(
+                                minWidth:
+                                    MediaQuery.of(context).size.width * 0.8,
+                                height: 40.0,
+                                child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.7,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        primary: Colors.green,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 50, vertical: 15),
+                                        textStyle: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold)),
+                                    child: const Text('Login via IM'),
+                                    onPressed: startIMFlow,
+                                  ),
+                                )),
+                            SizedBox(height: 30),
+                            Text('$alertMessage\n',
+                                textAlign: TextAlign.center),
+                            SizedBox(height: 100),
+                          ],
+                        ))
+                  ]),
+            ),
+            Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Text('Powered By : IPification',
+                      textAlign: TextAlign.center),
+                ))
+          ])),
     );
   }
 
   @override
   void deactivate() {
-    if (Platform.isAndroid) {
-      IpSdk.unregisterNetwork();
-    }
+    // if (Platform.isAndroid) {
+    //   IPificationPlugin.unregisterNetwork();
+    // }
     super.deactivate();
+  }
+
+  void init() {
+    IPificationPlugin.setCheckCoverageUrl(
+        "https://stage.ipification.com/auth/realms/ipification/coverage/");
+    IPificationPlugin.setAuthorizationUrl(
+        "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth");
+    IPificationPlugin.setClientId("6f2026a683bc439ebb414a03f9012f27");
+    IPificationPlugin.setRedirectUri(
+        "https://api.dev.ipification.com/api/v1/callback");
   }
 
   void doAuthorization() async {
     String errMessage;
     try {
-      // if (Platform.isAndroid) {
-      //   IpSdk.setAuthorizationServiceConfiguration("ipification_services");
-      // }
-      if (_phoneNum.isEmpty) {
-        showMessage("please input your phone number");
-        return;
-      }
-      _phoneNum = _phoneNum.replaceAll("+", "");
-
       showMessage("call authentication service");
-      print(_phoneNum);
-      IpSdk.setScope(value: "openid");
+      IPificationPlugin.setScope(value: "openid ip:phone");
 
       // authenCode = await IpSdk.doAuthentication(loginHint: _phoneNum);
-      var authResponse = await IpSdk.doAuthentication(loginHint: _phoneNum);
+      var authResponse = await IPificationPlugin.doIMAuthentication(
+          channel: "wa telegram viber");
       authCode = authResponse.code;
       print(authCode);
       print(authResponse.state);
       showMessage("authCode $authCode");
 
-      if (authCode.isNotEmpty) {
+      if (authCode?.isNotEmpty != null) {
         var successMessage = "";
-        await doTokenExchange(
+        await IPNetwork.doTokenExchange(
             authCode,
-            (success) => {
-                  successMessage =
-                      "got accessToken with Phone Number verified: ${success['phone_number_verified']}" +
-                          "\n\n" +
-                          "MobileId: ${success['mobile_id']}" +
-                          "\n\n" +
-                          "Sub: ${success['sub']}",
-                  showMessage(successMessage)
-                },
+            (success) => {checkResult(success)},
             (fail) => {errMessage = fail, showMessage(errMessage)});
       }
     } on PlatformException catch (e) {
-      errMessage = e.code + "\n" + e.message;
+      errMessage = e.code + "\n" + (e.message ?? "");
       showMessage(errMessage);
     }
   }
 
-  Future<void> doTokenExchange(var authCode,
-      Function(Map<String, dynamic>) success, Function(String) fail) async {
-    var clientID = await IpSdk.getConfigurationByName("client_id");
-    String redirectURI = await IpSdk.getConfigurationByName("redirect_uri");
-    print("client_id:$clientID");
-    print("redirect_uri:$redirectURI");
-    var details = {
-      'client_id': clientID,
-      'grant_type': 'authorization_code',
-      'client_secret': YOUR_CLIENT_SECRET,
-      'redirect_uri': redirectURI,
-      'code': authCode
-    };
-    var client = http.Client();
-    try {
-      var responseJson = await client.post(TOKEN_URL, body: details);
-      // responseJson["access_token"]
-
-      Map<String, dynamic> parse = jsonDecode(responseJson.body);
-      if (responseJson.statusCode == 200) {
-        Map<String, dynamic> decodedToken =
-            JwtDecoder.decode(parse["access_token"]);
-        log("responseJson: ${decodedToken.toString()}");
-        decodedToken["access_token"] = parse["access_token"];
-        success(decodedToken);
-      } else {
-        fail(parse["error_description"]);
-      }
-    } finally {
-      client.close();
-    }
+  void goSuccessPage(String responseMessage) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) =>
+              SuccessScreen(responseMessage: responseMessage)),
+    );
   }
 
-  void nextPage() {}
+  void goFailPage(String responseMessage) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => FailScreen(responseMessage: responseMessage)),
+    );
+  }
 
   void showMessage(String message) {
     if (!mounted) return;
@@ -187,36 +174,22 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  Future<void> startFlow() async {
+  Future<void> startIPFlow() async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PhoneVerifyScreen()),
+    );
+  }
+
+  Future<void> startIMFlow() async {
+    init();
+
     FocusScope.of(context).requestFocus(new FocusNode());
 
-    String errMessage;
-    try {
-      setState(() {
-        alertMessage = "Checking Coverage";
-      });
-      // if (Platform.isAndroid) {
-      //   IpSdk.setAuthorizationServiceConfiguration("ipification_services");
-      // }
+    doAuthorization();
+  }
 
-      // isAvailable = await IpSdk.checkCoverage;
-      var coverageResponse = await IpSdk.checkCoverage();
-      isAvailable = coverageResponse.isAvailable;
-      print("isAvailable $isAvailable");
-
-      var operatorCode = coverageResponse.operatorCode;
-      print("operatorCode $operatorCode");
-
-      showMessage("supported network: $isAvailable $operatorCode");
-    } on PlatformException catch (e) {
-      isAvailable = false;
-      errMessage = e.code + "\n" + e.message;
-    }
-    if (isAvailable == true) {
-      doAuthorization();
-    } else {
-      errMessage = errMessage ?? "your Telco is not supported IPification";
-      showMessage(errMessage);
-    }
+  checkResult(String success) {
+    goSuccessPage(success);
   }
 }
