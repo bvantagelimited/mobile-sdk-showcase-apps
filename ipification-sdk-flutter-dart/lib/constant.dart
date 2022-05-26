@@ -12,9 +12,9 @@ class Constant {
 
   // TODO
   // update with your value
-  static const String CLIENT_ID = '';
-  static const String CLIENT_SECRET = '';
-  static const String REDIRECT_URI = '';
+  static const String CLIENT_ID = "";
+  static const String CLIENT_SECRET = "";
+  static const String REDIRECT_URI = "";
   // update with your value
   static const String REGISTER_DEVICE_URL = "";
 }
