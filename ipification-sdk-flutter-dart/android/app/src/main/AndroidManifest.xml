@@ -1,9 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ipification.sdk.ip_sdk_example">
    <application
-        android:label="ip_sdk_example"
+       android:label="ip_sdk_example"
         android:icon="@mipmap/ic_launcher">
         <activity
+            android:exported="true"
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
@@ -31,13 +32,17 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <intent-filter>
+              <action android:name="FLUTTER_NOTIFICATION_CLICK" />
+              <category android:name="android.intent.category.DEFAULT" />
+          </intent-filter>
         </activity>
         <activity
             android:name="com.ipification.mobile.sdk.im.ui.IMVerificationActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan"
             android:launchMode="singleInstance"
-            android:theme="@style/Theme.AppCompat.Light"
+            android:theme="@style/IPTheme"
             >
 
             <intent-filter android:autoVerify="true">

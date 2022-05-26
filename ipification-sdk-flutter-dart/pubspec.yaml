@@ -1,5 +1,6 @@
-name: ip_sdk_example
-description: Demonstrates how to use the ip_sdk plugin.
+name: ipification_plugin_demo_app
+description: Demonstrates how to use the IPification plugin.
+version: 2.0.5+205
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -18,11 +19,15 @@ dependencies:
     # See https://dart.dev/tools/pub/dependencies#version-constraints
     # The example app is bundled with the plugin so we use a path dependency on
     # the parent directory to use the current plugin's version.
-    path: /Users/nguyenhuutinh/Projects/IP_Projects/GitHub/IPification-Flutter-Plugin
+    path: ../IPification-Flutter-Plugin
 
+ 
   intl_phone_number_input: ^0.7.0+2
   http: ^0.13.4
   jwt_decoder: ^2.0.1
+  firebase_messaging: ^11.4.0
+  firebase_core: ^1.17.0
+  loader_overlay: ^2.0.7
 
 
 dev_dependencies:

@@ -1,10 +1,6 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:ip_sdk_example/network.dart';
-import 'package:ipification_plugin/ipification.dart';
 
 class FailScreen extends StatefulWidget {
   final String responseMessage;

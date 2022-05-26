@@ -4,7 +4,10 @@ class Constant {
       "$HOST/auth/realms/ipification/protocol/openid-connect/token";
   static const String USER_INFO_URL =
       "$HOST/auth/realms/ipification/protocol/openid-connect/userinfo";
-
-  static const String YOUR_CLIENT_SECRET =
-      '4bc14abb-fd00-4fd7-b274-88205f2f11cb';
+  // TODO
+  // update with your value
+  static const String REGISTER_DEVICE_URL =
+      "https://your-backend-api/api/register-device";
+  // update with your value
+  static const String YOUR_CLIENT_SECRET = '';
 }

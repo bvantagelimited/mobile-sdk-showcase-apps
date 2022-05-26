@@ -5,9 +5,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:ip_sdk_example/failed.dart';
-import 'package:ip_sdk_example/network.dart';
-import 'package:ip_sdk_example/success.dart';
+import 'package:ipification_plugin_demo_app/failed.dart';
+import 'package:ipification_plugin_demo_app/network.dart';
+import 'package:ipification_plugin_demo_app/success.dart';
 import 'package:ipification_plugin/ipification.dart';
 
 class PhoneVerifyScreen extends StatefulWidget {
@@ -60,7 +60,7 @@ class _PhoneVerifyState extends State<PhoneVerifyScreen> {
                           ),
                           ignoreBlank: true,
                           autoValidateMode: AutovalidateMode.disabled,
-                          selectorTextStyle: TextStyle(color: Colors.black),
+                          // selectorTextStyle: TextStyle(color: Colors.black),
                           initialValue: number,
                           textFieldController: controller,
                           formatInput: true,
@@ -73,12 +73,11 @@ class _PhoneVerifyState extends State<PhoneVerifyScreen> {
                         ),
                         SizedBox(height: 30),
                         ElevatedButton(
-                          child: const Text('Authenticating'),
+                          child: const Text('Login'),
                           onPressed: startFlow,
                         ),
                         SizedBox(height: 30),
-                        Text('Result: $alertMessage\n',
-                            textAlign: TextAlign.center),
+                        Text('$alertMessage\n', textAlign: TextAlign.center),
                       ],
                     ))
               ])),
@@ -93,19 +92,18 @@ class _PhoneVerifyState extends State<PhoneVerifyScreen> {
     super.deactivate();
   }
 
-  void init() {
+  void initIPification() {
     IPificationPlugin.setCheckCoverageUrl(
-        "https://stage.ipification.com/auth/realms/ipification/coverage/");
+        "https://stage.ipification.com/auth/realms/ipification/coverage");
     IPificationPlugin.setAuthorizationUrl(
         "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth");
-    IPificationPlugin.setClientId("6f2026a683bc439ebb414a03f9012f27");
-    IPificationPlugin.setRedirectUri(
-        "https://api.dev.ipification.com/api/v1/callback");
+    IPificationPlugin.setClientId("your-client-id");
+    IPificationPlugin.setRedirectUri("your-redirect-uri");
   }
 
   Future<void> startFlow() async {
     //init
-    init();
+    initIPification();
 
     FocusScope.of(context).requestFocus(new FocusNode());
 
@@ -118,7 +116,6 @@ class _PhoneVerifyState extends State<PhoneVerifyScreen> {
       //   IpSdk.setAuthorizationServiceConfiguration("ipification_services");
       // }
 
-      // isAvailable = await IpSdk.checkCoverage;
       var coverageResponse = await IPificationPlugin.checkCoverage();
       isAvailable = coverageResponse.isAvailable;
       print("isAvailable $isAvailable");
@@ -131,7 +128,7 @@ class _PhoneVerifyState extends State<PhoneVerifyScreen> {
       isAvailable = false;
       errMessage = e.code + "\n" + (e.message ?? "");
     }
-    if (isAvailable == false) {
+    if (isAvailable == true) {
       doAuthorization();
     } else {
       errMessage = errMessage;
@@ -142,16 +139,6 @@ class _PhoneVerifyState extends State<PhoneVerifyScreen> {
   void doAuthorization() async {
     String errMessage;
     try {
-      // if (Platform.isAndroid) {
-      //   IpSdk.setAuthorizationServiceConfiguration("ipification_services");
-      // }
-      if (_phoneNum.isEmpty) {
-        showMessage("please input your phone number");
-        return;
-      }
-      _phoneNum = _phoneNum.replaceAll("+", "");
-      print(_phoneNum);
-
       showMessage("call authentication service");
       IPificationPlugin.setScope(value: "openid ip:phone_verify");
 
@@ -206,8 +193,7 @@ class _PhoneVerifyState extends State<PhoneVerifyScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) =>
-              FailScreen(responseMessage: responseMessage)),
+          builder: (context) => FailScreen(responseMessage: responseMessage)),
     );
   }
 
