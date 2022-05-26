@@ -19,6 +19,7 @@ import android.widget.EditText;
 
 
 import com.ipification.demoapp.Constant;
+import com.ipification.demoapp.callback.CoverageCallback;
 import com.ipification.demoapp.callback.TokenCallback;
 import com.ipification.demoapp.data.TokenInfo;
 import com.ipification.demoapp.databinding.ActivityPhoneVerifyBinding;
@@ -26,10 +27,13 @@ import com.ipification.demoapp.manager.ApiManager;
 import com.ipification.demoapp.util.Util;
 import com.ipification.mobile.sdk.android.IPConfiguration;
 import com.ipification.mobile.sdk.android.IPificationServices;
+import com.ipification.mobile.sdk.android.callback.CellularCallback;
 import com.ipification.mobile.sdk.android.callback.IPificationCallback;
+import com.ipification.mobile.sdk.android.exception.CellularException;
 import com.ipification.mobile.sdk.android.exception.IPificationError;
 import com.ipification.mobile.sdk.android.request.AuthRequest;
 import com.ipification.mobile.sdk.android.response.AuthResponse;
+import com.ipification.mobile.sdk.android.response.CoverageResponse;
 import com.ipification.mobile.sdk.im.IMLocale;
 import com.ipification.mobile.sdk.im.IMService;
 import com.ipification.mobile.sdk.im.IMTheme;
@@ -100,46 +104,75 @@ public class PhoneVerifyActivity extends AppCompatActivity {
     }
     private void callIPFlow() {
         IPConfiguration.getInstance().setDebug(true);
-        callIPFlow(new IPificationCallback() {
 
-            @Override
-            public void onIMCancel() {
-                // do nothing, only check if IM is enabled
-                
+        // check Coverage
+        callCheckCoverage((isAvailable, operatorCode, errorMessage) -> {
+            if(isAvailable){
+                startAuth();
+            } else{
+                // TODO fallback to other service
+                Log.e(TAG, "callCheckCoverage failed");
             }
+        });
 
+    }
+
+    private void startAuth() {
+        IPificationCallback callback = new IPificationCallback() {
             @Override
             public void onSuccess(@NonNull AuthResponse authResponse) {
-                if(authResponse.getCode() != null){
+                if (authResponse.getCode() != null) {
                     callTokenExchange(authResponse.getCode());
-                }else{
-                    Log.e(TAG, "error: code is empty");
-                    openErrorActivity("code is empty");
+                } else {
+                    Log.e(TAG, "startAuth - error: code is empty");
+                    openErrorActivity("startAuth - code is empty");
                 }
             }
 
             @Override
             public void onError(@NonNull IPificationError iPificationError) {
-                Log.e(TAG, "error: "+ iPificationError.getErrorMessage());
+                Log.e(TAG, "startAuth - error: " + iPificationError.getErrorMessage());
                 openErrorActivity(iPificationError.getErrorMessage());
+            }
+            @Override
+            public void onIMCancel() {
+                // do nothing, only use if IM is enabled
+            }
+        };
+        AuthRequest.Builder authRequestBuilder = new AuthRequest.Builder();
+        String phoneNumber = binding.countryCodeEditText.getText().toString() + binding.phoneCodeEditText.getText().toString();
+        authRequestBuilder.addQueryParam("login_hint", phoneNumber);
+        authRequestBuilder.setScope("openid ip:phone_verify");
+        IPificationServices.Factory.startAuthentication(this, authRequestBuilder.build(), callback);
+
+    }
+
+    private void callCheckCoverage(CoverageCallback coverageCallback) {
+        IPificationServices.Factory.startCheckCoverage(this, new CellularCallback<CoverageResponse>() {
+            @Override
+            public void onSuccess(CoverageResponse coverageResponse) {
+                if(coverageResponse.isAvailable()){
+                    coverageCallback.result(true, coverageResponse.getOperatorCode(), "");
+                }else{
+                    coverageCallback.result(false, coverageResponse.getOperatorCode(), "");
+                    Log.e(TAG, "CheckCoverage Failed: Not supported");
+                }
+            }
+
+            @Override
+            public void onError(@NonNull CellularException e) {
+                Log.e(TAG, "CheckCoverage Error: " + e.getErrorMessage());
+                coverageCallback.result(false, "", e.getErrorMessage());
+            }
+
+            @Override
+            public void onIMCancel() {
+                // do nothing
             }
         });
     }
 
 
-
-
-    private void callIPFlow(IPificationCallback callback) {
-        AuthRequest.Builder authRequestBuilder = new AuthRequest.Builder();
-        String phoneNumber = binding.countryCodeEditText.getText().toString() + binding.phoneCodeEditText.getText().toString();
-        authRequestBuilder.addQueryParam("login_hint", phoneNumber);
-        authRequestBuilder.setState(ApiManager.currentState); // set your State if you want to receive notification
-        authRequestBuilder.setScope("openid ip:phone_verify");
-//        authRequestBuilder.addQueryParam("channel", "ip wa viber telegram");
-
-
-        IPificationServices.Factory.startAuthentication(this, authRequestBuilder.build(), callback);
-    }
 
 
     private void openSuccessActivity(String responseStr) {

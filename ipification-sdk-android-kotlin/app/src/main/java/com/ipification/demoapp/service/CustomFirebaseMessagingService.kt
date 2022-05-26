@@ -131,7 +131,7 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
     private fun sendNotification(messageBody: String?) {
         // TODO check if notification is from IPification server
 //        if(){
-            IMService.showIPNotification(this, getString(R.string.app_name), messageBody ?: "",  R.drawable.ic_stat_name)
+            IMService.showIPNotification(this, notificationTitle=getString(R.string.app_name), messageBody = messageBody ?: "", ic_notification= R.drawable.ic_stat_name)
 //        }
 
     }
