@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:ipification_plugin/error_codes.dart';
+import 'package:ipification_plugin_demo_app/constant.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -144,11 +145,11 @@ class _MyAppState extends State<MyApp> {
     print("init -- start");
 
     IPificationPlugin.setCheckCoverageUrl(
-        "https://stage.ipification.com/auth/realms/ipification/coverage/");
+        Constant.CHECK_COVERAGE_URL);
     IPificationPlugin.setAuthorizationUrl(
-        "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth");
-    IPificationPlugin.setClientId("your-client-id");
-    IPificationPlugin.setRedirectUri("your-redirect-uri");
+        Constant.AUTH_URL);
+    IPificationPlugin.setClientId(Constant.CLIENT_ID);
+    IPificationPlugin.setRedirectUri(Constant.REDIRECT_URI);
 
     final token = await FirebaseMessaging.instance.getToken();
     if (token != null) {

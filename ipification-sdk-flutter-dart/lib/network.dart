@@ -15,7 +15,7 @@ class IPNetwork {
     var details = {
       'client_id': clientID,
       'grant_type': 'authorization_code',
-      'client_secret': Constant.YOUR_CLIENT_SECRET,
+      'client_secret': Constant.CLIENT_SECRET,
       'redirect_uri': redirectURI,
       'code': authCode
     };

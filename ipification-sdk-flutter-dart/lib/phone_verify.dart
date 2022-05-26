@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:ipification_plugin_demo_app/constant.dart';
 import 'package:ipification_plugin_demo_app/failed.dart';
 import 'package:ipification_plugin_demo_app/network.dart';
 import 'package:ipification_plugin_demo_app/success.dart';
@@ -93,12 +94,10 @@ class _PhoneVerifyState extends State<PhoneVerifyScreen> {
   }
 
   void initIPification() {
-    IPificationPlugin.setCheckCoverageUrl(
-        "https://stage.ipification.com/auth/realms/ipification/coverage");
-    IPificationPlugin.setAuthorizationUrl(
-        "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth");
-    IPificationPlugin.setClientId("your-client-id");
-    IPificationPlugin.setRedirectUri("your-redirect-uri");
+    IPificationPlugin.setCheckCoverageUrl(Constant.CHECK_COVERAGE_URL);
+    IPificationPlugin.setAuthorizationUrl(Constant.AUTH_URL);
+    IPificationPlugin.setClientId(Constant.CLIENT_ID);
+    IPificationPlugin.setRedirectUri(Constant.REDIRECT_URI);
   }
 
   Future<void> startFlow() async {
