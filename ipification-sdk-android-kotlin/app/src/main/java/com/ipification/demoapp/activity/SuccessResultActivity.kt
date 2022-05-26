@@ -26,9 +26,6 @@ class SuccessResultActivity : AppCompatActivity() {
         actionbar.setDisplayHomeAsUpEnabled(true)
     }
 
-    private fun back() {
-        onBackPressed()
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {

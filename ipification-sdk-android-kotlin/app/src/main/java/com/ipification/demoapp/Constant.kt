@@ -11,7 +11,7 @@ class Constant {
         const val EXCHANGE_TOKEN_URL = "$HOST/auth/realms/ipification/protocol/openid-connect/token"
         const val USER_INFO_URL = "$HOST/auth/realms/ipification/protocol/openid-connect/userinfo"
 
-        const val DEVICE_TOKEN_REGISTRATION_URL = ""
+        const val DEVICE_TOKEN_REGISTRATION_URL = "https://demo.ipification.com/register-device"
 
 
         const val CLIENT_ID = ""

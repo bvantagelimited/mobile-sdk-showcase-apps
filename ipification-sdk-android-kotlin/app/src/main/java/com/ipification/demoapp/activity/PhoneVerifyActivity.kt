@@ -56,6 +56,9 @@ class PhoneVerifyActivity : AppCompatActivity() {
         binding.phoneCodeEditText.requestFocus()
 
         val picker = builder.build()
+        val country = picker.countryFromSIM
+
+        binding.countryCodeEditText.setText(country?.dialCode)
         val self = this
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             binding.countryCodeEditText.showSoftInputOnFocus = false

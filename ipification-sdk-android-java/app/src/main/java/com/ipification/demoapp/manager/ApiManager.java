@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.ipification.demoapp.Constant;
 import com.ipification.demoapp.callback.TokenCallback;
+import com.ipification.demoapp.util.Util;
 import com.ipification.mobile.sdk.android.IPConfiguration;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,11 +24,13 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ApiManager {
-    private static String TAG = "ApiUtil";
+    private static String TAG = "ApiManager";
     public static String currentState = null;
+    public static String currentToken = null;
+
     public static void doPostToken(String code, final TokenCallback callback) {
         try {
-            String url = Constant.TOKEN_URL;
+            String url = Constant.EXCHANGE_TOKEN_URL;
 
             RequestBody body = new FormBody.Builder()
                     .add("client_id", IPConfiguration.getInstance().getCLIENT_ID())
@@ -45,17 +48,30 @@ public class ApiManager {
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                     if(response.isSuccessful() && response.body() != null){
-                        callback.onSuccess(response.body().string());
+                        String accessToken = Util.parseAccessTokenFromJSON(response.body().string());
+                        if(!accessToken.equals("")){
+                            // call userInfo
+                            doPostUserInfo(accessToken, callback);
+
+                        }else{
+                            callback.result("", response.body().string());
+                        }
                     }else{
-                        if(response.body() != null){
-                           callback.onError(response.body().string());
+                        try{
+                            if(response.body() != null){
+                                callback.result("", response.body().string());
 //                            Log.e(TAG, "token exchange error: " + response.body().string());
+                            }else{
+                                callback.result("", "error body is null " + response.code());
+                            }
+                        }catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 }
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    callback.onError(e.getMessage());
+                    callback.result("", e.getMessage());
                     Log.e(TAG, "token exchange error: " + e.getMessage());
                 }
             });
@@ -64,7 +80,7 @@ public class ApiManager {
         } catch (Exception e) {
             Log.e(TAG, "token exchange error: " + e.getMessage());
             e.printStackTrace();
-
+            callback.result("", e.getMessage());
         }
     }
 
@@ -95,8 +111,54 @@ public class ApiManager {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.e(TAG, "registered failed" + e.getMessage());
+
             }
         });
+    }
+    public static void doPostUserInfo(String accessToken, final TokenCallback callback) {
+        try {
+            String url = Constant.USER_INFO_URL;
+
+            RequestBody body = new FormBody.Builder()
+                    .add("access_token", accessToken)
+                    .build();
+
+            OkHttpClient client = new OkHttpClient.Builder().build();
+            Request request = new Request.Builder().url(url).post(body)
+                    .build();
+            Call call = client.newCall(request);
+            call.enqueue(new Callback(){
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    if(response.isSuccessful() && response.body() != null){
+                        callback.result( response.body().string(), "");
+                    }else{
+                        try{
+                            if(response.body() != null){
+                                callback.result("", response.body().string());
+//                            Log.e(TAG, "token exchange error: " + response.body().string());
+                            }else{
+                                callback.result("", "error body is null " + response.code());
+                            }
+                        }catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    callback.result("", e.getMessage());
+                    Log.e(TAG, "token exchange error: " + e.getMessage());
+                }
+            });
+
+
+        } catch (Exception e) {
+            Log.e(TAG, "token exchange error: " + e.getMessage());
+            e.printStackTrace();
+            callback.result("", e.getMessage());
+
+        }
     }
 
 }
