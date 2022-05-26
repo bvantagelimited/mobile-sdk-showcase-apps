@@ -1,10 +1,8 @@
 package com.ipification.demoapp.activity
 
-
 import android.app.Activity
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -13,28 +11,18 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import com.facebook.stetho.Stetho
 import com.ipification.demoapp.Constant
-import com.ipification.demoapp.data.TokenInfo
+import com.ipification.demoapp.callback.IPAuthorizationCallback
+import com.ipification.demoapp.callback.IPCheckCoverageCallback
+import com.ipification.demoapp.callback.TokenCallback
 import com.ipification.demoapp.databinding.ActivityPhoneVerifyBinding
 import com.ipification.demoapp.manager.APIManager
-import com.ipification.demoapp.manager.TokenCallback
-import com.ipification.demoapp.util.*
+import com.ipification.demoapp.util.Util
 import com.ipification.mobile.sdk.android.CellularService
 import com.ipification.mobile.sdk.android.IPConfiguration
-//import com.ipification.mobile.sdk.android.IPIMServices
 import com.ipification.mobile.sdk.android.IPificationServices
-import com.ipification.mobile.sdk.android.callback.CellularCallback
-import com.ipification.mobile.sdk.android.callback.IPificationCallback
-import com.ipification.mobile.sdk.android.exception.CellularException
-import com.ipification.mobile.sdk.android.exception.IPificationError
-import com.ipification.mobile.sdk.android.request.AuthRequest
-import com.ipification.mobile.sdk.android.response.AuthResponse
-import com.ipification.mobile.sdk.android.response.CoverageResponse
-//import com.ipification.mobile.sdk.android.utils.Constant
 import com.ipification.mobile.sdk.im.IMService
 import com.mukesh.countrypicker.CountryPicker
-import org.json.JSONObject
 import java.lang.reflect.Method
 
 
@@ -48,9 +36,11 @@ class PhoneVerifyActivity : AppCompatActivity() {
         binding = ActivityPhoneVerifyBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initView()
+        initIPification()
     }
 
     private fun initView() {
+        //hide autofocus
         binding.countryCodeEditText.hideKeyboard()
         binding.loginBtn.setOnClickListener {
             startIPAuth()
@@ -64,6 +54,7 @@ class PhoneVerifyActivity : AppCompatActivity() {
             }
 
         binding.phoneCodeEditText.requestFocus()
+
         val picker = builder.build()
         val self = this
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -91,146 +82,145 @@ class PhoneVerifyActivity : AppCompatActivity() {
     }
 
 
-    override fun onResume() {
-        super.onResume()
-        APIManager.currentState = IPificationServices.generateState()
-        APIManager.registerDevice()
+    private fun initIPification() {
+        IPConfiguration.getInstance().COVERAGE_URL = Uri.parse(Constant.CHECK_COVERAGE_URL)
+        IPConfiguration.getInstance().AUTHORIZATION_URL = Uri.parse(Constant.AUTH_URL)
+        IPConfiguration.getInstance().CLIENT_ID = Constant.CLIENT_ID
+        IPConfiguration.getInstance().REDIRECT_URI = Uri.parse(Constant.REDIRECT_URI)
     }
 
+    //TODO for IM case
+    private fun registerDevice() {
+        APIManager.currentState = IPificationServices.generateState()
+        APIManager.registerDevice(APIManager.deviceToken, APIManager.currentState)
+    }
 
     private fun startIPAuth() {
         // TODO
-//        checkCoverageAPI()
-
         hideKeyboard()
-
         updateButton(isEnable = false)
-        log += "\n"
-        log += "#####################################\n"
-        log += "1. DO AUTHORIZATION - start\n\n"
-        showlog()
-        val phoneNumber  = "${binding.countryCodeEditText.text}${binding.phoneCodeEditText.text}"
-        val authRequestBuilder = AuthRequest.Builder()
-        authRequestBuilder.setScope("openid ip:phone_verify")
-        authRequestBuilder.addQueryParam("login_hint", phoneNumber)
-        authRequestBuilder.setState(APIManager.currentState)
-        //add channel
+        // TODO : IM Only:  register device token to receive FCM notification
+//        registerDevice()
 
-        authRequestBuilder.addQueryParam("channel", "ip wa viber telegram")
-
-        IPificationServices.startAuthentication(this, authRequestBuilder.build(), object: IPificationCallback{
-            override fun onSuccess(response: AuthResponse) {
-                //check auth_code
-                val code = response.getCode()
-                if(code != null){
-                    callTokenExchange(response.getCode()!!)
-                    updateButton(isEnable = true)
+        APIManager.checkCoverage(context = this, callback = object: IPCheckCoverageCallback {
+            override fun result(isAvailable: Boolean, operatorCode: String?, errorMessage: String?) {
+                if(isAvailable){
+                    // call Authorization API
+                    callAuthorization()
                 }else{
-                    binding.result1.post {
-                        log += "Result: AUTH ERROR : ${response.responseData}"
-                        log += "\n2. DO AUTHORIZATION - end\n"
-                        showlog()
-                        binding.result1.text = "auth error: ${response.responseData}"
-                        updateButton(isEnable = true)
-                    }
-                }
-
-            }
-            override fun onError(error: IPificationError) {
-                Log.e(TAG,"IPificationError " + error.getErrorMessage())
-                binding.result1.post {
-                    log += "Result: AUTH ERROR : ${error.getErrorMessage()}"
-                    log += "\n2. DO AUTHORIZATION - end\n"
-                    showlog()
-                    binding.result1.text = "auth error: ${error.getErrorMessage()}"
-                    updateButton(isEnable = true)
+                    // TODO fallback to other service
+                    Log.e("IP CheckCoverage", "not supported : $errorMessage")
                 }
             }
         })
     }
 
-    private fun checkCoverageAPI(){
-        val coverageCallback = object : CellularCallback<CoverageResponse>
-        {
-            override fun onSuccess(res: CoverageResponse) {
-                if(res.isAvailable()) {
-                    // supported Telco. Collect User Phone Number then Call Authorization API
-                } else {
-                    // unsupported Telco. Fallback to another authentication service flow
-                }
+
+
+
+    private fun callAuthorization() {
+        log += "\n"
+        log += "#####################################\n"
+        log += "1. DO AUTHORIZATION - start\n\n"
+        showlog()
+        val phoneNumber  = "${binding.countryCodeEditText.text}${binding.phoneCodeEditText.text}"
+
+        APIManager.callAuthorization(activity = this, phoneNumber = phoneNumber, callback = object: IPAuthorizationCallback{
+            override fun result(code: String?, errorMessage: String?) {
+               if(code != null){
+                    callTokenExchange(code)
+
+               }else{
+                    binding.result1.post {
+                        log += "Result: AUTH ERROR : $errorMessage"
+                        log += "\n2. DO AUTHORIZATION - end\n"
+                        showlog()
+                        binding.result1.text = "auth error: $errorMessage"
+
+                    }
+               }
+                updateButton(isEnable = true)
             }
-            override fun onError(error: CellularException) {
-                Log.d("IPificationSDK", "checkCoverage - error : " + error.responseCode + " - " + error.getErrorMessage())
-                // error, handle it with another authentication service flow
-            }
-        }
-        IPificationServices.startCheckCoverage(context = this, callback = coverageCallback)
+
+        })
     }
 
+
+    // TODO IM : implement onActivityResult() for IM cases
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         IMService.onActivityResult(requestCode, resultCode, data)
     }
 
 
-
+    // have to call to your backend API to do token exchange
     private fun callTokenExchange(code: String) {
         APIManager.doPostToken(code, callback = object: TokenCallback {
-            override fun onSuccess(response: String) {
-                handleTokenExchangeSuccess(response)
+            override fun result(response: String?, errorMessage: String?) {
+                if(response != null){
+                    val phoneNumberVerified = Util.parseUserInfoJSON(response, "phone_number_verified")
+                    val phoneNumber = Util.parseUserInfoJSON(response, "phone_number")
+                    if(phoneNumberVerified == "true" || phoneNumber != null){
+                        openSuccessActivity(response)
+                    }else{
+                        openErrorActivity(response)
+                    }
+                }else{
+                    openErrorActivity(errorMessage ?: "error")
+                }
             }
-            override fun onError(error: String) {
-                handleTokenExchangeError(error)
-            }
+
         })
     }
 
-    private fun handleTokenExchangeSuccess(response: String) {
-        try{
-            log += "handleTokenExchangeSuccess\n"
-            val jObject = JSONObject(response)
-            val accessToken = jObject.getString("access_token")
-            log += "accessToken: ${accessToken}\n"
-            showlog()
-            val tokenInfo = Util.parseAccessToken(accessToken)
-            if(tokenInfo != null && tokenInfo.phoneNumberVerified){
-                openSuccessActivity(tokenInfo)
-            }else{
-                openErrorActivity("token null", tokenInfo)
-            }
-        }catch (error: Exception){
-            openErrorActivity(error.localizedMessage ?: "unknown error")
-        }
-    }
 
-    private fun handleTokenExchangeError(error: String) {
-        log += "handleTokenExchangeError: ${error}\n"
-        showlog()
-        if(error != "USER_CANCELED"){
-            openErrorActivity(error)
-        }
-    }
-    private fun openSuccessActivity(tokenInfo: TokenInfo) {
+
+    //
+//    private fun handleTokenExchangeSuccess(response: String) {
+//        try{
+//            log += "handleTokenExchangeSuccess\n"
+//            val jObject = JSONObject(response)
+//            val accessToken = jObject.getString("access_token")
+//            log += "accessToken: ${accessToken}\n"
+//            showlog()
+//            val tokenInfo = Util.parseAccessToken(accessToken)
+//            if(tokenInfo != null && tokenInfo.phoneNumberVerified){
+//                openSuccessActivity(tokenInfo)
+//            }else{
+//                openErrorActivity("token null", tokenInfo)
+//            }
+//        }catch (error: Exception){
+//            openErrorActivity(error.localizedMessage ?: "unknown error")
+//        }
+//    }
+//
+//    private fun handleTokenExchangeError(error: String) {
+//        log += "handleTokenExchangeError: ${error}\n"
+//        showlog()
+//        if(error != "USER_CANCELED"){
+//            openErrorActivity(error)
+//        }
+//    }
+    private fun openSuccessActivity(responseStr: String) {
         val intent = Intent(this, SuccessResultActivity::class.java)
-        intent.putExtra("tokenInfo", tokenInfo)
+        intent.putExtra("responseStr", responseStr)
         startActivity(intent)
 
     }
-    private fun openErrorActivity(error: String, tokenInfo: TokenInfo? = null){
+    private fun openErrorActivity(error: String){
         val intent = Intent(this, FailResultActivity::class.java)
         intent.putExtra(
             "error",
             error
         )
-        if(tokenInfo != null){
-            intent.putExtra("tokenInfo", tokenInfo)
-        }
+
         startActivity(intent)
     }
 
 
     override fun onDestroy() {
         super.onDestroy()
+        // unregister network. See https://developer.ipification.com/#/android/latest/?id=_5-unregister-cellular-network
         CellularService.unregisterNetwork(this)
     }
 
@@ -274,6 +264,8 @@ class PhoneVerifyActivity : AppCompatActivity() {
 
 }
 
+
+//extension
 fun Activity.hideKeyboard() {
     if (currentFocus != null) {
         val inputMethodManager: InputMethodManager =

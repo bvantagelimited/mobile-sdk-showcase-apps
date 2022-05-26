@@ -129,54 +129,11 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
      * @param messageBody FCM message body received.
      */
     private fun sendNotification(messageBody: String?) {
-        IMService.showIPNotification(this, getString(R.string.app_name), messageBody, R.string.notification_channel_id, "Notification", R.drawable.ic_stat_name)
-//        var accessClass: Class<*> = IMVerificationActivity::class.java
-//        Log.d(TAG, "isNotificationActivityRunning ${isNotificationActivityRunning()}")
-//
-//        if (!isNotificationActivityRunning()) {
-//            // if app is not running, do nothing
-//            return;
+        // TODO check if notification is from IPification server
+//        if(){
+            IMService.showIPNotification(this, getString(R.string.app_name), messageBody ?: "",  R.drawable.ic_stat_name)
 //        }
-//        val intent = Intent(this, accessClass)
-//        intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT)
-//        val pendingIntent : PendingIntent
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            pendingIntent = PendingIntent.getActivity(
-//                this, IPConfiguration.getInstance().REQUEST_CODE /* Request code */, intent,
-//                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-//            )
-//        }else{
-//            pendingIntent = PendingIntent.getActivity(
-//                this, IPConfiguration.getInstance().REQUEST_CODE /* Request code */, intent,
-//                PendingIntent.FLAG_UPDATE_CURRENT
-//            )
-//        }
-//
-//        val channelId = getString(R.string.notification_channel_id)
-//        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-//        val notificationBuilder = NotificationCompat.Builder(this, channelId)
-//            .setSmallIcon(R.drawable.ic_stat_name)
-//            .setContentTitle(getString(R.string.app_name))
-//            .setContentText(messageBody)
-//            .setAutoCancel(true)
-//            .setSound(defaultSoundUri)
-//            .setPriority(Notification.PRIORITY_MAX)
-//            .setVibrate(LongArray(0))
-//            .setContentIntent(pendingIntent)
-//        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-//
-//        // Since android Oreo notification channel is needed.
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            val channel = NotificationChannel(
-//                channelId,
-//                "Notification",
-//                NotificationManager.IMPORTANCE_HIGH
-//            )
-//            channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-//            channel.enableVibration(true)
-//            notificationManager.createNotificationChannel(channel)
-//        }
-//        notificationManager.notify(IPConfiguration.getInstance().NOTIFICATION_ID /* ID of notification */, notificationBuilder.build())
+
     }
 
     companion object {

@@ -20,25 +20,9 @@ class FailResultActivity : AppCompatActivity() {
 
         val errorMessage = intent.getStringExtra("error")
         var result = errorMessage
-        val tokenInfo = intent.getParcelableExtra<TokenInfo>("tokenInfo")
-        if(tokenInfo != null){
-            val phoneNumber = tokenInfo.phoneNumber
-            val phoneNumberVerified = tokenInfo.phoneNumberVerified
-            val sub = if(tokenInfo.sub != null ) " | sub: ${tokenInfo.sub}" else ""
-            val mobileID = if(tokenInfo.mobileID != null ) " | mobileID: ${tokenInfo.mobileID}" else ""
-            val loginHint = if(tokenInfo.loginHint != null ) " | Phone Number: ${tokenInfo.loginHint}" else ""
-            result = "Phone Number Verified: $phoneNumberVerified $loginHint"
-            if(!phoneNumber.isNullOrEmpty() ){
-                result = "Phone Number: $phoneNumber"
-            }
-            binding.detail.text = "$result $sub $mobileID"
-        }
         binding.tvMainDetail.text = result
 
 
-//        binding.btnRestart.setOnClickListener{
-//            back()
-//        }
         val actionbar = supportActionBar
         //set actionbar title
         actionbar!!.title = "Result"

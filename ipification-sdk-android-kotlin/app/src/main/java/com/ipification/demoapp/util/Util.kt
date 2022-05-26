@@ -2,6 +2,7 @@ package com.ipification.demoapp.util
 
 import com.auth0.android.jwt.JWT
 import com.ipification.demoapp.data.TokenInfo
+import org.json.JSONObject
 
 class Util {
 
@@ -33,6 +34,23 @@ class Util {
                     sub,
                     mobileID
                 )
+            }
+        }
+
+        fun parseAccessTokenFromJSON(jsonStr: String): String?{
+            try {
+                val jObject = JSONObject(jsonStr)
+                return jObject.getString("access_token")
+            } catch (error: Exception) {
+                return null
+            }
+        }
+        fun parseUserInfoJSON(jsonStr: String, pattern: String) : String?{
+            try {
+                val jObject = JSONObject(jsonStr)
+                return jObject.getString(pattern)
+            } catch (error: Exception) {
+                return null
             }
         }
     }

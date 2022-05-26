@@ -36,21 +36,27 @@ class HomeViewController : BaseViewController{
               print("FCM registration token: \(token)")
               IPConfiguration.sharedInstance.log += "FCM registration token: \(token) \n"
               APIManager.sharedInstance.deviceToken = token
-              APIManager.sharedInstance.initStateAndRegister()
               
           }
         }
+        initIPification()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         print("viewWillAppear")
-        APIManager.sharedInstance.initStateAndRegister()        
     }
     
     private func setUpView(){
-        navigationItem.title = "IPification"
+        navigationItem.title = "IPification Demo App"
         imVerifyBtn.layer.cornerRadius = 5
         phoneVerifyBtn.layer.cornerRadius = 5
+    }
+    
+    func initIPification(){
+        IPConfiguration.sharedInstance.COVERAGE_URL = Constants.CHECK_COVERAGE_URL
+        IPConfiguration.sharedInstance.AUTHORIZATION_URL = Constants.AUTH_URL
+        IPConfiguration.sharedInstance.CLIENT_ID = Constants.CLIENT_ID
+        IPConfiguration.sharedInstance.REDIRECT_URI = Constants.REDIRECT_URI
     }
     
     @IBAction func doIPificationVerify(_ sender: Any) {
@@ -68,8 +74,10 @@ class HomeViewController : BaseViewController{
     }
     
     private func startIMAuthorization() {
+        APIManager.sharedInstance.initStateAndRegister()
+
         IPConfiguration.sharedInstance.debug = true
-        showLoadingViewAutoEnd()
+        showLoadingView()
         let d = Date()
         let df = DateFormatter()
         df.dateFormat = "H:mm:ss.SSSS"
@@ -80,18 +88,26 @@ class HomeViewController : BaseViewController{
 
 
         let authorizationService =  AuthorizationService()
-//        authorizationService.debug = true
+
+        authorizationService.callbackIMCanceled = { () -> Void in
+            DispatchQueue.main.async {
+                self.hideLoadingView()
+            }
+        }
         
         authorizationService.callbackFailed = { (error) -> Void in
-            print("callbackFailed \(error.localizedDescription)")
-            self.logText += "[Auth Request] Result - \(time): Error: \(error.localizedDescription)! \n"
+            print("[Auth] Result - callbackFailed \(error.localizedDescription)")
+            self.logText += "[Auth] Result - \(time): Error: \(error.localizedDescription)! \n"
             self.printLog();
-            self.hideLoadingView()
-            self.doErrorPage(error.localizedDescription, tokenInfo: nil)
+            DispatchQueue.main.async {
+                self.hideLoadingView()
+                self.doErrorPage(error.localizedDescription, tokenInfo: nil)
+            }
+            
         }
         
         authorizationService.callbackSuccess = { (response) -> Void in
-            print("callbackSuccess", response.getPlainResponse() )
+            print("[Auth] Result - callbackSuccess", response.getPlainResponse() )
             
             DispatchQueue.main.async {
                 self.hideLoadingView()
@@ -99,24 +115,28 @@ class HomeViewController : BaseViewController{
             }
             
         }
-//        IPificationLocale.sharedInstance.updateScreen(titleBar:"IPification", title:"Phone Number Verify",  description:"Please tap on the preferred messaging app then follow our instruction on the screen", whatsappBtnText:"Quick Login via Whatsapp", viberBtnText : "Quick Login via Viber", telegramBtnText : "Quick Login via Telegram", cancelBtnText:"Done")
         
+        
+
         let authorizationRequest =  AuthorizationRequest.Builder()
         authorizationRequest.setState(value: APIManager.sharedInstance.state)
         authorizationRequest.setScope(value: "openid ip:phone")
         authorizationRequest.addQueryParam(key: "channel", value: "wa viber telegram")
         
         let authRequest = authorizationRequest.build()
-      
         authorizationService.startIMAuthorization(viewController: self, authRequest)
 
-        
-        
     }
     
     private func printLog(){
         IPConfiguration.sharedInstance.log += logText
         logText = ""
+    }
+    
+    private func updateThemeAndLocale(){
+        IPificationLocale.sharedInstance.updateScreen(titleBar:"IPification", title:"Phone Number Verify",  description:"Please tap on the preferred messaging app then follow our instruction on the screen", whatsappBtnText:"Quick Login via Whatsapp", viberBtnText : "Quick Login via Viber", telegramBtnText : "Quick Login via Telegram", cancelBtnText:"Done")
+        IPificationTheme.sharedInstance.updateScreen(toolbarTitleColor: UIColor.black, cancelBtnColor: UIColor.systemBlue, titleColor: UIColor.black, descColor: UIColor.black, backgroundColor: UIColor.white)
+                
     }
 }
 
@@ -162,7 +182,7 @@ extension HomeViewController{
         self.tokenInfo = tokenInfo
         print(errorMessage ?? "")
         self.errorMessage = errorMessage
-        logText += "[show error page] failed \(errorMessage) \n"
+        logText += "[show error page] failed \(errorMessage ?? "") \n"
         printLog()
         DispatchQueue.main.async {
             self.performSegue(withIdentifier: "openFailPage", sender: nil)
@@ -176,13 +196,13 @@ extension HomeViewController{
         }
         
         if(tokenInfo.isVerifedPhone == true || tokenInfo.phoneNumber != nil){
-            logText += "[show success page] Success with phoneNumber \(tokenInfo.phoneNumber) isVerifedPhone: \(tokenInfo.isVerifedPhone) \n"
+            logText += "[show success page] Success with phoneNumber \(tokenInfo.phoneNumber!) isVerifedPhone: \(tokenInfo.isVerifedPhone) \n"
             printLog()
             DispatchQueue.main.async {
                 self.performSegue(withIdentifier: "openSuccessPage", sender: nil)
             }
         }else{
-            logText += "[show success page] failed \(tokenInfo.phoneNumber) \n"
+            logText += "[show success page] failed \(tokenInfo.phoneNumber ?? "") \n"
             printLog()
             DispatchQueue.main.async {
                 self.performSegue(withIdentifier: "openFailPage", sender: nil)

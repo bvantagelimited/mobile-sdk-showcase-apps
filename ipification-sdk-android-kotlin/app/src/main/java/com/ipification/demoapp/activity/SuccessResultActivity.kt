@@ -18,25 +18,8 @@ class SuccessResultActivity : AppCompatActivity() {
     }
 
     private fun setup(){
-        val tokenInfo = intent.getParcelableExtra<TokenInfo>("tokenInfo")
-        Log.d("tokenInfo", ""+ tokenInfo?.phoneNumber)
-        val phoneNumber = tokenInfo?.phoneNumber
-        val phoneNumberVerified = tokenInfo?.phoneNumberVerified
-        val sub = if(tokenInfo?.sub != null ) " | sub: ${tokenInfo.sub}" else ""
-        val mobileID = if(tokenInfo?.mobileID != null ) " | mobileID: ${tokenInfo.mobileID}" else ""
-//
-        val loginHint = if(tokenInfo?.loginHint != null ) " | Phone Number: ${tokenInfo.loginHint}" else ""
-        var result = "Phone Number Verified: $phoneNumberVerified $loginHint"
-        if(!phoneNumber.isNullOrEmpty() ){
-            result = "Phone Number: $phoneNumber"
-        }
-
-
-        binding.tvMainDetail.text = result
-        binding.detail.text = "$result $sub $mobileID"
-//        binding.btnSendLog.setOnClickListener{
-//            back()
-//        }
+        val tokenInfo = intent.getStringExtra("responseStr")
+        binding.tvMainDetail.text = tokenInfo
         val actionbar = supportActionBar
         //set actionbar title
         actionbar!!.title = "Result"
