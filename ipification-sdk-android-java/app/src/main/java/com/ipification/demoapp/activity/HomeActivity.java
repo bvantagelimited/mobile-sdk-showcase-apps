@@ -155,12 +155,6 @@ public class HomeActivity extends AppCompatActivity {
         IMService.Factory.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        boolean result = CellularService.Companion.unregisterNetwork(this);
-        Log.d("onDestroy", "unregisterNetwork: " + result);
-    }
 
 
     //register FCM notification service
