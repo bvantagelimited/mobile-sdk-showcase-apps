@@ -12,7 +12,7 @@ This project is a starting point for a IPification Demo application on Flutter.
 
 2. Update project:
 + `pubspec.yaml` : Update IPification Plugin location at line 22
-+ `lib/constant.dart`: Update Client Information 
++ `lib/constant.dart`: Update Client information , Stage / Production Host
 
 Update configuration file for FCM:
 + Android: `google-services.json`
