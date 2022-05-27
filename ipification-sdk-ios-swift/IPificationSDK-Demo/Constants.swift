@@ -23,6 +23,6 @@ struct Constants {
     
     static let enableFCM = true
     
-    static let REGISTER_DEVICE_URL = "https://cases.ipification.com/merchant-service/register-device"
+    static let REGISTER_DEVICE_URL = "https://sample.com/api/register-device"
     
 }
