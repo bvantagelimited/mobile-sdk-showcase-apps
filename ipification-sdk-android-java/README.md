@@ -19,31 +19,22 @@
 
 
 <!-- GETTING STARTED -->
+
+<!-- GETTING STARTED -->
 ## Getting Started
 
 To get a local copy up and running follow these simple example steps:
 
-### 1. /assets/ipification-services.json
-### 1. ipification-services.json
-Update your `client_id` and `redirect_uri` values
 
-  ```json
-  {
-  "coverage_url": "https://stage.ipification.com/auth/realms/ipification/coverage",
-  "authorization_url": "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth",
-  "client_id": "your_client_id",
-  "redirect_uri": "your_redirect_uri"
-  }
-  ```
-  
-## 2. Constant.java
-Update your `CLIENT_SECRET` value
-<br/><br/>
-  
-## 3. IM Authentication
-Set up FCM and override `google-services.json`
+### 1. Update Constant.java
+Update with your `CLIENT_ID` `CLIENT_SECRET`, and `REDIRECT_URI` values
 
-Update your backend `DEVICE_TOKEN_REGISTRATION_URL` (for IM Authentication)
+### 2. IM Authentication
+Update `DEVICE_TOKEN_REGISTRATION_URL` (for Push Notification)
+Set up your FCM and override `google-services.json`
+
+  
+
 
 
 # Document
