@@ -89,22 +89,9 @@ class HomeViewController : BaseViewController{
 
         let authorizationService =  AuthorizationService()
 
-        authorizationService.callbackIMCanceled = { () -> Void in
-            DispatchQueue.main.async {
-                self.hideLoadingView()
-            }
-        }
         
-        authorizationService.callbackFailed = { (error) -> Void in
-            print("[Auth] Result - callbackFailed \(error.localizedDescription)")
-            self.logText += "[Auth] Result - \(time): Error: \(error.localizedDescription)! \n"
-            self.printLog();
-            DispatchQueue.main.async {
-                self.hideLoadingView()
-                self.doErrorPage(error.localizedDescription, tokenInfo: nil)
-            }
-            
-        }
+        
+        
         
         authorizationService.callbackSuccess = { (response) -> Void in
             print("[Auth] Result - callbackSuccess", response.getPlainResponse() )
@@ -115,8 +102,21 @@ class HomeViewController : BaseViewController{
             }
             
         }
-        
-        
+        authorizationService.callbackFailed = { (error) -> Void in
+            print("[Auth] Result - callbackFailed \(error.localizedDescription)")
+            self.logText += "[Auth] Result - \(time): Error: \(error.localizedDescription)! \n"
+            self.printLog();
+            DispatchQueue.main.async {
+                self.hideLoadingView()
+                self.doErrorPage(error.localizedDescription, tokenInfo: nil)
+            }
+            
+        }
+        authorizationService.callbackIMCanceled = { () -> Void in
+            DispatchQueue.main.async {
+                self.hideLoadingView()
+            }
+        }
 
         let authorizationRequest =  AuthorizationRequest.Builder()
         authorizationRequest.setState(value: APIManager.sharedInstance.state)
