@@ -18,7 +18,6 @@
 
 
 
-<!-- GETTING STARTED -->
 
 <!-- GETTING STARTED -->
 ## Getting Started
