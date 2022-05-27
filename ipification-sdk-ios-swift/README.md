@@ -23,24 +23,15 @@
 
 To get a local copy up and running follow these simple example steps:
 
-### 1. Edit Debug.xcconfig
-Update your `client_id` and `redirect_uri`values
 
-  ```json
-COVERAGE_URL = https:\/\/stage.ipification.com/auth/realms/ipification/coverage
-AUTHORIZATION_URL = https:\/\/stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth
-REDIRECT_URI = your-redirect-uri
-CLIENT_ID = your-client-id
-  ```
-  
-## 2. Constants.swift
-Update your `CLIENT_SECRET` value
-  <br/><br/>
-  
-## 3. IM Authentication
+### 1. Update Constants.swift
+Update with your `CLIENT_ID` `CLIENT_SECRET`, and `REDIRECT_URI` values
+
+### 2. IM Authentication
+Update `REGISTER_DEVICE_URL` (for Push Notification)
 Set up your FCM and override `google-services.json`
 
-Update `REGISTER_DEVICE_URL` (for IM Authentication)
+  
 
 
 # Document
