@@ -4,7 +4,7 @@ Demonstrates how to use the IPification plugin.
 
 ## Getting Started
 
-This project is a starting point for a IPification Demo application on Flutter.
+This project is a starting point for a IPification Demo application on RN.
 
 
 1. A few resources to get you started
