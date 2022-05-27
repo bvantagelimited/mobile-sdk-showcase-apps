@@ -50,6 +50,7 @@ public class HomeActivity extends AppCompatActivity {
         initIPification();
         initActions();
         initFirebase();
+        
     }
 
     private void initIPification() {

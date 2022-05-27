@@ -9,196 +9,216 @@ import React, { useEffect, useState } from "react";
 import {
   NativeModules,
   Platform,
-  SafeAreaView,
   StyleSheet,
-  Text,
-  TouchableOpacity,
+  SafeAreaView,
   View,
+  Text,
+  TouchableOpacity
 } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import Constants from "./Constants";
+import NetworkManger from "./NetworkManger";
+import messaging from "@react-native-firebase/messaging";
+import Spinner from 'react-native-loading-spinner-overlay';
 
-const { RNAuthenticationService, RNIPConfiguration } = NativeModules;
+const { RNAuthenticationService, RNIPConfiguration, RNIPNotification } = NativeModules;
 
 const HomeScreen = ({ navigation }) => {
-  const [authorizationResult, setAuthorizationResult] = useState();
-  const [disabled, setDisabled] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
-    localize();
+    initIPification();
+    // localize();
   }, []);
-  localize = async () => {
-    if (Platform.OS === "android") {
-      RNAuthenticationService.updateAndroidLocale({
-        mainTitle: "Phone Number Verification",
-        description:
-          "Please tap on the preferred messaging app then follow instructions on the screen",
-        whatsappBtnText: "Login with WhatsApp C",
-        telegramBtnText: "Login with Telegram",
-        viberBtnText: "Login with Viber",
-      });
-      RNAuthenticationService.updateAndroidTheme({
-        backgroundColor: "#ffffff",
-        toolbarTextColor: "#000000",
-        toolbarColor: "#000000",
-        toolbarTitle: "toolbarTitle",
-        isVisible: false,
-      });
-    }
 
+  initIPification = () =>{
     // set configuration runtime
-    // RNIPConfiguration.setCheckCoverageUrl("https://stage.ipification.com/auth/realms/ipification/coverage/202.175.50.128")
-    // RNIPConfiguration.setAuthorizationUrl("https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/auth")
-    // RNIPConfiguration.setClientId("your-clien-id")
-    // RNIPConfiguration.setRedirectUri("your-redirect-uri")
-    
-    // android only
-    // RNIPConfiguration.setConfigFileName("ipification-services_dev.json")
-    
-    // RNIPConfiguration.enableValidateIMApps(false);
+    RNIPConfiguration.setCheckCoverageUrl(Constants.CHECK_COVERAGE_URL)
+    RNIPConfiguration.setAuthorizationUrl(Constants.AUTH_URL)
+    RNIPConfiguration.setClientId(Constants.CLIENT_ID)
+    RNIPConfiguration.setRedirectUri(Constants.REDIRECT_URI)
+  }
+  // localize = async () => {
+  //   RNAuthenticationService.updateAndroidLocale({
+  //     mainTitle: "Phone Number Verification",
+  //     description:
+  //       "Please tap on the preferred messaging app then follow instructions on the screen",
+  //     whatsappBtnText: "Login with WhatsApp",
+  //     telegramBtnText: "Login with Telegram",
+  //     viberBtnText: "Login with Viber",
+  //     toolbarTitle: "IPification Verification",
+  //     isVisible: true,
+  //   });
+  //   RNAuthenticationService.updateAndroidTheme({
+  //     backgroundColor: "#ffffff",
+  //     toolbarTextColor: "#000000",
+  //     toolbarColor: "#000000"
+  //   });
 
-    
+  //   RNAuthenticationService.updateIOSLocale({
+  //     titleBar: "IPification",
+  //     description:
+  //       "Please tap on the preferred messaging app then follow instructions on the screen",
+  //     whatsappBtnText: "Login with WhatsApp",
+  //     telegramBtnText: "Login with Telegram",
+  //     viberBtnText: "Login with Viber",
+  //     cancelBtnText: "Cancel",
+  //   });
+  //   RNAuthenticationService.updateIOSTheme({
+  //     toolbarTitleColor: "#000000",
+  //     cancelBtnColor: "#000000",
+  //     titleColor: "#000000",
+  //     descColor: "#000000",
+  //     backgroundColor: "#ffffff",
+  //   });
+  // };
 
-    if (Platform.OS === "ios") {
-      RNAuthenticationService.updateIOSLocale({
-        titleBar: "IPification",
-        description:
-          "Please tap on the preferred messaging app then follow instructions on the screen",
-        whatsappBtnText: "Login with WhatsApp",
-        telegramBtnText: "Login with Telegram",
-        viberBtnText: "Login with Viber",
-        cancelBtnText: "Cancel",
-      });
-      RNAuthenticationService.updateIOSTheme({
-        toolbarTitleColor: "#000000",
-        cancelBtnColor: "#000000",
-        titleColor: "#000000",
-        descColor: "#000000",
-        backgroundColor: "#ffffff",
-      });
-    }
-  };
+  doIMAuthentication = async ()  => {
+    setLoading(true)
 
-  doIMAuthentication = () => {
-    var state = Constants.CURRENT_STATE;
-    console.log("2. do IM Authentication with state", state);
+
+    await NetworkManger.registerDevice();
+
+    console.log("2. do IM Authentication with state : " +  Constants.CURRENT_STATE + " .");
     RNAuthenticationService.startAuthorization(
       {
         scope: "openid ip:phone",
         channel: "wa viber telegram",
-        state: state,
+        state: Constants.CURRENT_STATE,
       },
-      (error, code, state, fullResponse) => {
-        console.log(code, state, fullResponse, error);
+      (error, code, state, fullResponse, userCanceled) => {
+        console.log(code, state, fullResponse, error, userCanceled);
         if (code != null) {
-          setAuthorizationResult(code);
-          doTokenExchange();
-        } else {
-          setAuthorizationResult(error);
+         
+          var successResult = (result) => {
+            setLoading(false);
+            navigation.navigate("ResultScreen", {
+              name: "Result",
+              success: true,
+              response: result,
+            });
+          }
+          var failedResult = (result) => {
+            setLoading(false);
+            navigation.navigate("ResultScreen", {
+              name: "Result",
+              success: false,
+              response: result,
+            });
+          }
+          NetworkManger.doTokenExchange(code, successResult, failedResult);
         }
-        setDisabled(false);
+        else if(userCanceled){
+          setLoading(false);
+          console.log("userCanceled", userCanceled)
+        } 
+        else {
+          setLoading(false);
+          navigation.navigate("ResultScreen", {
+            name: "Result",
+            success: false,
+            response: fullResponse,
+          });
+        }
+        
       }
     );
   };
 
-  // do at your backend server
-  doTokenExchange = async () => {
 
-    var clientId = await RNIPConfiguration.getClientId()
-    console.log(clientId)
-    var redirectUri = await RNIPConfiguration.getRedirectUri()
-    console.log(redirectUri)
-    var coverageUrl = await RNIPConfiguration.getCheckCoverageUrl()
-    console.log(coverageUrl)
-    var authUrl = await RNIPConfiguration.getAuthorizationUrl()
-    console.log(authUrl)
-    
-    console.log("3. do Token Exchange (call from your backend service)");
 
-    var client_id = await RNIPConfiguration.getClientId();
-    var redirect_uri = await RNIPConfiguration.getRedirectUri();
 
-    var details = {
-      client_id: client_id,
-      grant_type: "authorization_code",
-      client_secret: Constants.CLIENT_SECRET,
-      redirect_uri: redirect_uri,
-      code: authorizationResult,
-    };
-    var formBody = [];
-    for (var property in details) {
-      var encodedKey = encodeURIComponent(property);
-      var encodedValue = encodeURIComponent(details[property]);
-      formBody.push(encodedKey + "=" + encodedValue);
-    }
-    formBody = formBody.join("&");
-    // console.log(formBody)
 
-    fetch(Constants.TOKEN_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: formBody,
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log("exchange response", responseJson);
-        if (responseJson["access_token"]) {
-          navigation.navigate("ResultScreen", {
-            name: "ResultScreen",
-            success: true,
-            accessToken: responseJson["access_token"],
-          });
-        } else {
-          navigation.navigate("ResultScreen", {
-            name: "Result",
-            success: false,
-            error: JSON.stringify(responseJson),
-          });
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        setToken(JSON.stringify(error));
-      });
-  };
+  // SET UP FCM NOTIFICATION
+  // START
 
   useEffect(() => {
-    return () => {
-      if (Platform.OS === "android") {
-        console.log("componentWillUnmount android");
-        RNAuthenticationService.unregisterNetwork();
-      }
-    };
-  }, []);
-  //util
-  // getRandomStateValues = () => {
-  //   const validChars =
-  //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  //   var result = "";
-  //   for (var i = 0; i < 40; i++) {
-  //     result += validChars.charAt(
-  //       Math.floor(Math.random() * validChars.length)
-  //     );
-  //   }
-  //   return result;
-  // };
+    initNotification();
+    receiveNotificationFromQuitState();
 
+    //android
+    receiveBackgroundNotification();
+    backgroundThread();
+
+    //iOS
+    requestUserPermission();
+
+    return () => {};
+  }, []);
+
+  async function requestUserPermission() {
+    const authorizationStatus = await messaging().requestPermission();
+
+    if (authorizationStatus) {
+      console.log("Permission status:", authorizationStatus);
+    }
+  }
+  async function initNotification() {
+    // Register the device with FCM
+    if(Platform.OS == "android"){
+      await messaging().registerDeviceForRemoteMessages();
+    }
+    
+
+    // Get the token
+    const token = await messaging().getToken();
+    Constants.CURRENT_DEVICE_TOKEN = token;
+
+  }
+  const receiveNotificationFromQuitState = () => {
+    messaging()
+      .getInitialNotification()
+      .then(async (remoteMessage) => {});
+  };
+  const receiveBackgroundNotification = () => {
+    messaging().onNotificationOpenedApp(async (remoteMessage) => {});
+  };
+  const backgroundThread = () => {
+    //It's called when the app is in the background or terminated
+    messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+      display(remoteMessage);
+    });
+  };
+
+  const display = (remoteMessage) => {
+    console.log(remoteMessage.data.body)
+    if(Platform.OS == "android"){
+      RNIPNotification.showAndroidNotification(
+        "IPification",
+        remoteMessage.data.body,
+        "mipmap",
+        "ic_notification"
+      );
+    }
+  };
+  
+  // SET UP FCM NOTIFICATION
+  // END
+
+
+
+  
   return (
     <View style={styles.container}>
+       
       <SafeAreaView style={styles.wrapper}>
+       
         <Text>Select your login option</Text>
         <TouchableOpacity
-          style={styles.ipbutton}
+          disabled={loading}
+          style={styles.ipButton}
           onPress={() =>
-            navigation.navigate("PhoneVerifyScreen", {
-              name: "PhoneVerifyScreen",
-            })
+            {
+              navigation.navigate("PhoneVerifyScreen", {
+                name: "PhoneVerifyScreen",
+              })
+            }
           }
         >
           <Text style={styles.IPbuttonText}>Phone Verify</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.imbutton}
+          disabled={loading}
+          style={styles.imButton}
           onPress={() => {
             doIMAuthentication();
           }}
@@ -206,6 +226,10 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.IMbuttonText}>IM Login</Text>
         </TouchableOpacity>
       </SafeAreaView>
+      <Spinner
+            visible={true}
+            textStyle={styles.spinnerTextStyle}
+          />
     </View>
   );
 };
@@ -213,14 +237,16 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.lighter,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: "#000000",
   },
   wrapper: {
     marginTop: 30,
     flex: 1,
     alignItems: "center",
   },
-  imbutton: {
+  imButton: {
     marginTop: 20,
     height: 50,
     width: 300,
@@ -237,13 +263,13 @@ const styles = StyleSheet.create({
     elevation: 10,
     borderRadius: 5,
   },
-  ipbutton: {
+  ipButton: {
     marginTop: 20,
     height: 50,
     width: 300,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#FD5D5D",
+    backgroundColor: "#ed1e26",
     shadowColor: "rgba(0,0,0,0.4)",
     shadowOffset: {
       width: 1,
@@ -261,6 +287,9 @@ const styles = StyleSheet.create({
   IPbuttonText: {
     color: "white",
     fontSize: 18,
+  },
+  spinnerTextStyle: {
+    color: '#FFF'
   },
 });
 
