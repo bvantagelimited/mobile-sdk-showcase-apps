@@ -16,18 +16,20 @@ class SuccessViewController: UIViewController {
     @IBOutlet weak var lblMainInfo: UILabel!
     @IBOutlet weak var lblDetailInfo: UILabel!
 
-    var tokenInfo : TokenInfo = TokenInfo()
+    var responseData : String?
     
     override func viewDidLoad() {
-    
-        if(tokenInfo.phoneNumber != nil){
-            lblMainInfo.text = "Phone Number :\(tokenInfo.phoneNumber!)"
-//            phoneNumberTxt = tokenInfo.phoneNumber != nil ? "Phone Number: \(tokenInfo.phoneNumber!)" : ""
-        }else if(tokenInfo.isVerifedPhone == true){
-            lblMainInfo.text = "Phone Verified : \(tokenInfo.isVerifedPhone!) - Phone Number: \(tokenInfo.loginHint ?? "")"
+       
+        if(responseData != nil){
+            print("SuccessViewController - responseData", responseData!)
+            lblMainInfo.text = responseData
         }
+        
         lblDetailInfo.text = ""
     }
+    
+    
+    
     @IBAction func sendLog(_ sender: Any) {
     }
 }

@@ -16,13 +16,15 @@ class FailViewController: UIViewController {
     @IBOutlet weak var lblMainInfo: UILabel!
     @IBOutlet weak var lblDetailInfo: UILabel!
 
-    var tokenInfo : TokenInfo = TokenInfo()
-    var errorMessage: String? = nil
+    var responseData : String?
     
     
     override func viewDidLoad() {
-        print(errorMessage, tokenInfo)
-        lblMainInfo.text = errorMessage ?? (tokenInfo.isVerifedPhone != nil ? "Phone Verified: \(tokenInfo.isVerifedPhone!) - Input Phone Number: \(tokenInfo.loginHint ?? tokenInfo.phoneNumber ?? "")" : "")        
+        
+        if(responseData != nil){
+            print("FailViewController - responseData", responseData!)
+            lblMainInfo.text = responseData!
+        }
     }
     
     

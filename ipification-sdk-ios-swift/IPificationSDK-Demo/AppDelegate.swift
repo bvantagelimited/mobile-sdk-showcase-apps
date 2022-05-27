@@ -79,16 +79,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IPConfiguration.sharedInstance.log += "Unable to register for remote notifications: \(error.localizedDescription)"
       }
 
-//      // This function is added here only for debugging purposes, and can be removed if swizzling is enabled.
-//      // If swizzling is disabled then this function must be implemented so that the APNs token can be paired to
-//      // the FCM registration token.
-//      func application(_ application: UIApplication,
-//                       didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-//        print("APNs token retrieved: \(deviceToken)")
-//
-//        // With swizzling disabled you must set the APNs token here.
-//        Messaging.messaging().apnsToken = deviceToken
-//      }
     
 }
 
@@ -96,12 +86,7 @@ extension AppDelegate: MessagingDelegate {
   // [START refresh_token]
   func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
     print("Firebase registration token: \(String(describing: fcmToken))")
-
-      
-    print("didReceiveRegistrationToken" , fcmToken)
-    IPConfiguration.sharedInstance.log += "[FCM] receiveRegistrationToken: \(fcmToken ?? "") \n"
     APIManager.sharedInstance.deviceToken = fcmToken ?? ""
-    APIManager.sharedInstance.initStateAndRegister()
   }
 
   // [END refresh_token]

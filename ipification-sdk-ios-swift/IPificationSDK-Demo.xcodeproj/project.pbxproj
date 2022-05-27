@@ -16,7 +16,7 @@
 		0ABAB981276B0B1300CF9AF2 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABAB980276B0B1300CF9AF2 /* LoadingViewController.swift */; };
 		0AD40BAD248753FA00B0D1A6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD40BAC248753FA00B0D1A6 /* AppDelegate.swift */; };
 		0AD40BAF248753FA00B0D1A6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD40BAE248753FA00B0D1A6 /* SceneDelegate.swift */; };
-		0AD40BB1248753FA00B0D1A6 /* IPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD40BB0248753FA00B0D1A6 /* IPViewController.swift */; };
+		0AD40BB1248753FA00B0D1A6 /* PhoneVerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD40BB0248753FA00B0D1A6 /* PhoneVerifyViewController.swift */; };
 		0AD40BB4248753FA00B0D1A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AD40BB2248753FA00B0D1A6 /* Main.storyboard */; };
 		0AD40BB6248753FA00B0D1A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AD40BB5248753FA00B0D1A6 /* Assets.xcassets */; };
 		0AD40BB9248753FA00B0D1A6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AD40BB7248753FA00B0D1A6 /* LaunchScreen.storyboard */; };
@@ -56,7 +56,7 @@
 		0AD40BA9248753FA00B0D1A6 /* IPificationSDK-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IPificationSDK-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AD40BAC248753FA00B0D1A6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0AD40BAE248753FA00B0D1A6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		0AD40BB0248753FA00B0D1A6 /* IPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPViewController.swift; sourceTree = "<group>"; };
+		0AD40BB0248753FA00B0D1A6 /* PhoneVerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneVerifyViewController.swift; sourceTree = "<group>"; };
 		0AD40BB3248753FA00B0D1A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0AD40BB5248753FA00B0D1A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0AD40BB8248753FA00B0D1A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -135,7 +135,7 @@
 			children = (
 				0ABAB97E276B0AE500CF9AF2 /* BaseViewController.swift */,
 				0A16D1A4276B6FA0007F0EB8 /* FailViewController.swift */,
-				0AD40BB0248753FA00B0D1A6 /* IPViewController.swift */,
+				0AD40BB0248753FA00B0D1A6 /* PhoneVerifyViewController.swift */,
 				0ABAB980276B0B1300CF9AF2 /* LoadingViewController.swift */,
 				0ABAB97C276AFD4600CF9AF2 /* HomeViewController.swift */,
 				0A8B3FC3261B4D3400FA3DE0 /* SuccessViewController.swift */,
@@ -285,7 +285,7 @@
 			files = (
 				0ABAB981276B0B1300CF9AF2 /* LoadingViewController.swift in Sources */,
 				0ABAB97D276AFD4600CF9AF2 /* HomeViewController.swift in Sources */,
-				0AD40BB1248753FA00B0D1A6 /* IPViewController.swift in Sources */,
+				0AD40BB1248753FA00B0D1A6 /* PhoneVerifyViewController.swift in Sources */,
 				0ADC473C279A4FD0004B9C7B /* TokenInfo.swift in Sources */,
 				0A8B3FC4261B4D3400FA3DE0 /* SuccessViewController.swift in Sources */,
 				0AD40BAD248753FA00B0D1A6 /* AppDelegate.swift in Sources */,
