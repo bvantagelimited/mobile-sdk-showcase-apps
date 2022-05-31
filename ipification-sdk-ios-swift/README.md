@@ -29,7 +29,7 @@ Update with your `CLIENT_ID` `CLIENT_SECRET`, and `REDIRECT_URI` values
 
 ### 2. IM Authentication
 Update `REGISTER_DEVICE_URL` (for Push Notification)
-Set up your FCM and override `google-services.json`
+Set up your FCM and override `GoogleService-Info.plist`
 
   
 

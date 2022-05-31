@@ -1,12 +1,23 @@
+# IPification Plugin Demo App
 
-How to run the project:
+Demonstrates how to use the IPification plugin.
+
+## Getting Started
+
+This project is a starting point for a IPification Demo application on RN.
 
 
-1. Run `yarn`
-2. cd iOS, run `pod install`
-3. cd .. 
-4. to run for android app: run `yarn android`
-5. to run for iOS app: run `yarn iOS`
+1. A few resources to get you started
+- [Document](https://developer.ipification.com/#/flutter-plugin/latest/)
 
-Requirements:
-RN 0.65+
+2. Update project:
++ `package.json` : Update IPification RN location at line 20
++ `lib/constant.dart`: Update Client information , Stage / Production Host
+
+Update configuration file for FCM:
++ Android: `google-services.json`
++ iOS: `GoogleService-Info.plist`
+
+3. Run project
+- `yarn`
+- `yarn android/ios`
