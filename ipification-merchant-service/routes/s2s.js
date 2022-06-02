@@ -9,6 +9,8 @@ module.exports = async (fastify, options) => {
   // receive s2s redirect_uri from IP
   fastify.get("/s2s/callback", async (req, res) => {
     const { state } = req.query || {};
+
+    // check request come from s2 flow
     const ipBackchannelAuth = req.headers['ip-backchannel-im-auth'] === 'true';
     if(!ipBackchannelAuth) {
       console.log('ipBackchannelAuth is false');
@@ -33,6 +35,7 @@ module.exports = async (fastify, options) => {
     });
 
     try {
+      // exchange code to token
       const params = req.query || {};
       const tokenSet = await client.callback(redirectUri, params, { state })
 
@@ -41,12 +44,13 @@ module.exports = async (fastify, options) => {
         return res.status(400).send(tokenSet.error_description);
       }
 
+      // get user info
       const userInfo = await client.userinfo(tokenSet.access_token);
       await dataStore.set(state, userInfo);
 
       console.log("callback userInfo", userInfo);
 
-      res.send(userInfo);
+      res.send();
 
     } catch (err) {
       console.log("callback exception", err.message);

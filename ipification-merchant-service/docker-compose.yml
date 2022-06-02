@@ -9,6 +9,6 @@ services:
     env_file:
       - .env.docker
     ports:
-      - 4001:4001
+      - 4001:8080
   redis:
     image: "redis:alpine"
