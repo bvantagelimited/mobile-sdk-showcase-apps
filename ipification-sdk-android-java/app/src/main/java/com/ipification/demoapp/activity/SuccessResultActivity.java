@@ -1,10 +1,12 @@
 package com.ipification.demoapp.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.ipification.demoapp.R;
@@ -24,33 +26,6 @@ public class SuccessResultActivity extends AppCompatActivity {
         setContentView(view);
 
         initView();
-    }
-
-    private void initView() {
-        TokenInfo tokenInfo = getIntent().getParcelableExtra("tokenInfo");
-        if(tokenInfo == null){
-            return;
-        }
-        Log.d("tokenInfo", "phoneNumber : "+ tokenInfo.phoneNumber);
-        String phoneNumber = tokenInfo.phoneNumber;
-        boolean phoneNumberVerified = tokenInfo.phoneNumberVerified;
-        String sub = tokenInfo.sub != null ? " | sub: " + tokenInfo.sub : "";
-        String mobileID = tokenInfo.mobileID != null ? " | mobileID: " + tokenInfo.mobileID  : "";
-        String loginHint = tokenInfo.loginHint != null ? " | Phone Number: " + tokenInfo.loginHint :  "";
-        String result = "Phone Number Verified: " + phoneNumberVerified + " " + loginHint;
-        if(phoneNumber != null){
-            result = "Phone Number: " + phoneNumber;
-        }
-
-
-        binding.tvMainDetail.setText(result);
-        binding.detail.setText(result + sub + mobileID);
-        binding.btnRestart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
         ActionBar actionbar = getSupportActionBar();
         if(actionbar != null){
             //set actionbar title
@@ -58,4 +33,24 @@ public class SuccessResultActivity extends AppCompatActivity {
             actionbar.setDisplayHomeAsUpEnabled(true);
         }
     }
+
+    private void initView() {
+        String result = getIntent().getStringExtra("responseStr");
+
+        binding.tvMainDetail.setText(result);
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {// API 5+ solution
+            onBackPressed();
+            return true;
+        } else {
+            super.onOptionsItemSelected(item);
+        }
+        return false;
+    }
+
 }

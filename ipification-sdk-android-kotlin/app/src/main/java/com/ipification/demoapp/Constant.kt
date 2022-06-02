@@ -3,10 +3,19 @@ package com.ipification.demoapp
 class Constant {
 
     companion object Factory {
-        const val TOKEN_URL =
-            "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/token"
-        const val DEVICE_TOKEN_REGISTRATION_URL =
-            "https://your-device-token-url.com"
-        const val CLIENT_SECRET = "CLIENT_SECRET"
+
+        private const val HOST = "https://stage.ipification.com"
+
+        const val CHECK_COVERAGE_URL = "$HOST/auth/realms/ipification/coverage/202.175.50.128"
+        const val AUTH_URL = "$HOST/auth/realms/ipification/protocol/openid-connect/auth"
+        const val EXCHANGE_TOKEN_URL = "$HOST/auth/realms/ipification/protocol/openid-connect/token"
+        const val USER_INFO_URL = "$HOST/auth/realms/ipification/protocol/openid-connect/userinfo"
+
+        const val DEVICE_TOKEN_REGISTRATION_URL = "https://demo.ipification.com/register-device"
+
+
+        const val CLIENT_ID = ""
+        const val REDIRECT_URI = ""
+        const val CLIENT_SECRET = ""
     }
 }

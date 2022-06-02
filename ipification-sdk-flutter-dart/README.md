@@ -1,16 +1,23 @@
-# ip_sdk_example
+# IPification Plugin Demo App
 
-Demonstrates how to use the ip_sdk plugin.
+Demonstrates how to use the IPification plugin.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is a starting point for a IPification Demo application on Flutter.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+1. A few resources to get you started
+- [Document](https://developer.ipification.com/#/flutter-plugin/latest/)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+2. Update project:
++ `pubspec.yaml` : Update IPification Plugin location at line 22
++ `lib/constant.dart`: Update Client information , Stage / Production Host
+
+Update configuration file for FCM:
++ Android: `google-services.json`
++ iOS: `GoogleService-Info.plist`
+
+3. Run project
+- `flutter clean`
+- `flutter run`

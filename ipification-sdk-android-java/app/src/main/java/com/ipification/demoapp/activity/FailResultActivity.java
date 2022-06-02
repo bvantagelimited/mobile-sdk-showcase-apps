@@ -1,8 +1,11 @@
 package com.ipification.demoapp.activity;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.ipification.demoapp.R;
@@ -22,27 +25,31 @@ public class FailResultActivity extends AppCompatActivity {
         setContentView(view);
 
         initView();
+        ActionBar actionbar = getSupportActionBar();
+        if(actionbar != null){
+            //set actionbar title
+            actionbar.setTitle("Result");
+            actionbar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private void initView() {
-        String errorMessage = getIntent().getStringExtra("error");
-        String result = errorMessage;
-        TokenInfo tokenInfo = getIntent().getParcelableExtra("tokenInfo");
-        if(tokenInfo != null){
-            boolean phoneNumberVerified = tokenInfo.phoneNumberVerified;
-            String phoneNumber = tokenInfo.phoneNumber;
-            String sub = tokenInfo.sub != null ? " | sub: " + tokenInfo.sub : "";
-            String mobileID = tokenInfo.mobileID != null ? " | mobileID: " + tokenInfo.mobileID  : "";
-            String loginHint = tokenInfo.loginHint != null ? " | Phone Number: " + tokenInfo.loginHint :  "";
-            result = "Phone Number Verified: " + phoneNumberVerified + " " + loginHint;
-            if(phoneNumber != null){
-                result = "Phone Number: " + phoneNumber;
-            }
-            binding.detail.setText(result + sub + mobileID);
-        }
+        String result = getIntent().getStringExtra("error");
+
         binding.tvMainDetail.setText(result);
 
 
         binding.btnRestart.setOnClickListener(view -> onBackPressed());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {// API 5+ solution
+            onBackPressed();
+            return true;
+        } else {
+            super.onOptionsItemSelected(item);
+        }
+        return false;
     }
 }

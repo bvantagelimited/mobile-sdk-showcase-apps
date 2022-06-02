@@ -3,6 +3,8 @@ package com.ipification.demoapp.util;
 import com.auth0.android.jwt.JWT;
 import com.ipification.demoapp.data.TokenInfo;
 
+import org.json.JSONObject;
+
 public class Util {
     public static TokenInfo parseAccessToken(String accessToken) {
         if (accessToken == null || accessToken.equals("")) {
@@ -30,7 +32,25 @@ public class Util {
                     loginHint,
                     sub,
                     mobileID
-                );
+            );
+        }
+    }
+
+    public static String parseAccessTokenFromJSON(String jsonStr) {
+        try {
+            JSONObject jObject = new JSONObject(jsonStr);
+            return jObject.getString("access_token");
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public static String parseUserInfoJSON(String jsonStr, String pattern) {
+        try {
+            JSONObject jObject = new JSONObject(jsonStr);
+            return jObject.getString(pattern);
+        } catch (Exception e) {
+            return "";
         }
     }
 }

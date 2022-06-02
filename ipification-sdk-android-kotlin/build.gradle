@@ -22,7 +22,7 @@ allprojects {
         google()
         mavenCentral()
         maven { url "https://jitpack.io" }
-        //ipification maven
+        //IPification maven
         maven {
             url "https://artifacts.ipification.com/artifactory/mobile-libs-release/"
         }

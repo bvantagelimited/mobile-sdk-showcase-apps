@@ -1,6 +1,8 @@
 package com.ipification.demoapp.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ipification.demoapp.Constant;
 import com.ipification.demoapp.R;
 import com.ipification.demoapp.data.TokenInfo;
 import com.ipification.demoapp.databinding.ActivityHomeBinding;
@@ -25,7 +28,9 @@ import com.ipification.mobile.sdk.android.callback.IPificationCallback;
 import com.ipification.mobile.sdk.android.exception.IPificationError;
 import com.ipification.mobile.sdk.android.request.AuthRequest;
 import com.ipification.mobile.sdk.android.response.AuthResponse;
+import com.ipification.mobile.sdk.im.IMLocale;
 import com.ipification.mobile.sdk.im.IMService;
+import com.ipification.mobile.sdk.im.IMTheme;
 
 import org.json.JSONObject;
 
@@ -42,9 +47,24 @@ public class HomeActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        ApiManager.currentState = IPificationServices.Factory.generateState();
+        initIPification();
         initActions();
         initFirebase();
+        
+    }
+
+    private void initIPification() {
+
+        IPConfiguration.getInstance().setCOVERAGE_URL(Uri.parse(Constant.CHECK_COVERAGE_URL));
+        IPConfiguration.getInstance().setAUTHORIZATION_URL(Uri.parse(Constant.AUTH_URL));
+        IPConfiguration.getInstance().setCLIENT_ID(Constant.CLIENT_ID);
+        IPConfiguration.getInstance().setREDIRECT_URI(Uri.parse(Constant.REDIRECT_URI));
+
+//       4. Theme (optional)
+//        IPificationServices.Factory.setTheme(new IMTheme(Color.parseColor("#FFFFFF"), Color.parseColor("#E35259"),  Color.parseColor("#ACE1AF")));
+//       5. Locale (optional)
+//        IPificationServices.Factory.setLocale(new IMLocale( "IPification", "Description", "Whatsapp",  "Telegram",  "Viber","", View.VISIBLE));
+
     }
 
     private void initActions() {
@@ -58,72 +78,64 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void doIMFlow() {
+        registerDevice();
+
         doIMAuth(new IPificationCallback() {
+            @Override
+            public void onIMCancel() {
+                // hide loading or do nothing
+            }
+
             @Override
             public void onSuccess(@NonNull AuthResponse authResponse) {
                 if(authResponse.getCode() != null){
                     callTokenExchange(authResponse.getCode());
                 }else{
-                    openErrorActivity("code is empty", null);
+                    openErrorActivity(authResponse.getErrorMessage());
                 }
             }
 
             @Override
             public void onError(@NonNull IPificationError iPificationError) {
-                openErrorActivity(iPificationError.getErrorMessage(), null);
+                openErrorActivity(iPificationError.getErrorMessage());
             }
         });
     }
 
-    private void handleTokenExchangeSuccess(String response) {
-        try{
-            JSONObject jObject = new JSONObject(response);
-            String accessToken = jObject.getString("access_token");
-            TokenInfo tokenInfo = Util.parseAccessToken(accessToken);
-            if(tokenInfo != null && tokenInfo.phoneNumberVerified){
-                openSuccessActivity(tokenInfo);
-            }else{
-                openErrorActivity("", tokenInfo);
-            }
-        }catch (Exception error){
-            openErrorActivity(error.getLocalizedMessage(), null);
-        }
+    private void registerDevice() {
+        ApiManager.currentState = IPificationServices.Factory.generateState();
+        ApiManager.registerDevice(ApiManager.currentToken, ApiManager.currentState);
     }
 
 
-    private void handleTokenExchangeError(String error) {
-        if(!error.equals("USER_CANCELED")){
-            openErrorActivity(error, null);
-        }
-    }
-    private void openSuccessActivity(TokenInfo tokenInfo) {
+    private void openSuccessActivity(String responseStr) {
         Intent intent = new Intent(this, SuccessResultActivity.class);
-        intent.putExtra("tokenInfo", tokenInfo);
+        intent.putExtra("responseStr", responseStr);
         startActivity(intent);
 
     }
-    private void openErrorActivity(String error, TokenInfo tokenInfo){
+    private void openErrorActivity(String error){
         Intent intent = new Intent(this, FailResultActivity.class);
         intent.putExtra(
                 "error",
                 error
         );
-        if(tokenInfo != null){
-            intent.putExtra("tokenInfo", tokenInfo);
-        }
+
         startActivity(intent);
     }
 
     private void callTokenExchange(String code) {
-        ApiManager.doPostToken(code, new TokenCallback() {
-            @Override
-            public void onError(String error) {
-                handleTokenExchangeError(error);
-            }
-
-            @Override
-            public void onSuccess(String response) {
-                handleTokenExchangeSuccess(response);
+        ApiManager.doPostToken(code, (response, errorMessage) -> {
+            if(!response.equals("")){
+                String phoneNumberVerified = Util.parseUserInfoJSON(response, "phone_number_verified");
+                String phoneNumber = Util.parseUserInfoJSON(response, "phone_number");
+                if(phoneNumberVerified.equals("true") || !phoneNumber.equals("")){
+                    openSuccessActivity(response);
+                }else{
+                    openErrorActivity(response);
+                }
+            }else{
+                openErrorActivity(errorMessage);
             }
         });
     }
@@ -133,9 +145,7 @@ public class HomeActivity extends AppCompatActivity {
         authRequestBuilder.setState(ApiManager.currentState);
         authRequestBuilder.setScope("openid ip:phone");
         authRequestBuilder.addQueryParam("channel", "wa viber telegram");
-        // 5
-//        IPificationServices.Factory.setTheme(new IMTheme(Color.parseColor("#FFFFFF"), Color.parseColor("#E35259"),  Color.parseColor("#ACE1AF"),  "IPification Verification", View.VISIBLE));
-//        IPificationServices.Factory.setLocale(new IMLocale("IPification", "Description", "Whatsapp",  "Telegram",  "Viber"));
+
 
         IPificationServices.Factory.startIMAuthentication(this, authRequestBuilder.build(), callback);
     }
@@ -146,12 +156,6 @@ public class HomeActivity extends AppCompatActivity {
         IMService.Factory.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        boolean result = CellularService.Companion.unregisterNetwork(this);
-        Log.d("onDestroy", "unregisterNetwork: " + result);
-    }
 
 
     //register FCM notification service
@@ -167,7 +171,7 @@ public class HomeActivity extends AppCompatActivity {
                 String token = task.getResult();
                 if (token != null) {
                     Log.d(TAG, "device token: "+token);
-                    ApiManager.registerDevice(token, ApiManager.currentState);
+                    ApiManager.currentToken = token;
                 }
             });
     }

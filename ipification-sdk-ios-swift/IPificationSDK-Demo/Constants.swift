@@ -8,9 +8,21 @@
 
 import Foundation
 struct Constants {
-    static let CLIENT_SECRET = "your_client_secret"
+    static let HOST = "https://stage.ipification.com"
+   
+    static let CHECK_COVERAGE_URL = "\(HOST)/auth/realms/ipification/coverage"
+    static let AUTH_URL = "\(HOST)/auth/realms/ipification/protocol/openid-connect/auth"
+    static let EXCHANGE_TOKEN_URL = "\(HOST)/auth/realms/ipification/protocol/openid-connect/token"
+    static let USER_INFO_URL = "\(HOST)/auth/realms/ipification/protocol/openid-connect/userinfo"
+
     
-    static let EXCHANGE_TOKEN_URL = "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/token"
     
-    static let REGISTER_DEVICE_URL = "your_registration_url"
+    static let CLIENT_ID = ""
+    static let REDIRECT_URI = ""
+    static let CLIENT_SECRET = ""
+    
+    static let enableFCM = true
+    
+    static let REGISTER_DEVICE_URL = "https://sample.com/api/register-device"
+    
 }

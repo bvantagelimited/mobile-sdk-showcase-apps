@@ -8,14 +8,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 
+import com.ipification.demoapp.Constant;
+import com.ipification.demoapp.callback.CoverageCallback;
 import com.ipification.demoapp.callback.TokenCallback;
 import com.ipification.demoapp.data.TokenInfo;
 import com.ipification.demoapp.databinding.ActivityPhoneVerifyBinding;
@@ -23,10 +27,13 @@ import com.ipification.demoapp.manager.ApiManager;
 import com.ipification.demoapp.util.Util;
 import com.ipification.mobile.sdk.android.IPConfiguration;
 import com.ipification.mobile.sdk.android.IPificationServices;
+import com.ipification.mobile.sdk.android.callback.CellularCallback;
 import com.ipification.mobile.sdk.android.callback.IPificationCallback;
+import com.ipification.mobile.sdk.android.exception.CellularException;
 import com.ipification.mobile.sdk.android.exception.IPificationError;
 import com.ipification.mobile.sdk.android.request.AuthRequest;
 import com.ipification.mobile.sdk.android.response.AuthResponse;
+import com.ipification.mobile.sdk.android.response.CoverageResponse;
 import com.ipification.mobile.sdk.im.IMLocale;
 import com.ipification.mobile.sdk.im.IMService;
 import com.ipification.mobile.sdk.im.IMTheme;
@@ -49,15 +56,14 @@ public class PhoneVerifyActivity extends AppCompatActivity {
         binding = ActivityPhoneVerifyBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-
         initView();
+        initIPification();
     }
 
     private void initView() {
         hideKeyboard(binding.countryCodeEditText);
         binding.loginBtn.setOnClickListener(view1 -> {
             callIPFlow();
-
         });
 
         CountryPicker.Builder builder =
@@ -71,22 +77,12 @@ public class PhoneVerifyActivity extends AppCompatActivity {
                             }
                         });
 
-        binding.phoneCodeEditText.requestFocus();
         CountryPicker picker = builder.build();
+        Country country = picker.getCountryFromSIM();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            binding.countryCodeEditText.setShowSoftInputOnFocus(false);
-        } else {
-            try {
-                final Method method = EditText.class.getMethod("setShowSoftInputOnFocus", boolean.class);
-
-                method.setAccessible(true);
-                method.invoke(binding.countryCodeEditText, false);
-            } catch (Exception e) {
-                // ignore
-            }
-        }
-//
+        binding.countryCodeEditText.setText(country.getDialCode());
+        binding.countryCodeEditText.setShowSoftInputOnFocus(false);
+        //
         binding.countryCodeEditText.setOnFocusChangeListener((view12, b) -> {
             if (b) {
                 picker.showBottomSheet(PhoneVerifyActivity.this);
@@ -94,96 +90,119 @@ public class PhoneVerifyActivity extends AppCompatActivity {
             }
         });
         ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
+        if (actionbar != null) {
+            actionbar.setDisplayHomeAsUpEnabled(true);
+        }
     }
+    private void initIPification() {
 
+        IPConfiguration.getInstance().setCOVERAGE_URL(Uri.parse(Constant.CHECK_COVERAGE_URL));
+        IPConfiguration.getInstance().setAUTHORIZATION_URL(Uri.parse(Constant.AUTH_URL));
+        IPConfiguration.getInstance().setCLIENT_ID(Constant.CLIENT_ID);
+        IPConfiguration.getInstance().setREDIRECT_URI(Uri.parse(Constant.REDIRECT_URI));
+
+    }
     private void callIPFlow() {
         IPConfiguration.getInstance().setDebug(true);
-        requestIPification(new IPificationCallback() {
 
+        // check Coverage
+        callCheckCoverage((isAvailable, operatorCode, errorMessage) -> {
+            if(isAvailable){
+                startAuth();
+            } else{
+                // TODO fallback to other service
+                Log.e(TAG, "callCheckCoverage failed");
+            }
+        });
+
+    }
+
+    private void startAuth() {
+        IPificationCallback callback = new IPificationCallback() {
             @Override
             public void onSuccess(@NonNull AuthResponse authResponse) {
-                if(authResponse.getCode() != null){
+                if (authResponse.getCode() != null) {
                     callTokenExchange(authResponse.getCode());
-                }else{
-                    Log.e(TAG, "error: code is empty");
-                    openErrorActivity("code is empty", null);
+                } else {
+                    Log.e(TAG, "startAuth - error: code is empty");
+                    openErrorActivity("startAuth - code is empty");
                 }
             }
 
             @Override
             public void onError(@NonNull IPificationError iPificationError) {
-                Log.e(TAG, "error: "+ iPificationError.getErrorMessage());
-                openErrorActivity(iPificationError.getErrorMessage(), null);
+                Log.e(TAG, "startAuth - error: " + iPificationError.getErrorMessage());
+                openErrorActivity(iPificationError.getErrorMessage());
+            }
+            @Override
+            public void onIMCancel() {
+                // do nothing, only use if IM is enabled
+            }
+        };
+        AuthRequest.Builder authRequestBuilder = new AuthRequest.Builder();
+        String phoneNumber = binding.countryCodeEditText.getText().toString() + binding.phoneCodeEditText.getText().toString();
+        authRequestBuilder.addQueryParam("login_hint", phoneNumber);
+        authRequestBuilder.setScope("openid ip:phone_verify");
+        IPificationServices.Factory.startAuthentication(this, authRequestBuilder.build(), callback);
+
+    }
+
+    private void callCheckCoverage(CoverageCallback coverageCallback) {
+        IPificationServices.Factory.startCheckCoverage(this, new CellularCallback<CoverageResponse>() {
+            @Override
+            public void onSuccess(CoverageResponse coverageResponse) {
+                if(coverageResponse.isAvailable()){
+                    coverageCallback.result(true, coverageResponse.getOperatorCode(), "");
+                }else{
+                    coverageCallback.result(false, coverageResponse.getOperatorCode(), "");
+                    Log.e(TAG, "CheckCoverage Failed: Not supported");
+                }
+            }
+
+            @Override
+            public void onError(@NonNull CellularException e) {
+                Log.e(TAG, "CheckCoverage Error: " + e.getErrorMessage());
+                coverageCallback.result(false, "", e.getErrorMessage());
+            }
+
+            @Override
+            public void onIMCancel() {
+                // do nothing
             }
         });
     }
 
 
-    private void requestIPification(IPificationCallback callback) {
-        AuthRequest.Builder authRequestBuilder = new AuthRequest.Builder();
-        String phoneNumber = binding.countryCodeEditText.getText().toString() + binding.phoneCodeEditText.getText().toString();
-        authRequestBuilder.addQueryParam("login_hint", phoneNumber);
-        authRequestBuilder.setState(ApiManager.currentState);
-        authRequestBuilder.setScope("openid ip:phone_verify");
-        authRequestBuilder.addQueryParam("channel", "ip wa viber telegram");
-
-        // 5
-        IPificationServices.Factory.setTheme(new IMTheme(Color.parseColor("#FFFFFF"), Color.parseColor("#E35259"),  Color.parseColor("#ACE1AF"),  "IPification Verification", View.VISIBLE));
-        IPificationServices.Factory.setLocale(new IMLocale("IPification", "Description", "Whatsapp",  "Telegram",  "Viber"));
-
-        IPificationServices.Factory.startAuthentication(this, authRequestBuilder.build(), callback);
-    }
-
-    private void handleTokenExchangeSuccess(String response) {
-        try{
-            JSONObject jObject = new JSONObject(response);
-            String accessToken = jObject.getString("access_token");
-            TokenInfo tokenInfo = Util.parseAccessToken(accessToken);
-            if(tokenInfo != null && tokenInfo.phoneNumberVerified){
-                openSuccessActivity(tokenInfo);
-            }else{
-                openErrorActivity("", tokenInfo);
-            }
-        }catch (Exception error){
-            openErrorActivity(error.getLocalizedMessage(), null);
-        }
-    }
 
 
-    private void handleTokenExchangeError(String error) {
-        if(!error.equals("USER_CANCELED")){
-            openErrorActivity(error, null);
-        }
-    }
-    private void openSuccessActivity(TokenInfo tokenInfo) {
+    private void openSuccessActivity(String responseStr) {
         Intent intent = new Intent(this, SuccessResultActivity.class);
-        intent.putExtra("tokenInfo", tokenInfo);
+        intent.putExtra("responseStr", responseStr);
         startActivity(intent);
 
     }
-    private void openErrorActivity(String error, TokenInfo tokenInfo){
+    private void openErrorActivity(String error){
         Intent intent = new Intent(this, FailResultActivity.class);
         intent.putExtra(
                 "error",
                 error
         );
-        if(tokenInfo != null){
-            intent.putExtra("tokenInfo", tokenInfo);
-        }
+
         startActivity(intent);
     }
 
     private void callTokenExchange(String code) {
-        ApiManager.doPostToken(code, new TokenCallback() {
-            @Override
-            public void onError(String error) {
-                handleTokenExchangeError(error);
-            }
-
-            @Override
-            public void onSuccess(String response) {
-                handleTokenExchangeSuccess(response);
+        ApiManager.doPostToken(code, (response, errorMessage) -> {
+            if(!response.equals("")){
+                String phoneNumberVerified = Util.parseUserInfoJSON(response, "phone_number_verified");
+                String phoneNumber = Util.parseUserInfoJSON(response, "phone_number");
+                if(phoneNumberVerified.equals("true") || !phoneNumber.equals("")){
+                    openSuccessActivity(response);
+                }else{
+                    openErrorActivity(response);
+                }
+            }else{
+                openErrorActivity(errorMessage);
             }
         });
     }
@@ -199,5 +218,16 @@ public class PhoneVerifyActivity extends AppCompatActivity {
         InputMethodManager inputMethodManager  =
                 (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(countryCodeEditText.getWindowToken(), 0);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {// API 5+ solution
+            onBackPressed();
+            return true;
+        } else {
+            super.onOptionsItemSelected(item);
+        }
+        return false;
     }
 }

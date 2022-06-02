@@ -23,15 +23,12 @@ import { Colors } from "react-native/Libraries/NewAppScreen";
 import PhoneInput from "react-native-phone-number-input";
 
 import Constants from "./Constants";
+import NetworkManger from "./NetworkManger";
 
 const PhoneVerifyScreen = ({ navigation }) => {
   const [phoneNumber, setPhoneNumnber] = useState("");
-  const [token, setToken] = useState("");
   const [formattedValue, setFormattedValue] = useState("");
-  const [coverageResult, setCoverageResult] = useState(false);
-  const [authorizationResult, setAuthorizationResult] = useState();
   const [disabled, setDisabled] = useState(false);
-  const [showMessage, setShowMessage] = useState(false);
   const phoneInput = useRef<PhoneInput>(null);
 
   useEffect(() => {}, []);
@@ -48,95 +45,77 @@ const PhoneVerifyScreen = ({ navigation }) => {
         error
       );
       if (isAvailable) {
-        setCoverageResult(isAvailable);
         doIPAuthentication();
       } else {
-        setCoverageResult(isAvailable || error);
         setDisabled(false);
+        navigation.navigate("ResultScreen", {
+          name: "Result",
+          success: false,
+          response: "checkCoverage return false",
+        });
       }
     });
   };
 
   doIPAuthentication = () => {
-    // var state = getRandomValues(); // optional
+    setDisabled(true)
+    
     console.log("2. do IM Authentication");
     RNAuthenticationService.startAuthorization(
       {
         scope: "openid ip:phone_verify",
         login_hint: formattedValue,
       },
-      (error, code, state, fullResponse) => {
-        console.log(code, state, fullResponse, error);
+      (error, code, state, fullResponse, userCancelIM) => {
+        console.log(code, state, fullResponse, error, userCancelIM);
         if (code != null) {
-          setAuthorizationResult(code);
-          doTokenExchange();
-        } else {
-          setAuthorizationResult(error);
+          doTokenExchange(code);
+        }
+        else if(userCancelIM){
+            // do nothing
+        }
+
+        else {
+          setDisabled(false);
+          navigation.navigate("ResultScreen", {
+            name: "Result",
+            success: false,
+            response: fullResponse,
+          });
         }
         setDisabled(false);
       }
     );
   };
   // do at your backend server
-  doTokenExchange = async () => {
+  doTokenExchange = async (code) => {
     console.log("3. do Token Exchange (call from your backend service)");
 
-    var client_id = await RNIPConfiguration.getClientId();
-    console.log("client_id,", client_id);
-    var redirect_uri = await RNIPConfiguration.getRedirectUri();
-    var details = {
-      client_id: client_id,
-      grant_type: "authorization_code",
-      client_secret: Constants.CLIENT_SECRET,
-      redirect_uri: redirect_uri,
-      code: authorizationResult,
-    };
-    var formBody = [];
-    for (var property in details) {
-      var encodedKey = encodeURIComponent(property);
-      var encodedValue = encodeURIComponent(details[property]);
-      formBody.push(encodedKey + "=" + encodedValue);
-    }
-    formBody = formBody.join("&");
-    // console.log(formBody)
-    fetch(Constants.TOKEN_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: formBody,
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        if (responseJson["access_token"]) {
-          setToken(responseJson["access_token"]);
-          navigation.navigate("ResultScreen", {
-            name: "ResultScreen",
-            success: true,
-            accessToken: responseJson["access_token"],
-          });
-        } else {
-          navigation.navigate("ResultScreen", {
-            name: "Result",
-            success: false,
-            error: JSON.stringify(responseJson),
-          });
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        setToken(JSON.stringify(error));
+    var successResult = (result) => {
+      setDisabled(false);
+      navigation.navigate("ResultScreen", {
+        name: "Result",
+        success: true,
+        response: result,
       });
+    }
+    var failedResult = (result) => {
+      setDisabled(false);
+      navigation.navigate("ResultScreen", {
+        name: "Result",
+        success: false,
+        response: result,
+      });
+    }
+    NetworkManger.doTokenExchange(code, successResult, failedResult);
   };
 
   useEffect(() => {
     return () => {
-      if (Platform.OS === "android") {
-        console.log("componentWillUnmount android");
-        RNAuthenticationService.unregisterNetwork();
-      }
+      RNAuthenticationService.unregisterNetwork();
     };
   }, []);
-  //util
+
 
   return (
     <View style={styles.container}>
@@ -159,31 +138,15 @@ const PhoneVerifyScreen = ({ navigation }) => {
           autoFocus
         />
 
-        {showMessage && (
-          <View style={styles.message}>
-            <Text>Formatted Phone Number : {formattedValue}</Text>
-            <Text>
-              1. Supported Telco :{" "}
-              {coverageResult == true
-                ? "true"
-                : coverageResult == false
-                ? "false"
-                : "false - " + coverageResult}
-            </Text>
-            <Text>2. Do Authentication - Result : {authorizationResult}</Text>
-            <Text>3. Token Exchange - Access Token : {token}</Text>
-          </View>
-        )}
+        
         <TouchableOpacity
           style={styles.button}
+          disabled={disabled}
           onPress={() => {
-            const checkValid = phoneInput.current?.isValidNumber(phoneNumber);
-            console.log("checkValid Phone ", checkValid);
-            setShowMessage(true);
             checkCoverage();
           }}
         >
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText}>Verify</Text>
         </TouchableOpacity>
       </SafeAreaView>
     </View>
