@@ -10,4 +10,5 @@ Copy `.env.example` to `.env` and update:
 
 `NOTIFICATION_SECRET_KEY` key to private notification url endpoint
 
-
+`S2S_CLIENT_ID` setup flow s2s flow
+`S2S_CLIENT_SECRET`

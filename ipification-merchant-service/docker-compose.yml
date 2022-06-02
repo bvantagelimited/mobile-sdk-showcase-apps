@@ -1,0 +1,14 @@
+version: "3.3"
+services:
+  merchant_service:
+    container_name: "merchant_service"
+    restart: unless-stopped
+    build:
+      context: .
+    image: "merchant_service"
+    env_file:
+      - .env.docker
+    ports:
+      - 4001:4001
+  redis:
+    image: "redis:alpine"

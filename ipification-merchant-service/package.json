@@ -23,7 +23,7 @@
     "fluent-json-schema": "^3.0.1",
     "ioredis": "^4.28.2",
     "lodash": "^4.17.21",
-    "qs": "^6.10.3",
+    "openid-client": "^5.1.6",
     "redis": "^4.0.1",
     "redis-json": "^6.0.2",
     "rollbar": "^2.24.0"

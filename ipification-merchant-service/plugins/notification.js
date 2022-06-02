@@ -7,7 +7,9 @@ module.exports = fp(
 
     const send_notification = async (device_info, title, body) => {
       const { device_type, device_token } = device_info;
-      let data
+      let data;
+
+      fastify.log.debug('start send_notification');
 
       if(device_type == 'android') {
         data = {
@@ -30,6 +32,7 @@ module.exports = fp(
         }
       }
 
+      fastify.log.debug(`[ipification_notification] device_type: ${device_type}, device_token: ${device_token}, data: ${JSON.stringify(data)}`);
       const response = await fastify.axios.request({
         url: 'https://fcm.googleapis.com/fcm/send',
         method: 'POST',
@@ -39,6 +42,7 @@ module.exports = fp(
         }
       });
 
+      fastify.log.debug(`[ipification_notification] response status: ${response.status}, data: ${JSON.stringify(response.data)}`);
       return response;
     }
 

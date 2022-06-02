@@ -1,4 +1,4 @@
-FROM node:12-alpine
+FROM node:16-alpine
 RUN apk update && apk add bash
 WORKDIR /usr/app
 COPY package.json ./
@@ -6,7 +6,7 @@ RUN npm install
 
 COPY . .
 
-ENV PORT 80
+ENV PORT 8080
 
-EXPOSE 80
+EXPOSE 8080
 CMD [ "npm", "run", "start" ]

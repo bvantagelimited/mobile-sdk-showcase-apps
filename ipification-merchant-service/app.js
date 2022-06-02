@@ -19,9 +19,13 @@ module.exports = async (fastify, opts) => {
   fastify
     .register(Env, {
       schema: S.object()
+        .prop("WEB_URL", S.string().required())
         .prop("NOTIFICATION_SECRET_KEY", S.string().required())
         .prop("FIREBASE_SERVER_KEY", S.string().required())
-        .valueOf(),
+        .prop("IP_DISCOVER_URL", S.string())
+        .prop("S2S_CLIENT_ID", S.string())
+        .prop("S2S_CLIENT_SECRET", S.string())
+        .valueOf()
     })
 
   // `fastify-sensible` adds many  small utilities, such as nice http errors.
