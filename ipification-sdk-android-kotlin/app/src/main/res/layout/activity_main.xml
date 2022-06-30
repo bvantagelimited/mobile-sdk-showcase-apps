@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.HomeActivity">
+    tools:context=".activity.MainActivity">
 
     <TextView
         android:layout_width="match_parent"
@@ -14,10 +14,10 @@
         android:layout_marginBottom="30dp"
         android:fontFamily="@font/inter"
         android:gravity="center_horizontal"
-        android:text="Choose the login option:"
+        android:text="@string/select_authentication_option"
         android:textAlignment="center"
         android:textColor="#444444"
-        android:textSize="16dp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/ipButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,35 +31,36 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/button_ip"
         android:fontFamily="@font/inter"
-        android:text="Phone Number Verify"
+        android:text="@string/login_with_ipification"
         android:textColor="#FFFFFF"
-        android:textSize="16sp"
         android:textFontWeight="500"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/imButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
-        android:textSize="16sp"
         android:id="@+id/imButton"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="100dp"
         android:background="@drawable/button_im"
         android:fontFamily="@font/inter"
-        android:text="IM Login"
-
+        android:text="@string/login_with_instant_message"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/lblCopyright"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ipButton" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
+        android:id="@+id/lblCopyright"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
@@ -67,7 +68,7 @@
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/inter"
         android:gravity="center_horizontal"
-        android:text="Powered by IPification"
+        android:text="@string/powered_by_ipification"
         android:textAlignment="center"
         android:textColor="#444444"
         android:textFontWeight="600"

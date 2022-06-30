@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">IPification Sample App</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="select_authentication_option">Select authentication option:</string>
+    <string name="login_with_ipification">Login with IPification</string>
+    <string name="login_with_instant_message">Login with Instant Message</string>
+    <string name="powered_by_ipification">Powered by IPification</string>
 </resources>

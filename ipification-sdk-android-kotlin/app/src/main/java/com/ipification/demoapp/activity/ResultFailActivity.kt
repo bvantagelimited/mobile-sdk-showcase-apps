@@ -3,10 +3,9 @@ package com.ipification.demoapp.activity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.ipification.demoapp.data.TokenInfo
 import com.ipification.demoapp.databinding.ActivityFailResultBinding
 
-class FailResultActivity : AppCompatActivity() {
+class ResultFailActivity : AppCompatActivity() {
     lateinit var binding: ActivityFailResultBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,11 +15,9 @@ class FailResultActivity : AppCompatActivity() {
         setup()
     }
 
-    private fun setup(){
-
+    private fun setup() {
         val errorMessage = intent.getStringExtra("error")
-        var result = errorMessage
-        binding.tvMainDetail.text = result
+        binding.tvMainDetail.text = errorMessage
 
 
         val actionbar = supportActionBar
@@ -32,6 +29,7 @@ class FailResultActivity : AppCompatActivity() {
     private fun back() {
         onBackPressed()
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {

@@ -1,5 +1,6 @@
 package com.ipification.demoapp.callback
 
 interface TokenCallback {
-    fun result(response: String?, errorMessage: String?)
+    fun onSuccess(response: String)
+    fun onError(errorMessage: String)
 }

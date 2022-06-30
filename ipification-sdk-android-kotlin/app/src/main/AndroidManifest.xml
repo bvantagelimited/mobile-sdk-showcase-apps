@@ -15,13 +15,24 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-        <activity android:name="com.ipification.demoapp.activity.FailResultActivity" />
-        <activity android:name="com.ipification.demoapp.activity.SuccessResultActivity" />
+        <activity android:name="com.ipification.demoapp.activity.ResultFailActivity" />
+        <activity android:name="com.ipification.demoapp.activity.ResultSuccessActivity" />
         <activity
-            android:name="com.ipification.demoapp.activity.PhoneVerifyActivity"
+            android:name="com.ipification.demoapp.activity.IPificationAuthActivity"
             android:exported="true" />
         <activity
-            android:name="com.ipification.demoapp.activity.HomeActivity"
+            android:name="com.ipification.demoapp.activity.IMAuthActivity"
+            android:exported="true" />
+
+        <activity
+            android:name="com.ipification.demoapp.activity.IMAuthAutoModeActivity"
+            android:exported="true" />
+
+        <activity
+            android:name="com.ipification.demoapp.activity.IMAuthManualActivity"
+            android:exported="true" />
+        <activity
+            android:name="com.ipification.demoapp.activity.MainActivity"
             android:launchMode="singleInstance"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:exported="true">

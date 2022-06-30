@@ -1,13 +1,11 @@
 package com.ipification.demoapp.activity
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.ipification.demoapp.data.TokenInfo
 import com.ipification.demoapp.databinding.ActivitySuccessResultBinding
 
-class SuccessResultActivity : AppCompatActivity() {
+class ResultSuccessActivity : AppCompatActivity() {
     lateinit var binding: ActivitySuccessResultBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

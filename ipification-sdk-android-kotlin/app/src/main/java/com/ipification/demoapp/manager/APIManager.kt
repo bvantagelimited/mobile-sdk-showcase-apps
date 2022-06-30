@@ -20,6 +20,7 @@ import com.ipification.mobile.sdk.android.response.CoverageResponse
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 
@@ -46,7 +47,7 @@ class APIManager {
                 override fun onFailure(call: Call, e: IOException) {
                     val error = e.localizedMessage
                     Log.e(TAG, "doPostToken error : $error")
-                    callback.result(null, e.localizedMessage ?: "doPostToken - onFailure")
+                    callback.onError(e.localizedMessage ?: "doPostToken - onFailure")
                 }
 
                 override fun onResponse(call: Call, response: Response) {
@@ -60,15 +61,15 @@ class APIManager {
                                 postUserInfo(accessToken, callback)
                             }else{
                                 // error
-                                callback.result(null, responseBody)
+                                callback.onError(responseBody)
                             }
                         } else {
-                            callback.result(null, "doPostToken - error $responseBody")
+                            callback.onError("doPostToken - error $responseBody")
                         }
 
                     } catch(e: Exception){
                         e.printStackTrace()
-                        callback.result(null, "doPostToken - error ${e.message}")
+                        callback.onError("doPostToken - error ${e.message}")
                     }
                 }
             })
@@ -89,7 +90,7 @@ class APIManager {
                 override fun onFailure(call: Call, e: IOException) {
                     val error = e.localizedMessage
                     Log.e(TAG, "postUserInfo onFailure : $error")
-                    callback.result(null, e.localizedMessage ?: "postUserInfo - onFailure")
+                    callback.onError(e.localizedMessage ?: "postUserInfo - onFailure")
                 }
 
                 override fun onResponse(call: Call, response: Response) {
@@ -97,20 +98,62 @@ class APIManager {
                         val responseBody = response.body!!.string()
                         Log.d(TAG, "postUserInfo response : $responseBody")
                         if (response.isSuccessful) {
-                            callback.result(responseBody, null)
+                            callback.onSuccess(responseBody)
                         } else {
-                            callback.result(null, responseBody)
+                            callback.onError(responseBody)
                         }
 
                     }catch(e: Exception){
                         e.printStackTrace()
-                        callback.result(null, e.localizedMessage)
+                        callback.onError(e.localizedMessage)
+                    }
+                }
+            })
+        }
+
+
+        fun signIn(state: String, callback: TokenCallback) {
+            val url = Constant.AUTOMODE_SIGN_IN_URL
+            val mediaType = "application/json; charset=utf-8".toMediaType()
+            val jsonObject = JSONObject()
+            try {
+                jsonObject.put("state", state)
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+
+            val body = jsonObject.toString().toRequestBody(mediaType)
+
+
+
+            val client = OkHttpClient.Builder().build()
+            val request: Request = Request.Builder().url(url).post(body)
+                .build()
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    val error = e.localizedMessage
+                    Log.e(TAG, "signIn onFailure : $error")
+                    callback.onError(e.localizedMessage ?: "postUserInfo - onFailure")
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    try {
+                        val responseBody = response.body!!.string()
+                        Log.d(TAG, "signIn response : $responseBody")
+                        if (response.isSuccessful) {
+                            callback.onSuccess(responseBody)
+                        } else {
+                            callback.onError(responseBody)
+                        }
+
+                    }catch(e: Exception){
+                        e.printStackTrace()
+                        callback.onError(e.localizedMessage)
                     }
                 }
             })
 
         }
-
         fun registerDevice(dToken: String? = deviceToken, state: String? = currentState) {
             if(dToken?.isEmpty() != false || state.isNullOrEmpty()){
                 Log.d(TAG, "deviceToken or state null. failed")
@@ -161,11 +204,9 @@ class APIManager {
 
 
         fun callAuthorization(phoneNumber: String, activity: Activity, callback: IPAuthorizationCallback){
-
             val authRequestBuilder = AuthRequest.Builder()
             authRequestBuilder.setScope("openid ip:phone_verify")
             authRequestBuilder.addQueryParam("login_hint", phoneNumber)
-            authRequestBuilder.setState(currentState) // to show notification
 
             val authRequest = authRequestBuilder.build()
             IPificationServices.startAuthentication(activity, authRequest, object:

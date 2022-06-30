@@ -1,16 +1,11 @@
 package com.ipification.demoapp.service
 
-import android.app.*
-import android.content.Intent
-import android.media.RingtoneManager
-import android.os.Build
+import android.app.ActivityManager
 import android.util.Log
-import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ipification.demoapp.R
 import com.ipification.demoapp.manager.APIManager
-import com.ipification.mobile.sdk.android.IPConfiguration
 import com.ipification.mobile.sdk.im.IMService
 import com.ipification.mobile.sdk.im.ui.IMVerificationActivity
 

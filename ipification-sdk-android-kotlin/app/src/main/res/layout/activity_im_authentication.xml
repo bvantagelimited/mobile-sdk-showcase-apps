@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="40dp"
+    tools:context=".activity.IMAuthActivity">
+
+
+    <TextView
+        android:id="@+id/lbl1"
+        android:layout_width="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Please tap on the preferred messaging app then follow instruction on screen"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl1"
+        app:layout_constraintEnd_toEndOf="parent">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/whatsappBtn"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/telegramBtn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/whatsapp">
+
+        </androidx.appcompat.widget.AppCompatImageView>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/telegramBtn"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:padding="3dp"
+            app:layout_constraintStart_toEndOf="@+id/whatsappBtn"
+            app:layout_constraintEnd_toStartOf="@+id/viberBtn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/telegram">
+
+        </androidx.appcompat.widget.AppCompatImageView>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/viberBtn"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:padding="10dp"
+            app:layout_constraintStart_toEndOf="@+id/telegramBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/viber">
+
+        </androidx.appcompat.widget.AppCompatImageView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
