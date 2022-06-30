@@ -31,9 +31,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openIMActivity() {
-//        val intent = Intent(applicationContext, IMAuthActivity::class.java)
+        val intent = Intent(applicationContext, IMAuthActivity::class.java)
 //        val intent = Intent(applicationContext, IMAuthAutoModeActivity::class.java)
-        val intent = Intent(applicationContext, IMAuthManualActivity::class.java)
+//        val intent = Intent(applicationContext, IMAuthManualActivity::class.java)
         startActivity(intent)
     }
 
