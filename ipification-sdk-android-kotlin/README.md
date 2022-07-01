@@ -39,11 +39,11 @@ Update `DEVICE_TOKEN_REGISTRATION_URL` (for Push Notification)
 Set up your FCM and override `google-services.json`
 
 We offer 3 types of implementation for IM Flow
-```
+```MainActivity.kt
 private fun openIMActivity() {
-    val intent = Intent(applicationContext, IMAuthActivity::class.java)
-//        val intent = Intent(applicationContext, IMAuthAutoModeActivity::class.java)
-//        val intent = Intent(applicationContext, IMAuthManualActivity::class.java)
+    val intent = Intent(applicationContext, IMAuthActivity::class.java) 
+//        val intent = Intent(applicationContext, IMAuthAutoModeActivity::class.java) // https://developer.ipification.com/#/android-automode/latest/
+//        val intent = Intent(applicationContext, IMAuthManualActivity::class.java) // https://developer.ipification.com/#/android/latest/?id=_3-instant-message-im-authentication-flow-manual-implementation
     startActivity(intent)
 }
 ```
