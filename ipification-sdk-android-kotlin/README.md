@@ -23,8 +23,16 @@
 To get a local copy up and running follow these simple example steps:
 
 
-### 1. Update Constant.java
-Update with your `CLIENT_ID` `CLIENT_SECRET`, and `REDIRECT_URI` values
+### 1. Update `app/build.gradle`
+```
+stage {
+    buildConfigField "String", "ENVIRONMENT", "\"sandbox\""
+    buildConfigField "String", "CLIENT_ID", "\"\""
+    buildConfigField "String", "REDIRECT_URI", "\"\""
+}
+```
+### 2 Update Constant.kt
+Update `CLIENT_SECRET`
 
 ### 2. IM Authentication
 Update `DEVICE_TOKEN_REGISTRATION_URL` (for Push Notification)
