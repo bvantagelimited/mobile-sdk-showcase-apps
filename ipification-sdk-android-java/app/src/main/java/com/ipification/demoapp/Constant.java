@@ -1,7 +1,7 @@
 package com.ipification.demoapp;
 
 public  class  Constant {
-    private static final String HOST = "https://stage.ipification.com";
+    private static final String HOST = "https://stage.ipification.com"; // stage or live
 
     public static String CHECK_COVERAGE_URL = HOST + "/auth/realms/ipification/coverage/202.175.50.128";
     public static String AUTH_URL = HOST + "/auth/realms/ipification/protocol/openid-connect/auth";
