@@ -3,6 +3,7 @@ package com.ipification.demoapp.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.ipification.demoapp.activity.im.IMAuthActivity
 import com.ipification.demoapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

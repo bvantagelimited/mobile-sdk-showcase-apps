@@ -36,8 +36,6 @@ class IPificationAuthActivity : AppCompatActivity() {
     }
 
     private fun initIPification() {
-//        IPConfiguration.getInstance().COVERAGE_URL = Uri.parse(BuildConfig.CHECK_COVERAGE_URL)
-//        IPConfiguration.getInstance().AUTHORIZATION_URL = Uri.parse(BuildConfig.AUTH_URL)
         IPConfiguration.getInstance().ENV = if(BuildConfig.ENVIRONMENT == "sandbox" ) IPEnvironment.SANDBOX else IPEnvironment.PRODUCTION
         IPConfiguration.getInstance().CLIENT_ID = BuildConfig.CLIENT_ID
         IPConfiguration.getInstance().REDIRECT_URI = Uri.parse(BuildConfig.REDIRECT_URI)
@@ -96,7 +94,9 @@ class IPificationAuthActivity : AppCompatActivity() {
         hideKeyboard()
         updateButton(isEnable = false)
         // start checking coverage
-        APIManager.checkCoverage(context = this, callback = object: IPCheckCoverageCallback {
+        val phoneNumber  = "${binding.countryCodeEditText.text}${binding.phoneCodeEditText.text}"
+
+        APIManager.checkCoverage(phoneNumber, context = this, callback = object: IPCheckCoverageCallback {
             override fun result(isAvailable: Boolean, operatorCode: String?, errorMessage: String?) {
                 if(isAvailable){
                     // call Authorization API

@@ -1,4 +1,4 @@
-package com.ipification.demoapp.activity
+package com.ipification.demoapp.activity.im
 
 import android.content.Intent
 import android.net.Uri
@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ipification.demoapp.BuildConfig
-import com.ipification.demoapp.databinding.ActivityImAutomodeAuthenticationBinding
+import com.ipification.demoapp.databinding.ActivityImAuthenticationBinding
 import com.ipification.demoapp.manager.APIManager
 import com.ipification.demoapp.util.Util
 import com.ipification.mobile.sdk.android.IPConfiguration
@@ -21,18 +21,17 @@ import com.ipification.mobile.sdk.android.request.AuthRequest
 import com.ipification.mobile.sdk.android.response.AuthResponse
 import com.ipification.mobile.sdk.android.utils.IPConstant
 import com.ipification.mobile.sdk.im.IMService
+import com.ipification.mobile.sdk.im.util.isPackageInstalled
 
+class IMAuthActivity : AppCompatActivity() {
+    private val TAG: String = "IMAuthAct"
 
-// IM Authentication (Auto Mode)
-// See :  https://developer.ipification.com/#/android-automode/latest/
-class IMAuthAutoModeActivity : AppCompatActivity() {
-    private val TAG: String = "IMAuthActivity"
-
-    lateinit var binding: ActivityImAutomodeAuthenticationBinding
+    lateinit var binding: ActivityImAuthenticationBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityImAutomodeAuthenticationBinding.inflate(layoutInflater)
+        binding = ActivityImAuthenticationBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
         initIPification()
         initView()
@@ -41,28 +40,49 @@ class IMAuthAutoModeActivity : AppCompatActivity() {
     private fun initIPification(){
         IPConfiguration.getInstance().ENV = if(BuildConfig.ENVIRONMENT == "sandbox" ) IPEnvironment.SANDBOX else IPEnvironment.PRODUCTION
         IPConfiguration.getInstance().CLIENT_ID = BuildConfig.CLIENT_ID
-        IPConfiguration.getInstance().REDIRECT_URI = Uri.parse(BuildConfig.REDIRECT_URI) // this uri should be do S2S to exchange token
-
-        //enable Auto Mode
-        IPConfiguration.getInstance().IM_AUTO_MODE = true
-        IPConfiguration.getInstance().IM_PRIORITY_APP_LIST = arrayOf("telegram","viber","wa")
-
+        IPConfiguration.getInstance().REDIRECT_URI = Uri.parse(BuildConfig.REDIRECT_URI)
     }
 
     private fun initView() {
         val actionbar = supportActionBar
         actionbar?.setDisplayHomeAsUpEnabled(true)
-
-        supportActionBar?.title = "IM - AutoMode - ${BuildConfig.VERSION_NAME}"
+        supportActionBar?.title = "IM - ${BuildConfig.VERSION_NAME}"
         // init FCM
         initFirebase()
+        // check and show IM
+        checkAndShowIMButtons()
 
-        binding.imButton.setOnClickListener {
-            doIMFlow()
+        binding.whatsappBtn.setOnClickListener {
+            doIMFlow("wa")
+        }
+        binding.viberBtn.setOnClickListener {
+            doIMFlow("viber")
+        }
+        binding.telegramBtn.setOnClickListener {
+            doIMFlow("telegram")
         }
     }
 
+    private fun checkAndShowIMButtons() {
+        if(!packageManager.isPackageInstalled(IPConfiguration.getInstance().whatsappPackageName))
+        {
+            binding.whatsappBtn.isEnabled = false
+            binding.whatsappBtn.alpha =  0.3f
 
+        }
+        if(!(packageManager.isPackageInstalled(IPConfiguration.getInstance().telegramPackageName) || packageManager.isPackageInstalled(IPConfiguration.getInstance().telegramWebPackageName)))
+        {
+            binding.telegramBtn.isEnabled = false
+            binding.telegramBtn.alpha =  0.3f
+
+        }
+        if(!packageManager.isPackageInstalled(IPConfiguration.getInstance().viberPackageName))
+        {
+            binding.viberBtn.isEnabled = false
+            binding.viberBtn.alpha =  0.3f
+
+        }
+    }
 
     //Update onActivityResult
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -83,6 +103,7 @@ class IMAuthAutoModeActivity : AppCompatActivity() {
                 }catch (e: Exception){
 
                 }
+
                 return@OnCompleteListener
             }
             // Get new FCM registration token
@@ -92,26 +113,29 @@ class IMAuthAutoModeActivity : AppCompatActivity() {
         })
     }
 
-    private fun doIMFlow() {
+    private fun doIMFlow(channel: String) {
         updateStateAndDeviceToken()
+        // print logs
 
         val callback = object : IPificationCallback {
             override fun onSuccess(response: AuthResponse) {
-                Util.callLoginAPI(this@IMAuthAutoModeActivity, APIManager.currentState!!)
+                Util.callTokenExchangeAPI(this@IMAuthActivity, response.getCode()!!)
             }
             override fun onError(error: IPificationError) {
                 Log.d(TAG,"doIMAuth - error "+ error.error_description)
-                Util.openErrorActivity(this@IMAuthAutoModeActivity, error.getErrorMessage())
+                Util.openErrorActivity(this@IMAuthActivity, error.getErrorMessage())
             }
         }
         // do IM Auth
-        doIMAuth(callback)
+        doIMAuth(channel, callback)
     }
 
-    private fun doIMAuth(callback: IPificationCallback) {
+    private fun doIMAuth(channel: String, callback: IPificationCallback) {
+
         val authRequestBuilder = AuthRequest.Builder()
         authRequestBuilder.setState(APIManager.currentState)
         authRequestBuilder.setScope("openid ip:phone")
+        authRequestBuilder.addQueryParam("channel", channel)
         IPificationServices.startAuthentication(this, authRequestBuilder.build(), callback)
 
     }

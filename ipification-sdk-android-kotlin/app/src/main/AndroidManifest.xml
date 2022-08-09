@@ -21,15 +21,15 @@
             android:name="com.ipification.demoapp.activity.IPificationAuthActivity"
             android:exported="true" />
         <activity
-            android:name="com.ipification.demoapp.activity.IMAuthActivity"
+            android:name="com.ipification.demoapp.activity.im.IMAuthActivity"
             android:exported="true" />
 
         <activity
-            android:name="com.ipification.demoapp.activity.IMAuthAutoModeActivity"
+            android:name="com.ipification.demoapp.activity.im.IMAuthAutoModeActivity"
             android:exported="true" />
 
         <activity
-            android:name="com.ipification.demoapp.activity.IMAuthManualActivity"
+            android:name="com.ipification.demoapp.activity.im.IMAuthManualActivity"
             android:exported="true" />
         <activity
             android:name="com.ipification.demoapp.activity.MainActivity"

@@ -14,8 +14,8 @@ android {
         applicationId "com.ipification.demoapp"
         minSdkVersion 19
         targetSdkVersion 32
-        versionCode 2010
-        versionName "2.0.10"
+        versionCode 2012
+        versionName "2.0.12"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -30,15 +30,15 @@ android {
         stage {
             buildConfigField "String", "ENVIRONMENT", "\"sandbox\""
             buildConfigField "String", "CLIENT_ID", "\"\""
-            buildConfigField "String", "CLIENT_SECRET", "\"\""
-
             buildConfigField "String", "REDIRECT_URI", "\"\""
+            buildConfigField "String", "CLIENT_SECRET", "\"\"" // not put here for production
+
         }
         production {
             buildConfigField "String", "ENVIRONMENT", "\"production\""
             buildConfigField "String", "CLIENT_ID", "\"\""
-            buildConfigField "String", "CLIENT_SECRET", "\"\""
             buildConfigField "String", "REDIRECT_URI", "\"\""
+            buildConfigField "String", "CLIENT_SECRET", "\"\"" // not put here for production
         }
     }
 }
@@ -71,7 +71,7 @@ dependencies {
     implementation 'com.auth0.android:jwtdecode:2.0.0'
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
 
-    implementation 'com.ipification.mobile.android:ipification-auth:2.0.10'
+    implementation 'com.ipification.mobile.android:ipification-auth:2.0.9'
 
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
     implementation 'com.google.firebase:firebase-crashlytics'

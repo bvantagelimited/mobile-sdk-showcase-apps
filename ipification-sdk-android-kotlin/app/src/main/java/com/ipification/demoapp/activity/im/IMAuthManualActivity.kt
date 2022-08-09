@@ -1,4 +1,4 @@
-package com.ipification.demoapp.activity
+package com.ipification.demoapp.activity.im
 
 import android.content.Intent
 import android.net.Uri
@@ -12,19 +12,24 @@ import com.ipification.demoapp.BuildConfig
 import com.ipification.demoapp.databinding.ActivityImAuthenticationBinding
 import com.ipification.demoapp.manager.APIManager
 import com.ipification.demoapp.util.Util
+import com.ipification.mobile.sdk.android.IMPublicAPIServices
 import com.ipification.mobile.sdk.android.IPConfiguration
 import com.ipification.mobile.sdk.android.IPEnvironment
 import com.ipification.mobile.sdk.android.IPificationServices
-import com.ipification.mobile.sdk.android.callback.IPificationCallback
 import com.ipification.mobile.sdk.android.exception.IPificationError
 import com.ipification.mobile.sdk.android.request.AuthRequest
 import com.ipification.mobile.sdk.android.response.AuthResponse
+import com.ipification.mobile.sdk.android.response.IMResponse
 import com.ipification.mobile.sdk.android.utils.IPConstant
 import com.ipification.mobile.sdk.im.IMService
+import com.ipification.mobile.sdk.im.listener.IMPublicAPICallback
 import com.ipification.mobile.sdk.im.util.isPackageInstalled
 
-class IMAuthActivity : AppCompatActivity() {
-    private val TAG: String = "IMAuthAct"
+
+// IM Authentication (Manually Implementation)
+// See :  https://developer.ipification.com/#/android/latest/?id=_3-instant-message-im-authentication-flow-manual-implementation
+class IMAuthManualActivity : AppCompatActivity() {
+    private val TAG: String = "IMAuthActivity"
 
     lateinit var binding: ActivityImAuthenticationBinding
 
@@ -46,7 +51,7 @@ class IMAuthActivity : AppCompatActivity() {
     private fun initView() {
         val actionbar = supportActionBar
         actionbar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "IM - ${BuildConfig.VERSION_NAME}"
+        supportActionBar?.title = "IM - Manual Implementation - ${BuildConfig.VERSION_NAME}"
         // init FCM
         initFirebase()
         // check and show IM
@@ -103,7 +108,6 @@ class IMAuthActivity : AppCompatActivity() {
                 }catch (e: Exception){
 
                 }
-
                 return@OnCompleteListener
             }
             // Get new FCM registration token
@@ -115,28 +119,31 @@ class IMAuthActivity : AppCompatActivity() {
 
     private fun doIMFlow(channel: String) {
         updateStateAndDeviceToken()
-        // print logs
 
-        val callback = object : IPificationCallback {
-            override fun onSuccess(response: AuthResponse) {
-                Util.callTokenExchangeAPI(this@IMAuthActivity, response.getCode()!!)
+        val callback = object : IMPublicAPICallback {
+            override fun onSuccess(imResponse: IMResponse?, ipResponse: AuthResponse?) {
+                Log.d("IMResponse", "sessionId:"+ imResponse?.sessionInfo?.sessionId)
+                Log.d("IMResponse", "whatsappLink: "+ imResponse?.sessionInfo?.waLink)
+                Log.d("IMResponse", "telegramLink: "+ imResponse?.sessionInfo?.telegramLink)
+                Log.d("IMResponse", "viberLink: "+ imResponse?.sessionInfo?.viberLink)
+                Log.d("IMResponse", "completeSessionUrl: "+ imResponse?.sessionInfo?.completeSessionUrl)
             }
             override fun onError(error: IPificationError) {
                 Log.d(TAG,"doIMAuth - error "+ error.error_description)
-                Util.openErrorActivity(this@IMAuthActivity, error.getErrorMessage())
+                Util.openErrorActivity(this@IMAuthManualActivity, error.getErrorMessage())
             }
         }
         // do IM Auth
         doIMAuth(channel, callback)
     }
 
-    private fun doIMAuth(channel: String, callback: IPificationCallback) {
+    private fun doIMAuth(channel: String, callback: IMPublicAPICallback) {
 
         val authRequestBuilder = AuthRequest.Builder()
         authRequestBuilder.setState(APIManager.currentState)
         authRequestBuilder.setScope("openid ip:phone")
         authRequestBuilder.addQueryParam("channel", channel)
-        IPificationServices.startAuthentication(this, authRequestBuilder.build(), callback)
+        IMPublicAPIServices.startAuthentication(this, authRequestBuilder.build(), callback)
 
     }
     // update state and device token to client server
