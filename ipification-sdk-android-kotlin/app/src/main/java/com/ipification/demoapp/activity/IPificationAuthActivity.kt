@@ -105,6 +105,7 @@ class IPificationAuthActivity : AppCompatActivity() {
                     updateButton(true)
                     // TODO fallback to other service
                     Log.e("IP CheckCoverage", "not supported : $errorMessage")
+                    Util.openErrorActivity(this@IPificationAuthActivity, "$errorMessage")
                 }
             }
         })
@@ -121,6 +122,7 @@ class IPificationAuthActivity : AppCompatActivity() {
                         binding.result1.text = "auth error: $errorMessage"
 
                     }
+                    Util.openErrorActivity(this@IPificationAuthActivity, "auth error:  $errorMessage")
                 }
                 updateButton(isEnable = true)
             }
