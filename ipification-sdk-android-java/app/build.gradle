@@ -30,11 +30,29 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    flavorDimensions "default"
+
+    productFlavors {
+        stage {
+            buildConfigField "String", "ENVIRONMENT", "\"sandbox\""
+            buildConfigField "String", "CLIENT_ID", "\"\""
+            buildConfigField "String", "REDIRECT_URI", "\"\""
+            buildConfigField "String", "CLIENT_SECRET", "\"\"" // not put here for production
+
+        }
+        production {
+            buildConfigField "String", "ENVIRONMENT", "\"production\""
+            buildConfigField "String", "CLIENT_ID", "\"\""
+            buildConfigField "String", "REDIRECT_URI", "\"\""
+            buildConfigField "String", "CLIENT_SECRET", "\"\"" // not put here for production
+        }
+    }
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.ipification.mobile.android:ipification-auth:2.0.5'
+    implementation 'com.ipification.mobile.android:ipification-auth:2.0.12'
 
     implementation 'com.auth0.android:jwtdecode:2.0.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'

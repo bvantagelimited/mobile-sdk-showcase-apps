@@ -11,10 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ipification.demoapp.BuildConfig;
 import com.ipification.demoapp.Constant;
 import com.ipification.demoapp.R;
 import com.ipification.demoapp.data.TokenInfo;
-import com.ipification.demoapp.databinding.ActivityHomeBinding;
+import com.ipification.demoapp.databinding.ActivityMainBinding;
 import com.ipification.demoapp.callback.TokenCallback;
 import com.ipification.demoapp.manager.ApiManager;
 import com.ipification.demoapp.util.Util;
@@ -23,6 +24,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.ipification.mobile.sdk.android.CellularService;
 import com.ipification.mobile.sdk.android.IPConfiguration;
+import com.ipification.mobile.sdk.android.IPEnvironment;
 import com.ipification.mobile.sdk.android.IPificationServices;
 import com.ipification.mobile.sdk.android.callback.IPificationCallback;
 import com.ipification.mobile.sdk.android.exception.IPificationError;
@@ -34,16 +36,16 @@ import com.ipification.mobile.sdk.im.IMTheme;
 
 import org.json.JSONObject;
 
-public class HomeActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "HomeActivity";
-    ActivityHomeBinding binding;
+    private static final String TAG = "MainActivity";
+    ActivityMainBinding binding;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityHomeBinding.inflate(getLayoutInflater());
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 
@@ -55,10 +57,9 @@ public class HomeActivity extends AppCompatActivity {
 
     private void initIPification() {
 
-        IPConfiguration.getInstance().setCOVERAGE_URL(Uri.parse(Constant.CHECK_COVERAGE_URL));
-        IPConfiguration.getInstance().setAUTHORIZATION_URL(Uri.parse(Constant.AUTH_URL));
-        IPConfiguration.getInstance().setCLIENT_ID(Constant.CLIENT_ID);
-        IPConfiguration.getInstance().setREDIRECT_URI(Uri.parse(Constant.REDIRECT_URI));
+        IPConfiguration.getInstance().setENV(IPEnvironment.SANDBOX);
+        IPConfiguration.getInstance().setCLIENT_ID(BuildConfig.CLIENT_ID);
+        IPConfiguration.getInstance().setREDIRECT_URI(Uri.parse(BuildConfig.REDIRECT_URI));
 
 //       4. Theme (optional)
 //        IPificationServices.Factory.setTheme(new IMTheme(Color.parseColor("#FFFFFF"), Color.parseColor("#E35259"),  Color.parseColor("#ACE1AF")));
@@ -123,7 +124,7 @@ public class HomeActivity extends AppCompatActivity {
 
         startActivity(intent);
     }
-
+    // Todo : should be done on your server side  (S2S)
     private void callTokenExchange(String code) {
         ApiManager.doPostToken(code, (response, errorMessage) -> {
             if(!response.equals("")){
@@ -147,7 +148,7 @@ public class HomeActivity extends AppCompatActivity {
         authRequestBuilder.addQueryParam("channel", "wa viber telegram");
 
 
-        IPificationServices.Factory.startIMAuthentication(this, authRequestBuilder.build(), callback);
+        IPificationServices.Factory.startAuthentication(this, authRequestBuilder.build(), callback);
     }
 
     @Override

@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 
+import com.ipification.demoapp.BuildConfig;
 import com.ipification.demoapp.Constant;
 import com.ipification.demoapp.callback.CoverageCallback;
 import com.ipification.demoapp.callback.TokenCallback;
@@ -26,6 +27,7 @@ import com.ipification.demoapp.databinding.ActivityPhoneVerifyBinding;
 import com.ipification.demoapp.manager.ApiManager;
 import com.ipification.demoapp.util.Util;
 import com.ipification.mobile.sdk.android.IPConfiguration;
+import com.ipification.mobile.sdk.android.IPEnvironment;
 import com.ipification.mobile.sdk.android.IPificationServices;
 import com.ipification.mobile.sdk.android.callback.CellularCallback;
 import com.ipification.mobile.sdk.android.callback.IPificationCallback;
@@ -96,10 +98,9 @@ public class PhoneVerifyActivity extends AppCompatActivity {
     }
     private void initIPification() {
 
-        IPConfiguration.getInstance().setCOVERAGE_URL(Uri.parse(Constant.CHECK_COVERAGE_URL));
-        IPConfiguration.getInstance().setAUTHORIZATION_URL(Uri.parse(Constant.AUTH_URL));
-        IPConfiguration.getInstance().setCLIENT_ID(Constant.CLIENT_ID);
-        IPConfiguration.getInstance().setREDIRECT_URI(Uri.parse(Constant.REDIRECT_URI));
+        IPConfiguration.getInstance().setENV(IPEnvironment.SANDBOX);
+        IPConfiguration.getInstance().setCLIENT_ID(BuildConfig.CLIENT_ID);
+        IPConfiguration.getInstance().setREDIRECT_URI(Uri.parse(BuildConfig.REDIRECT_URI));
 
     }
     private void callIPFlow() {
@@ -112,6 +113,7 @@ public class PhoneVerifyActivity extends AppCompatActivity {
             } else{
                 // TODO fallback to other service
                 Log.e(TAG, "callCheckCoverage failed");
+                openErrorActivity("callCheckCoverage failed");
             }
         });
 

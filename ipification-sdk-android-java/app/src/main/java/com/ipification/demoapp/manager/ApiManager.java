@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.ipification.demoapp.BuildConfig;
 import com.ipification.demoapp.Constant;
 import com.ipification.demoapp.callback.TokenCallback;
 import com.ipification.demoapp.util.Util;
@@ -36,7 +37,7 @@ public class ApiManager {
                     .add("client_id", IPConfiguration.getInstance().getCLIENT_ID())
                     .add("redirect_uri", IPConfiguration.getInstance().getREDIRECT_URI().toString())
                     .add("grant_type", "authorization_code")
-                    .add("client_secret", Constant.CLIENT_SECRET)
+                    .add("client_secret", BuildConfig.CLIENT_SECRET)
                     .add("code", code)
                     .build();
 

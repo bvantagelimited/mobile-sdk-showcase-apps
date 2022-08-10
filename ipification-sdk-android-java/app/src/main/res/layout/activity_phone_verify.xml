@@ -30,7 +30,7 @@
         android:editable="false"
         android:ems="10"
         android:inputType=""
-        android:text=""
+        android:text="+381"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lbl1"
