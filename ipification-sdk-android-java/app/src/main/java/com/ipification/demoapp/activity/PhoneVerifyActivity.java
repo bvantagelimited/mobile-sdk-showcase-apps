@@ -97,11 +97,9 @@ public class PhoneVerifyActivity extends AppCompatActivity {
         }
     }
     private void initIPification() {
-
         IPConfiguration.getInstance().setENV(IPEnvironment.SANDBOX);
         IPConfiguration.getInstance().setCLIENT_ID(BuildConfig.CLIENT_ID);
         IPConfiguration.getInstance().setREDIRECT_URI(Uri.parse(BuildConfig.REDIRECT_URI));
-
     }
     private void callIPFlow() {
         IPConfiguration.getInstance().setDebug(true);
