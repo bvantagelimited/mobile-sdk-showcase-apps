@@ -26,7 +26,8 @@ To get a local copy up and running follow these simple example steps:
 
 
 ### 1. Update app/build.gradle
-Update with your `ENV`, `CLIENT_ID` and `REDIRECT_URI` values
+Update with your `ENV`, `CLIENT_ID` and `REDIRECT_URI` values.
+
 Update with your `CLIENT_SECRET` (for testing only)
 
 ### 2. IM Authentication
