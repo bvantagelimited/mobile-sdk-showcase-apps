@@ -29,10 +29,10 @@ stage {
     buildConfigField "String", "ENVIRONMENT", "\"sandbox\""
     buildConfigField "String", "CLIENT_ID", "\"\""
     buildConfigField "String", "REDIRECT_URI", "\"\""
+    buildConfigField "String", "CLIENT_SECRET", "\"\""
+
 }
 ```
-### 2 Update Constant.kt
-Update `CLIENT_SECRET`
 
 ### 2. IM Authentication
 Update `DEVICE_TOKEN_REGISTRATION_URL` (for Push Notification)
