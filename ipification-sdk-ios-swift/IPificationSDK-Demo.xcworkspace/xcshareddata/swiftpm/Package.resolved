@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/bvantagelimited/IPificationSwiftDistribution",
       "state" : {
-        "revision" : "bcf1f0c9f2c5e3d3ca235191386d880b91c7f538",
-        "version" : "2.0.5"
+        "revision" : "8aeb1bace2c06746a0ae1bef54883ebadbcaf5c5",
+        "version" : "2.0.8"
       }
     }
   ],
