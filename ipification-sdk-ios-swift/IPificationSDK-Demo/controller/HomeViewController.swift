@@ -51,8 +51,7 @@ class HomeViewController : BaseViewController{
     
     
     func initIPification(){
-        IPConfiguration.sharedInstance.COVERAGE_URL = Constants.CHECK_COVERAGE_URL
-        IPConfiguration.sharedInstance.AUTHORIZATION_URL = Constants.AUTH_URL
+        IPConfiguration.sharedInstance.ENV = IPEnvironment.SANDBOX
         IPConfiguration.sharedInstance.CLIENT_ID = Constants.CLIENT_ID
         IPConfiguration.sharedInstance.REDIRECT_URI = Constants.REDIRECT_URI
 //        updateThemeAndLocale()
