@@ -8,10 +8,10 @@
 
 import Foundation
 struct Constants {
+    
+    
     static let HOST = "https://stage.ipification.com"
-   
-    static let CHECK_COVERAGE_URL = "\(HOST)/auth/realms/ipification/coverage"
-    static let AUTH_URL = "\(HOST)/auth/realms/ipification/protocol/openid-connect/auth"
+    // should be call (S2S) from your backend service
     static let EXCHANGE_TOKEN_URL = "\(HOST)/auth/realms/ipification/protocol/openid-connect/token"
     static let USER_INFO_URL = "\(HOST)/auth/realms/ipification/protocol/openid-connect/userinfo"
 
@@ -19,6 +19,7 @@ struct Constants {
     
     static let CLIENT_ID = ""
     static let REDIRECT_URI = ""
+    // put here just for demo
     static let CLIENT_SECRET = ""
     
     static let enableFCM = true
