@@ -107,7 +107,7 @@ class PhoneVerifyViewController: BaseViewController {
         authorizationRequest.addQueryParam(key: "login_hint", value: phoneInputTextField.text!)
 
         let authRequest = authorizationRequest.build()
-        authorizationService.startAuthorization(viewController: self, authRequest)
+        authorizationService.startAuthorization(authRequest)
 
     }
     
