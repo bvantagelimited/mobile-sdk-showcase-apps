@@ -94,8 +94,7 @@ class _PhoneVerifyState extends State<PhoneVerifyScreen> {
   }
 
   void initIPification() {
-    IPificationPlugin.setCheckCoverageUrl(Constant.CHECK_COVERAGE_URL);
-    IPificationPlugin.setAuthorizationUrl(Constant.AUTH_URL);
+    IPificationPlugin.setEnv(ENV.SANDBOX);
     IPificationPlugin.setClientId(Constant.CLIENT_ID);
     IPificationPlugin.setRedirectUri(Constant.REDIRECT_URI);
   }
