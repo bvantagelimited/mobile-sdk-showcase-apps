@@ -32,8 +32,7 @@ const HomeScreen = ({ navigation }) => {
 
   initIPification = () =>{
     // set configuration runtime
-    RNIPConfiguration.setCheckCoverageUrl(Constants.CHECK_COVERAGE_URL)
-    RNIPConfiguration.setAuthorizationUrl(Constants.AUTH_URL)
+    RNIPConfiguration.setENV("sandbox")
     RNIPConfiguration.setClientId(Constants.CLIENT_ID)
     RNIPConfiguration.setRedirectUri(Constants.REDIRECT_URI)
   }
@@ -227,7 +226,7 @@ const HomeScreen = ({ navigation }) => {
         </TouchableOpacity>
       </SafeAreaView>
       <Spinner
-            visible={true}
+            visible={loading}
             textStyle={styles.spinnerTextStyle}
           />
     </View>
@@ -239,7 +238,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: "#000000",
+    // backgroundColor: "#000000",
   },
   wrapper: {
     marginTop: 30,

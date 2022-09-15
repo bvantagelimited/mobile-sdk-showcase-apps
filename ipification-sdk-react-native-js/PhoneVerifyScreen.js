@@ -21,6 +21,7 @@ const { RNCoverageService, RNAuthenticationService, RNIPConfiguration } =
 import { Platform } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import PhoneInput from "react-native-phone-number-input";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import Constants from "./Constants";
 import NetworkManger from "./NetworkManger";
@@ -28,13 +29,16 @@ import NetworkManger from "./NetworkManger";
 const PhoneVerifyScreen = ({ navigation }) => {
   const [phoneNumber, setPhoneNumnber] = useState("");
   const [formattedValue, setFormattedValue] = useState("");
-  const [disabled, setDisabled] = useState(false);
+  // const [disabled, setDisabled] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const phoneInput = useRef<PhoneInput>(null);
 
   useEffect(() => {}, []);
 
   checkCoverage = () => {
     Keyboard.dismiss();
+    setLoading(true)
 
     console.log("1. check Coverage");
     RNCoverageService.checkCoverage((error, isAvailable, operatorCode) => {
@@ -44,21 +48,23 @@ const PhoneVerifyScreen = ({ navigation }) => {
         operatorCode,
         error
       );
+      
       if (isAvailable) {
         doIPAuthentication();
       } else {
-        setDisabled(false);
+        setLoading(false)
+        // setDisabled(false);
         navigation.navigate("ResultScreen", {
           name: "Result",
           success: false,
-          response: "checkCoverage return false",
+          response: "checkCoverage return false - error: " + error,
         });
       }
     });
   };
 
   doIPAuthentication = () => {
-    setDisabled(true)
+    // setDisabled(true)
     
     console.log("2. do IM Authentication");
     RNAuthenticationService.startAuthorization(
@@ -67,6 +73,7 @@ const PhoneVerifyScreen = ({ navigation }) => {
         login_hint: formattedValue,
       },
       (error, code, state, fullResponse, userCancelIM) => {
+        
         console.log(code, state, fullResponse, error, userCancelIM);
         if (code != null) {
           doTokenExchange(code);
@@ -76,14 +83,15 @@ const PhoneVerifyScreen = ({ navigation }) => {
         }
 
         else {
-          setDisabled(false);
+          setLoading(false)
+          // setDisabled(false);
           navigation.navigate("ResultScreen", {
             name: "Result",
             success: false,
             response: fullResponse,
           });
         }
-        setDisabled(false);
+        // setDisabled(false);
       }
     );
   };
@@ -92,7 +100,8 @@ const PhoneVerifyScreen = ({ navigation }) => {
     console.log("3. do Token Exchange (call from your backend service)");
 
     var successResult = (result) => {
-      setDisabled(false);
+      setLoading(false)
+      // setDisabled(false);
       navigation.navigate("ResultScreen", {
         name: "Result",
         success: true,
@@ -100,7 +109,8 @@ const PhoneVerifyScreen = ({ navigation }) => {
       });
     }
     var failedResult = (result) => {
-      setDisabled(false);
+      setLoading(false)
+      // setDisabled(false);
       navigation.navigate("ResultScreen", {
         name: "Result",
         success: false,
@@ -132,7 +142,7 @@ const PhoneVerifyScreen = ({ navigation }) => {
             setFormattedValue(text);
           }}
           countryPickerProps={{ withAlphaFilter: true }}
-          disabled={disabled}
+          disabled={loading}
           withDarkTheme
           withShadow
           autoFocus
@@ -141,13 +151,17 @@ const PhoneVerifyScreen = ({ navigation }) => {
         
         <TouchableOpacity
           style={styles.button}
-          disabled={disabled}
+          disabled={loading}
           onPress={() => {
             checkCoverage();
           }}
         >
           <Text style={styles.buttonText}>Verify</Text>
         </TouchableOpacity>
+        <Spinner
+            visible={loading}
+            textStyle={styles.spinnerTextStyle}
+          />
       </SafeAreaView>
     </View>
   );
