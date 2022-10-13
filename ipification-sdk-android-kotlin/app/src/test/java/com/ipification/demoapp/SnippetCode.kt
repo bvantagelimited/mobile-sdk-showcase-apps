@@ -55,9 +55,7 @@ class PhoneVerifyActivity : AppCompatActivity() {
                             handleIPError(response.responseData)
                         }
                     }
-
                 }
-
                 override fun onError(error: IPificationError) {
                     binding.result.post {
                         updateButton(isEnable = true)
@@ -68,12 +66,10 @@ class PhoneVerifyActivity : AppCompatActivity() {
     }
 
     private fun callTokenExchange(code: String) {
-
         APIManager.doPostToken(code, callback = object : TokenCallback {
             override fun onSuccess(response: String) {
                 handleTokenExchangeSuccess(response)
             }
-
             override fun onError(error: String) {
                 handleIPError(error)
             }
