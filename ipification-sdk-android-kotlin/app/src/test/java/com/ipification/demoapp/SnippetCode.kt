@@ -81,7 +81,9 @@ class PhoneVerifyActivity : AppCompatActivity() {
     }
 
     private fun handleIPError(error: String) {
-        //TODO start sms flow
-
+        // TODO start sms flow
+    }
+    private fun handleTokenExchangeSuccess(res: String){
+        // TODO handle success auth. end IP flow
     }
 }
