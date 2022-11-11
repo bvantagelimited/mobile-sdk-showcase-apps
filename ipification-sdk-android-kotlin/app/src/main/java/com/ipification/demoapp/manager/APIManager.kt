@@ -190,7 +190,7 @@ class APIManager {
             })
         }
 
-        fun checkCoverage(phoneNumber: String, context: Context, callback: IPCheckCoverageCallback){
+        fun checkCoverage( context: Context, callback: IPCheckCoverageCallback){
             val coverageCallback = object : CellularCallback<CoverageResponse>
             {
                 override fun onSuccess(response: CoverageResponse) {
@@ -208,7 +208,7 @@ class APIManager {
                     callback.result(false, null, error.getErrorMessage())
                 }
             }
-            IPificationServices.Factory.startCheckCoverage(phoneNumber, context = context, callback = coverageCallback)
+            IPificationServices.Factory.startCheckCoverage( context = context, callback = coverageCallback)
         }
 
 

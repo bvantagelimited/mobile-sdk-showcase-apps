@@ -31,7 +31,7 @@ android {
             buildConfigField "String", "ENVIRONMENT", "\"sandbox\""
             buildConfigField "String", "CLIENT_ID", "\"webclient3\""
             buildConfigField "String", "REDIRECT_URI", "\"https://test-stage.ipification.com\""
-            buildConfigField "String", "CLIENT_SECRET", "\"\"" // not put here for production
+            buildConfigField "String", "CLIENT_SECRET", "\"CLIENT_SECRET\"" // not put here for production
 
         }
         production {

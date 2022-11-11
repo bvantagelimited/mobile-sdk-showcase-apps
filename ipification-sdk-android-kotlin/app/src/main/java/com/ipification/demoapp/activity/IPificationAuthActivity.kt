@@ -23,6 +23,7 @@ import com.ipification.mobile.sdk.android.InternalService
 import com.ipification.mobile.sdk.android.callback.CellularCallback
 import com.ipification.mobile.sdk.android.exception.CellularException
 import com.ipification.mobile.sdk.android.response.CellularResponse
+import com.ipification.mobile.sdk.android.utils.IPConstant
 import com.mukesh.countrypicker.CountryPicker
 import java.lang.reflect.Method
 
@@ -40,6 +41,7 @@ class IPificationAuthActivity : AppCompatActivity() {
     }
 
     private fun initIPification() {
+        IPConfiguration.getInstance().debug = true
         IPConfiguration.getInstance().ENV = if(BuildConfig.ENVIRONMENT == "sandbox" ) IPEnvironment.SANDBOX else IPEnvironment.PRODUCTION
         IPConfiguration.getInstance().CLIENT_ID = BuildConfig.CLIENT_ID
         IPConfiguration.getInstance().REDIRECT_URI = Uri.parse(BuildConfig.REDIRECT_URI)
@@ -101,12 +103,13 @@ class IPificationAuthActivity : AppCompatActivity() {
         // start checking coverage
         val phoneNumber  = "${binding.countryCodeEditText.text}${binding.phoneCodeEditText.text}"
 
-        APIManager.checkCoverage(phoneNumber, context = this, callback = object: IPCheckCoverageCallback {
+        APIManager.checkCoverage(context = this, callback = object: IPCheckCoverageCallback {
             override fun result(isAvailable: Boolean, operatorCode: String?, errorMessage: String?) {
                 if(isAvailable){
                     // call Authorization API
                     callIPAuth()
                 }else{
+                    Log.d("ss","ss" + IPConstant.getInstance().LOG)
                     updateButton(true)
                     // TODO fallback to other service
                     Log.e("IP CheckCoverage", "not supported : $errorMessage")
