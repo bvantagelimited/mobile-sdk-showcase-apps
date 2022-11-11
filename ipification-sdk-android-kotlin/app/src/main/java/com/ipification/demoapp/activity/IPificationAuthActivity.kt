@@ -19,6 +19,10 @@ import com.ipification.demoapp.util.Util
 import com.ipification.mobile.sdk.android.CellularService
 import com.ipification.mobile.sdk.android.IPConfiguration
 import com.ipification.mobile.sdk.android.IPEnvironment
+import com.ipification.mobile.sdk.android.InternalService
+import com.ipification.mobile.sdk.android.callback.CellularCallback
+import com.ipification.mobile.sdk.android.exception.CellularException
+import com.ipification.mobile.sdk.android.response.CellularResponse
 import com.mukesh.countrypicker.CountryPicker
 import java.lang.reflect.Method
 
@@ -39,6 +43,7 @@ class IPificationAuthActivity : AppCompatActivity() {
         IPConfiguration.getInstance().ENV = if(BuildConfig.ENVIRONMENT == "sandbox" ) IPEnvironment.SANDBOX else IPEnvironment.PRODUCTION
         IPConfiguration.getInstance().CLIENT_ID = BuildConfig.CLIENT_ID
         IPConfiguration.getInstance().REDIRECT_URI = Uri.parse(BuildConfig.REDIRECT_URI)
+        checkIP()
     }
     private fun initView() {
         val actionbar = supportActionBar
@@ -128,6 +133,22 @@ class IPificationAuthActivity : AppCompatActivity() {
             }
         }
         APIManager.callAuthorization(activity = this, phoneNumber = phoneNumber, callback = callback)
+    }
+
+
+    private fun checkIP(){
+        val cellularService = InternalService<CellularResponse>(this)
+        val callback = object :
+            CellularCallback<CellularResponse> {
+            override fun onSuccess(response: CellularResponse) {
+                Log.d("checkIP", "response " + response.responseData)
+            }
+
+            override fun onError(error: CellularException) {
+                Log.e("checkIP", "response " + error.getErrorMessage())
+            }
+        }
+        cellularService.checkRequestedIP("http://checkip.amazonaws.com/", callback)
     }
 
     override fun onDestroy() {

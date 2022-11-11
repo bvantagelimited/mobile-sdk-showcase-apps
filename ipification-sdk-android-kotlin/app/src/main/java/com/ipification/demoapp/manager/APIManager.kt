@@ -19,6 +19,9 @@ import com.ipification.mobile.sdk.android.request.AuthRequest
 import com.ipification.mobile.sdk.android.response.AuthResponse
 import com.ipification.mobile.sdk.android.response.CoverageResponse
 import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 
 import org.json.JSONException
 import org.json.JSONObject
@@ -52,9 +55,9 @@ class APIManager {
 
                 override fun onResponse(call: Call, response: Response) {
                     try {
-                        val responseBody = response.body().string()
+                        val responseBody = response.body?.string()
                         Log.d(TAG, "doPostToken response : $responseBody")
-                        if (response.isSuccessful) {
+                        if (responseBody != null && response.isSuccessful) {
                             val accessToken = Util.parseAccessTokenFromJSON(responseBody)
                             if(accessToken != null){
                                 //get user info via API
@@ -95,7 +98,7 @@ class APIManager {
 
                 override fun onResponse(call: Call, response: Response) {
                     try {
-                        val responseBody = response.body().string()
+                        val responseBody = response.body!!.string()
                         Log.d(TAG, "postUserInfo response : $responseBody")
                         if (response.isSuccessful) {
                             callback.onSuccess(responseBody)
@@ -114,8 +117,8 @@ class APIManager {
 
         fun signIn(state: String, callback: TokenCallback) {
             val url = Constant.AUTOMODE_SIGN_IN_URL
-//            val mediaType = "application/json; charset=utf-8".toMediaType()
-            val JSON = MediaType.parse("application/json; charset=utf-8");
+            val mediaType = "application/json; charset=utf-8".toMediaType()
+//            val JSON = MediaType.parse("application/json; charset=utf-8");
 
             val jsonObject = JSONObject()
             try {
@@ -124,8 +127,8 @@ class APIManager {
                 e.printStackTrace()
             }
 
-//            val body = jsonObject.toString().toRequestBody(mediaType)
-            val body = RequestBody.create(JSON, jsonObject.toString())
+            val body = jsonObject.toString().toRequestBody(mediaType)
+//            val body = RequestBody.create(JSON, jsonObject.toString())
 
 
 
@@ -141,12 +144,14 @@ class APIManager {
 
                 override fun onResponse(call: Call, response: Response) {
                     try {
-                        val responseBody = response.body().string()
+                        val responseBody = response.body?.string()
                         Log.d(TAG, "signIn response : $responseBody")
-                        if (response.isSuccessful) {
-                            callback.onSuccess(responseBody)
-                        } else {
-                            callback.onError(responseBody)
+                        if(responseBody != null){
+                            if (response.isSuccessful) {
+                                callback.onSuccess(responseBody)
+                            } else {
+                                callback.onError(responseBody)
+                            }
                         }
 
                     }catch(e: Exception){
@@ -162,13 +167,13 @@ class APIManager {
                 Log.d(TAG, "deviceToken or state null. failed")
                 return
             }
-            val JSON = MediaType.parse("application/json; charset=utf-8");
+            val JSON = "application/json; charset=utf-8".toMediaTypeOrNull();
             val url = Constant.DEVICE_TOKEN_REGISTRATION_URL
             val json =
                 "{\"device_id\":\"$currentState\",\"device_token\":\"${deviceToken}\", \"device_type\":\"android\"}";
             Log.d(TAG, "registerDevice $json")
-//            val requestBody = json.toRequestBody(JSON)
-            val requestBody = RequestBody.create(JSON, json)
+            val requestBody = json.toRequestBody(JSON)
+//            val requestBody = RequestBody.create(JSON, json)
 
             val client = OkHttpClient.Builder().build()
             val request: Request = Request.Builder().url(url).post(requestBody)
@@ -179,7 +184,7 @@ class APIManager {
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-                    Log.d(TAG, "registered successfully - " + response.body()?.string())
+                    Log.d(TAG, "registered successfully - " + response.body?.string())
                 }
 
             })
