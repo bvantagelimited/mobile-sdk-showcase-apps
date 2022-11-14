@@ -37,6 +37,8 @@ class PhoneVerifyViewController: BaseViewController {
             // Fallback on earlier versions
         }
         verifyBtn.layer.cornerRadius = 5
+        checkIP()
+
     }
 
     
@@ -122,7 +124,7 @@ class PhoneVerifyViewController: BaseViewController {
             
         }
         authorizationService.callbackFailed = { (error) -> Void in
-            print("callbackFailed", error.localizedDescription)
+            print("callback IP ", error.localizedDescription)
         }
         
         
