@@ -48,20 +48,22 @@ class PhoneVerifyViewController: BaseViewController {
     
     
     func checkCoverageAPI() {
-        
+
         let coverageService = CoverageService()
         coverageService.callbackFailed = { (error) -> Void in
             print("CoverageService callbackFailed ", error.localizedDescription)
         }
 
         coverageService.callbackSuccess = { (response) -> Void in
+            print("CoverageService ", response.isAvailable(), response.getOperatorCode() ?? "" )
             if(response.isAvailable()){
                 // call Authorization API
                 self.doIPAuthenticationAPI()
             } else{
                 // TODO: TELCO is not supported
+                // demo
+                self.doIPAuthenticationAPI()
             }
-            print("CoverageService ", response.isAvailable(), response.getOperatorCode() ?? "" )
         }
         coverageService.checkCoverage()
     }
@@ -111,51 +113,24 @@ class PhoneVerifyViewController: BaseViewController {
 
     }
     
-    // call IPification Authorization API with IM Flow
-    func doIPIMAuthorization() {
-        IPConfiguration.sharedInstance.debug = true
-        var phone = phoneInputTextField.text!
-        if(phone == ""){
-            print("phone number error : \(phone)!")
-            return
-        }
-        DispatchQueue.main.async {
-            self.showLoadingView()
-        }
-        phone = phone.replacingOccurrences(of: "+", with: "")
-        self.phoneInputTextField.endEditing(true)
-       
+    func checkIP(){
         
         let authorizationService =  AuthorizationService()
         
-        
         authorizationService.callbackSuccess = { (response) -> Void in
-            DispatchQueue.main.async {
-                self.hideLoadingView()
-            }
-            if(response.getCode() != nil){
-                print("callbackSuccess with code: ", response.getCode()!)
-                self.callExchangeToken(code: response.getCode()!)
-            }else{
-                print("auth failed", response.getPlainResponse())
-            }
+            print("your IP: ", response.getPlainResponse())
             
         }
         authorizationService.callbackFailed = { (error) -> Void in
-            print("callbackFailed ", error.localizedDescription)
-            DispatchQueue.main.async {
-                self.hideLoadingView()
-            }
+            print("callbackFailed", error.localizedDescription)
         }
+        
+        
         let authorizationRequest =  AuthorizationRequest.Builder()
-        authorizationRequest.setScope(value: "openid ip:phone_verify")
-        authorizationRequest.addQueryParam(key: "login_hint", value: phoneInputTextField.text!)
-        authorizationRequest.addQueryParam(key: "channel", value: "ip wa viber telegram")
-        authorizationRequest.setState(value: APIManager.sharedInstance.state)
-
         let authRequest = authorizationRequest.build()
-        authorizationService.startAuthorization(viewController: self, authRequest)
+        authorizationService.checkIPAddress()
     }
+    
     
     // TODO: do this at your backend side
     private func callExchangeToken(code: String){
