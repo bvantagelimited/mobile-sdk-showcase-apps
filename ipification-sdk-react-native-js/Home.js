@@ -33,6 +33,9 @@ const HomeScreen = ({ navigation }) => {
   initIPification = () =>{
     // set configuration runtime
     RNIPConfiguration.setENV("sandbox")
+    // for custom urls
+    // RNIPConfiguration.setCheckCoverageUrl("your-custom-coverage-url")
+    // RNIPConfiguration.setAuthorizationUrl("your-custom-auth-url")
     RNIPConfiguration.setClientId(Constants.CLIENT_ID)
     RNIPConfiguration.setRedirectUri(Constants.REDIRECT_URI)
   }

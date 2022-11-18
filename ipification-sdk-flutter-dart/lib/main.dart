@@ -144,10 +144,13 @@ class _MyAppState extends State<MyApp> {
   void initIPification() async {
     print("init -- start");
 
-    IPificationPlugin.setCheckCoverageUrl(
-        Constant.CHECK_COVERAGE_URL);
-    IPificationPlugin.setAuthorizationUrl(
-        Constant.AUTH_URL);
+    IPificationPlugin.setEnv(ENV.SANDBOX);
+    // custom urls
+    // IPificationPlugin.setCheckCoverageUrl(
+    //     Constant.CHECK_COVERAGE_URL);
+    // IPificationPlugin.setAuthorizationUrl(
+    //     Constant.AUTH_URL);
+
     IPificationPlugin.setClientId(Constant.CLIENT_ID);
     IPificationPlugin.setRedirectUri(Constant.REDIRECT_URI);
 
