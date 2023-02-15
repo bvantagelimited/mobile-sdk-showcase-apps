@@ -13,7 +13,7 @@ Update with your `ENV`, `CLIENT_ID` and `REDIRECT_URI` values.
 
 Update with your `CLIENT_SECRET` (for testing only)
 
-#### Open `PhoneVerifyScreen.js` to see the IP flow
+#### 2. Open `PhoneVerifyScreen.js` to see the IP flow
 
 ## Document
 https://developer.ipification.com/#/react-native-plugin/latest/
