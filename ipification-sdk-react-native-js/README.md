@@ -27,8 +27,7 @@ Update with your `CLIENT_SECRET` (for testing only)
 4. to run for android app: run `yarn android`
 5. to run for iOS app: run `yarn ios`
 
-Requirements:
-RN 0.65+
+`Requirements: RN 0.65+`
 
 
 ## Document
