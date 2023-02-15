@@ -6,17 +6,15 @@
 <!-- GETTING STARTED -->
 # Getting Started
 
+## Setup
 To get a local copy up and running follow these simple example steps:
 
 #### 1. Update `Constants.js`
 Update with your `ENV`, `CLIENT_ID` and `REDIRECT_URI` values.
-
 Update with your `CLIENT_SECRET` (for testing only)
 
-#### 2. Open `PhoneVerifyScreen.js` to see the IP flow
-
-## Document
-https://developer.ipification.com/#/react-native-plugin/latest/
+#### 2. Home.js -> initIPification() is the function to init our variables
+#### 3. Check `PhoneVerifyScreen.js` to see the IP flow
 
 
 ## How to run the project:
@@ -29,3 +27,8 @@ https://developer.ipification.com/#/react-native-plugin/latest/
 
 Requirements:
 RN 0.65+
+
+
+## Document
+For more detail, please check our document: https://developer.ipification.com/#/react-native-plugin/latest/
+
