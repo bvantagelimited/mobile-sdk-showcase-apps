@@ -405,6 +405,8 @@ PODS:
     - Firebase/Messaging (= 8.15.0)
     - React-Core
     - RNFBApp
+  - RNLocalize (2.2.4):
+    - React-Core
   - RNNativeIPificationLibrary (2.0.10):
     - React
   - RNScreens (3.20.0):
@@ -470,6 +472,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
+  - RNLocalize (from `../node_modules/react-native-localize`)
   - RNNativeIPificationLibrary (from `../node_modules/react-native-ipification-library`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -566,6 +569,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBMessaging:
     :path: "../node_modules/@react-native-firebase/messaging"
+  RNLocalize:
+    :path: "../node_modules/react-native-localize"
   RNNativeIPificationLibrary:
     :path: "../node_modules/react-native-ipification-library"
   RNScreens:
@@ -629,6 +634,7 @@ SPEC CHECKSUMS:
   ReactCommon: 57b69f6383eafcbd7da625bfa6003810332313c4
   RNFBApp: e4439717c23252458da2b41b81b4b475c86f90c4
   RNFBMessaging: 40dac204b4197a2661dec5be964780c6ec39bf65
+  RNLocalize: 0df7970cfc60389f00eb62fd7c097dc75af3fb4f
   RNNativeIPificationLibrary: da4d14fcf94250e9662cf6653a4b7548feb655e1
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
   Yoga: e7dc4e71caba6472ff48ad7d234389b91dadc280

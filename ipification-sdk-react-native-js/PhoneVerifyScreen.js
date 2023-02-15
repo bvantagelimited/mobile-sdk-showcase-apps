@@ -7,6 +7,7 @@
  */
 import React, { useState, useRef, useEffect } from "react";
 import { Keyboard } from "react-native";
+import * as RNLocalize from "react-native-localize";
 
 import {
   SafeAreaView,
@@ -40,7 +41,7 @@ const PhoneVerifyScreen = ({ navigation }) => {
     Keyboard.dismiss();
     setLoading(true)
 
-    console.log("1. check Coverage");
+    console.log("1. call Coverage API");
     RNCoverageService.checkCoverage((error, isAvailable, operatorCode) => {
       console.log(
         "Check Coverage Result - isAvailable ",
@@ -66,7 +67,7 @@ const PhoneVerifyScreen = ({ navigation }) => {
   doIPAuthentication = () => {
     // setDisabled(true)
     
-    console.log("2. do IM Authentication");
+    console.log("2. do IP Authentication");
     RNAuthenticationService.startAuthorization(
       {
         scope: "openid ip:phone_verify",
@@ -97,7 +98,7 @@ const PhoneVerifyScreen = ({ navigation }) => {
   };
   // do at your backend server
   doTokenExchange = async (code) => {
-    console.log("3. do Token Exchange (call from your backend service)");
+    console.log("3. do Token Exchange (must to call from your backend service)");
 
     var successResult = (result) => {
       setLoading(false)
@@ -133,7 +134,8 @@ const PhoneVerifyScreen = ({ navigation }) => {
         <PhoneInput
           ref={phoneInput}
           defaultValue={phoneNumber}
-          defaultCode="RS"
+          defaultCode={RNLocalize.getCountry()}
+          
           layout="first"
           onChangeText={(text) => {
             setPhoneNumnber(text);
