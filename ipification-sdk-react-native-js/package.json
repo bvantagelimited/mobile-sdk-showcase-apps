@@ -1,6 +1,6 @@
 {
   "name": "ipification_demo_app",
-  "version": "2.0.14",
+  "version": "2.0.16",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -16,8 +16,8 @@
     "@react-navigation/native-stack": "^6.6.1",
     "jwt-decode": "^3.1.2",
     "react": "17.0.2",
-    "react-native": "0.65.2",
-    "react-native-ipification-library": "../../../GitHub/IPification-React-Native-Plugin/NativeIPificationLibrary",
+    "react-native": "0.66.4",
+    "react-native-ipification-library": "./ReactNativeIPificationLibrary_2.0.16",
     "react-native-loading-spinner-overlay": "^3.0.0",
     "react-native-phone-number-input": "^2.1.0",
     "react-native-safe-area-context": "^4.2.4",
