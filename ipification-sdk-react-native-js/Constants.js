@@ -1,9 +1,10 @@
 export default Constants ={
+  ENV: 'sandbox', //supports "sandbox" or "production"
   CLIENT_ID : "CORRECT_HERE", 
   REDIRECT_URI: "CORRECT_HERE",
   CLIENT_SECRET: "CORRECT_HERE",
   
-  API_HOST : "https://stage.ipification.com",
+  TOKEN_EXCHANGE_HOST : "https://stage.ipification.com",
   TOKEN_PATH:
   "/auth/realms/ipification/protocol/openid-connect/token",
   GET_USER_INFO_PATH:

@@ -32,12 +32,9 @@ const HomeScreen = ({ navigation }) => {
   
   initIPification = () =>{
     // set configuration runtime
-    let currentEnv = "sandbox" // supports "sandbox" or "production"
-    RNIPConfiguration.setENV(currentEnv)
-    Constants.API_HOST = currentEnv == "sandbox" ? "https://stage.ipification.com" : "https://api.ipification.com"
-    // for custom urls
-    // RNIPConfiguration.setCheckCoverageUrl("your-custom-coverage-url")
-    // RNIPConfiguration.setAuthorizationUrl("your-custom-auth-url")
+    RNIPConfiguration.setENV(Constants.ENV)
+    Constants.TOKEN_EXCHANGE_HOST = Constants.ENV == "sandbox" ? "https://stage.ipification.com" : "https://api.ipification.com" // for demo only
+   
     RNIPConfiguration.setClientId(Constants.CLIENT_ID)
     RNIPConfiguration.setRedirectUri(Constants.REDIRECT_URI)
   }

@@ -57,7 +57,7 @@ const doTokenExchange = async (code, successBlock, failedBlock) => {
   formBody = formBody.join("&");
   // console.log(formBody)
 
-  fetch(`${Constants.API_HOST}${Constants.TOKEN_PATH}`, {
+  fetch(`${Constants.TOKEN_EXCHANGE_HOST}${Constants.TOKEN_PATH}`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: formBody,
@@ -90,7 +90,7 @@ const doPostUserInfo = async (accessToken, successBlock, failedBlock) => {
   }
   formBody = formBody.join("&");
 
-  fetch(`${Constants.API_HOST}${Constants.GET_USER_INFO_PATH}`, {
+  fetch(`${Constants.TOKEN_EXCHANGE_HOST}${Constants.GET_USER_INFO_PATH}`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: formBody,
