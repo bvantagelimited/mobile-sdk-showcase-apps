@@ -1,12 +1,16 @@
 
 <h1 align="center">IPification Sample Project</h1>
 
+#### 1. IP Authentication
 <p align="center">
 <img src='https://user-images.githubusercontent.com/4114159/176865959-8c16cbd7-cdee-4cb4-bd37-7bdd2fce7659.png' width='220'>
 <img src='https://user-images.githubusercontent.com/4114159/176863776-8961c9d7-a64f-4b14-965e-1ddc222bd96e.png' width='220'>
 <img src='https://user-images.githubusercontent.com/4114159/176863792-ee7ffc89-600e-42f8-ad75-2475726c5929.png' width='220'>
 
 </p>
+
+
+#### 2. IM Authentication
 <p align="center">
 <img src='https://user-images.githubusercontent.com/4114159/176865974-427bad75-1993-4d25-ba2e-c3f742575d84.png' width='220'>
 <img src='https://user-images.githubusercontent.com/4114159/176865227-d9b565c4-ec0e-44f3-80a4-c39d960ae066.png' width='220'>
@@ -22,8 +26,9 @@
 
 To get a local copy up and running follow these simple example steps:
 
+### I. IP Authentication:
 
-### 1. Update `app/build.gradle`
+#### 1. Update with your credentials in `app/build.gradle`
 ```
 stage {
     buildConfigField "String", "ENVIRONMENT", "\"sandbox\""
@@ -34,8 +39,28 @@ stage {
 }
 ```
 
-### 2. IM Authentication
-Update `DEVICE_TOKEN_REGISTRATION_URL` (for Push Notification)
+#### 2. Use correct `variant` (stageDebug, stageRelease, productionDebug, productionRelease)
+
+#### 3. Run the project on the device
+
+
+
+------------------------------------------------------------------------
+
+### II. IM Authentication
+
+#### 1. Update with your credentials in `app/build.gradle`
+```
+stage {
+    buildConfigField "String", "ENVIRONMENT", "\"sandbox\""
+    buildConfigField "String", "CLIENT_ID", "\"\""
+    buildConfigField "String", "REDIRECT_URI", "\"\""
+    buildConfigField "String", "CLIENT_SECRET", "\"\""
+
+}
+```
+
+#### 2. Update `DEVICE_TOKEN_REGISTRATION_URL` (for Push Notification)
 Set up your FCM and override `google-services.json`
 
 We offer 3 types of implementation for IM Flow
@@ -47,6 +72,9 @@ private fun openIMActivity() {
     startActivity(intent)
 }
 ```
+#### 3. Use correct `variant` (stageDebug, stageRelease, productionDebug, productionRelease)
+
+#### 4. Run the project on the device
 
 # Document
 
