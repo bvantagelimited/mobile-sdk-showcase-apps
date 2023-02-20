@@ -17,7 +17,7 @@ import {
   Text,
   NativeModules,
 } from "react-native";
-const { RNCoverageService, RNAuthenticationService, RNIPConfiguration } =
+const { RNCoverageService, RNAuthenticationService, RNIPConfiguration, RNIPEnvironment } =
   NativeModules;
 import { Platform } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
@@ -37,9 +37,12 @@ const PhoneVerifyScreen = ({ navigation }) => {
 
   useEffect(() => {}, []);
 
-  checkCoverage = () => {
+  checkCoverage = async () => {
     Keyboard.dismiss();
     setLoading(true)
+
+    var env = await RNIPConfiguration.getENV()
+    console.log(env);
 
     console.log("1. call Coverage API");
     RNCoverageService.checkCoverage((error, isAvailable, operatorCode) => {

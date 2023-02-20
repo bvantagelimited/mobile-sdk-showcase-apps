@@ -6,7 +6,7 @@ class Constant {
 
     companion object Factory {
 
-        private val HOST = IPConfiguration.getInstance().HOST_NAME
+        var HOST = IPConfiguration.getInstance().STAGE_HOST
 
         var EXCHANGE_TOKEN_URL = "$HOST/auth/realms/ipification/protocol/openid-connect/token"
         var USER_INFO_URL = "$HOST/auth/realms/ipification/protocol/openid-connect/userinfo"

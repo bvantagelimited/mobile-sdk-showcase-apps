@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.ipification.demoapp.BuildConfig
+import com.ipification.demoapp.Constant
 import com.ipification.demoapp.callback.IPAuthorizationCallback
 import com.ipification.demoapp.callback.IPCheckCoverageCallback
 import com.ipification.demoapp.databinding.ActivityIpAuthenticationBinding
@@ -43,6 +44,7 @@ class IPificationAuthActivity : AppCompatActivity() {
     private fun initIPification() {
         IPConfiguration.getInstance().debug = true
         IPConfiguration.getInstance().ENV = if(BuildConfig.ENVIRONMENT == "sandbox" ) IPEnvironment.SANDBOX else IPEnvironment.PRODUCTION
+        Constant.HOST = if(BuildConfig.ENVIRONMENT == "sandbox" ) IPConfiguration.getInstance().STAGE_HOST else IPConfiguration.getInstance().PRODUCTION_HOST // for demo only
         IPConfiguration.getInstance().CLIENT_ID = BuildConfig.CLIENT_ID
         IPConfiguration.getInstance().REDIRECT_URI = Uri.parse(BuildConfig.REDIRECT_URI)
         checkIP()

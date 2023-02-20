@@ -1,8 +1,13 @@
+const ENV = {
+  SANDBOX: 'sandbox',
+  PRODUCTION: 'production'
+};
+
 export default Constants ={
-  ENV: 'sandbox', //supports "sandbox" or "production"
+  ENV: ENV.SANDBOX, //supports "sandbox" or "production"
   CLIENT_ID : "CORRECT_HERE", 
   REDIRECT_URI: "CORRECT_HERE",
-  CLIENT_SECRET: "CORRECT_HERE",
+  CLIENT_SECRET: "CORRECT_HERE", // for demo purpose only
   
   TOKEN_EXCHANGE_HOST : "https://stage.ipification.com",
   TOKEN_PATH:

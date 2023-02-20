@@ -15,29 +15,32 @@ import {
   Text,
   TouchableOpacity
 } from "react-native";
-import { Colors } from "react-native/Libraries/NewAppScreen";
 import Constants from "./Constants";
 import NetworkManger from "./NetworkManger";
 import messaging from "@react-native-firebase/messaging";
 import Spinner from 'react-native-loading-spinner-overlay';
 
-const { RNAuthenticationService, RNIPConfiguration, RNIPNotification } = NativeModules;
+const { RNAuthenticationService, RNIPConfiguration, RNIPNotification, RNIPEnvironment } = NativeModules;
 
 const HomeScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     initIPification();
-    // localize();
   }, []);
   
-  initIPification = () =>{
-    // set configuration runtime
-    RNIPConfiguration.setENV(Constants.ENV)
-    Constants.TOKEN_EXCHANGE_HOST = Constants.ENV == "sandbox" ? "https://stage.ipification.com" : "https://api.ipification.com" // for demo only
-   
+  initIPification = async () =>{
+    
+    const {SANDBOX, PRODUCTION} = RNIPEnvironment.getConstants();
+    RNIPConfiguration.setENV(PRODUCTION)
     RNIPConfiguration.setClientId(Constants.CLIENT_ID)
     RNIPConfiguration.setRedirectUri(Constants.REDIRECT_URI)
+
+    Constants.TOKEN_EXCHANGE_HOST = "https://stage.ipification.com" // for demo only
+    //TODO production: Constants.TOKEN_EXCHANGE_HOST =  = "https://api.ipification.com" // for demo only
+    
   }
+
+
   // localize = async () => {
   //   RNAuthenticationService.updateAndroidLocale({
   //     mainTitle: "Phone Number Verification",
@@ -150,7 +153,7 @@ const HomeScreen = ({ navigation }) => {
     const authorizationStatus = await messaging().requestPermission();
 
     if (authorizationStatus) {
-      console.log("Permission status:", authorizationStatus);
+      // console.log("Permission status:", authorizationStatus);
     }
   }
   async function initNotification() {
