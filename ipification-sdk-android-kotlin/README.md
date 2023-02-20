@@ -26,7 +26,7 @@
 
 To get a local copy up and running follow these simple example steps:
 
-### IP Authentication:
+### I. IP Authentication:
 
 #### 1. Update with your credentials in `app/build.gradle`
 ```
@@ -47,7 +47,7 @@ stage {
 
 ------------------------------------------------------------------------
 
-### 2. IM Authentication
+### II. IM Authentication
 
 #### 1. Update with your credentials in `app/build.gradle`
 ```
