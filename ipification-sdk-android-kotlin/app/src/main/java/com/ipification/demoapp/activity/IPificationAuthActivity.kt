@@ -74,7 +74,17 @@ class IPificationAuthActivity : AppCompatActivity() {
         val picker = builder.build()
         val country = picker.countryFromSIM
 
-        binding.countryCodeEditText.setText(country?.dialCode)
+        //TODO
+        if(BuildConfig.ENVIRONMENT == "sandbox"){
+            binding.countryCodeEditText.setText("+999")
+            binding.countryCodeEditText.isEnabled = false
+            binding.phoneCodeEditText.setText("123456789")
+        }else{
+            binding.countryCodeEditText.setText(country.dialCode)
+            binding.countryCodeEditText.isEnabled = true
+            binding.phoneCodeEditText.setText("")
+        }
+
         val self = this
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             binding.countryCodeEditText.showSoftInputOnFocus = false
