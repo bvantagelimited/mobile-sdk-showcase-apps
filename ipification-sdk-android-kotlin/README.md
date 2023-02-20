@@ -1,7 +1,7 @@
 
 <h1 align="center">IPification Sample Project</h1>
 
-#### 1. IP
+#### 1. IP Authentication
 <p align="center">
 <img src='https://user-images.githubusercontent.com/4114159/176865959-8c16cbd7-cdee-4cb4-bd37-7bdd2fce7659.png' width='220'>
 <img src='https://user-images.githubusercontent.com/4114159/176863776-8961c9d7-a64f-4b14-965e-1ddc222bd96e.png' width='220'>
@@ -10,7 +10,7 @@
 </p>
 
 
-#### 2. IM
+#### 2. IM Authentication
 <p align="center">
 <img src='https://user-images.githubusercontent.com/4114159/176865974-427bad75-1993-4d25-ba2e-c3f742575d84.png' width='220'>
 <img src='https://user-images.githubusercontent.com/4114159/176865227-d9b565c4-ec0e-44f3-80a4-c39d960ae066.png' width='220'>
