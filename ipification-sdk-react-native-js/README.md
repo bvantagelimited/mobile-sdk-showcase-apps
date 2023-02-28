@@ -25,7 +25,7 @@ Update with your `CLIENT_SECRET` (for testing only)
 2. cd ios, run `pod install`
 3. cd .. 
 4. to run for android app: run `yarn android`
-5. to run for iOS app: run `yarn ios`
+5. to run for iOS app: run `yarn ios` or `npx react-native run-ios --simulator="iPhone 14 Pro"`
 
 `Requirements: RN 0.65+`
 
