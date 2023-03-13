@@ -24,15 +24,33 @@
 To get a local copy up and running follow these simple example steps:
 
 
-### 1. Update Constants.swift
-Update with your `CLIENT_ID` `CLIENT_SECRET`, and `REDIRECT_URI` values
+IP AUTHENTICATION
 
-### 2. IM Authentication
-Update `REGISTER_DEVICE_URL` (for Push Notification)
-Set up your FCM and override `GoogleService-Info.plist`
+### 1. Update IP's Configuration in HomeViewController.swift
+```
+IPConfiguration.sharedInstance.ENV = IPEnvironment.PRODUCTION // 1. SANDBOX or PRODUCTION
+```
+
+### 2. Update Constants.swift
+- Update endpoint of IP's HOST // production or sandbox
+- Update with your `CLIENT_ID` `CLIENT_SECRET`, and `REDIRECT_URI` values
+
+
+
+
+### 1. Update IP's Configuration in HomeViewController.swift
+```
+IPConfiguration.sharedInstance.ENV = IPEnvironment.PRODUCTION // 1. SANDBOX or PRODUCTIOn
+```
+
+### 2. Update Constants.swift
+- Update endpoint of IP's HOST // production or sandbox
+- Update with your `CLIENT_ID` `CLIENT_SECRET`, and `REDIRECT_URI` values
+
+- Update `REGISTER_DEVICE_URL` (for Push Notification)
+- Set up your FCM and override `GoogleService-Info.plist`
 
   
-
 
 # Document
 
