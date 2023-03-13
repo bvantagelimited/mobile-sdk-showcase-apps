@@ -25,7 +25,7 @@
 To get a local copy up and running follow these simple example steps:
 
 
-IP AUTHENTICATION
+### IP AUTHENTICATION
 
 ### 1. Update IP's Configuration in HomeViewController.swift
 ```
@@ -36,8 +36,9 @@ IPConfiguration.sharedInstance.ENV = IPEnvironment.PRODUCTION // 1. SANDBOX or P
 - Update endpoint of IP's HOST // production or sandbox
 - Update with your `CLIENT_ID` `CLIENT_SECRET`, and `REDIRECT_URI` values
 
+----------------------
 
-
+### IM AUTHENTICATION
 
 ### 1. Update IP's Configuration in HomeViewController.swift
 ```
