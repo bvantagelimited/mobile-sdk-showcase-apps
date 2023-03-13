@@ -1,7 +1,7 @@
 
 <h1 align="center">IPification Sample Project</h1>
 
-### IPification Phone Verification:
+### IPification Verification:
 <p align="center">
     <img src='https://user-images.githubusercontent.com/4114159/224629567-189dcace-a895-4fad-8588-93b955960452.jpg' width='220'>
     <img src='https://user-images.githubusercontent.com/4114159/153834085-686378a6-97e2-4c49-9871-f12db5fc16e1.png' width='220'>
@@ -25,7 +25,7 @@
 To get a local copy up and running follow these simple example steps:
 
 
-### IP AUTHENTICATION
+### IPIFICATION AUTHENTICATION
 
 ### 1. Update IP's Configuration in HomeViewController.swift
 ```
