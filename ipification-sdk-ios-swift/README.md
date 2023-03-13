@@ -34,7 +34,17 @@ IPConfiguration.sharedInstance.ENV = IPEnvironment.PRODUCTION // 1. SANDBOX or P
 
 ### 2. Update Constants.swift
 - Update endpoint of IP's HOST // production or sandbox
+```
+static let HOST = "https://api.ipification.com" // sandbox: https://stage.ipification.com or production: https://api.ipification.com
+
+```
 - Update with your `CLIENT_ID` `CLIENT_SECRET`, and `REDIRECT_URI` values
+```
+static let CLIENT_ID = "your_client_id"
+static let REDIRECT_URI = "your_redirect_uri"
+// warning: put here only for demo
+static let CLIENT_SECRET = "your_client_secret" // 
+```
 
 ----------------------
 
@@ -47,7 +57,17 @@ IPConfiguration.sharedInstance.ENV = IPEnvironment.PRODUCTION // 1. SANDBOX or P
 
 ### 2. Update Constants.swift
 - Update endpoint of IP's HOST // production or sandbox
+```
+static let HOST = "https://api.ipification.com" // sandbox: https://stage.ipification.com or production: https://api.ipification.com
+
+```
 - Update with your `CLIENT_ID` `CLIENT_SECRET`, and `REDIRECT_URI` values
+```
+static let CLIENT_ID = "your_client_id"
+static let REDIRECT_URI = "your_redirect_uri"
+// warning: put here only for demo
+static let CLIENT_SECRET = "your_client_secret" // 
+```
 
 - Update `REGISTER_DEVICE_URL` (for Push Notification)
 - Set up your FCM and override `GoogleService-Info.plist`
