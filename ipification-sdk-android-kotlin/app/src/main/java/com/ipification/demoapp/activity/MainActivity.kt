@@ -3,7 +3,7 @@ package com.ipification.demoapp.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.ipification.demoapp.activity.im.IMAuthActivity
+import com.ipification.demoapp.activity.im.IMAuthAutoModeActivity
 import com.ipification.demoapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -32,8 +32,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openIMActivity() {
-        val intent = Intent(applicationContext, IMAuthActivity::class.java)
-//        val intent = Intent(applicationContext, IMAuthAutoModeActivity::class.java)
+//        val intent = Intent(applicationContext, IMAuthActivity::class.java)
+        val intent = Intent(applicationContext, IMAuthAutoModeActivity::class.java)
 //        val intent = Intent(applicationContext, IMAuthManualActivity::class.java)
         startActivity(intent)
     }

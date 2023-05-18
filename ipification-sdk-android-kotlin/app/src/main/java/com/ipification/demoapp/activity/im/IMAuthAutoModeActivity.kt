@@ -45,7 +45,7 @@ class IMAuthAutoModeActivity : AppCompatActivity() {
 
         //enable Auto Mode
         IPConfiguration.getInstance().IM_AUTO_MODE = true
-        IPConfiguration.getInstance().IM_PRIORITY_APP_LIST = arrayOf("telegram","viber","wa")
+        IPConfiguration.getInstance().IM_PRIORITY_APP_LIST = arrayOf("wa")
 
     }
 
