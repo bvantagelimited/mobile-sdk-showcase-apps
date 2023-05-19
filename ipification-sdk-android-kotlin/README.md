@@ -76,7 +76,7 @@ private fun openIMActivity() {
 
 #### 4. Update your client backend URL to check authorize result (automode):
 ```Constant.kt
-const val AUTOMODE_SIGN_IN_URL = ''
+const val AUTOMODE_SIGN_IN_URL = 'your-backend-api'
 ```
 
 #### 5. Run the project on the device
