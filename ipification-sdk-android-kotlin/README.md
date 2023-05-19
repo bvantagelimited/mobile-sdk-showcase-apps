@@ -74,7 +74,10 @@ private fun openIMActivity() {
 ```
 #### 3. Use correct `variant` (stageDebug, stageRelease, productionDebug, productionRelease)
 
-#### 4. Run the project on the device
+#### 4. Update your client backend URL to authorize (automode):
+```const val AUTOMODE_SIGN_IN_URL = '' ```
+
+#### 5. Run the project on the device
 
 # Document
 
