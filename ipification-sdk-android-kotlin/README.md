@@ -62,7 +62,20 @@ stage {
 
 #### 2. Update `DEVICE_TOKEN_REGISTRATION_URL` (for Push Notification)
 Set up your FCM and override `google-services.json`
+#### 3. Init IP
+```
+private fun initIPification(){
+    IPConfiguration.getInstance().ENV = if(BuildConfig.ENVIRONMENT == "sandbox" ) IPEnvironment.SANDBOX else IPEnvironment.PRODUCTION
+    IPConfiguration.getInstance().CLIENT_ID = BuildConfig.CLIENT_ID
+    IPConfiguration.getInstance().REDIRECT_URI = Uri.parse(BuildConfig.REDIRECT_URI) // this uri should be do S2S to exchange token
 
+    //enable Auto Mode
+    // IPConfiguration.getInstance().IM_AUTO_MODE = true // false
+    // IPConfiguration.getInstance().IM_PRIORITY_APP_LIST = arrayOf("wa")
+
+}
+```
+#### 4. Update IM Flow
 We offer 3 types of implementation for IM Flow
 ```MainActivity.kt
 private fun openIMActivity() {
@@ -72,14 +85,15 @@ private fun openIMActivity() {
     startActivity(intent)
 }
 ```
-#### 3. Use correct `variant` (stageDebug, stageRelease, productionDebug, productionRelease)
 
-#### 4. Update your client backend URL to check authorize result (automode):
+#### 5. Update your client backend URL to check authorize result (automode):
 ```Constant.kt
 const val AUTOMODE_SIGN_IN_URL = 'your-backend-api'
 ```
 
-#### 5. Run the project on the device
+#### 6. Use correct `variant` (stageDebug, stageRelease, productionDebug, productionRelease)
+
+#### 7. Run the project on the device
 
 # Document
 
