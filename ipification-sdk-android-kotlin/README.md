@@ -63,7 +63,7 @@ stage {
 #### 2. Update `DEVICE_TOKEN_REGISTRATION_URL` (for Push Notification)
 Set up your FCM and override `google-services.json`
 #### 3. Init IP
-```
+```IMAuthAutoModeActivity.kt
 private fun initIPification(){
     IPConfiguration.getInstance().ENV = if(BuildConfig.ENVIRONMENT == "sandbox" ) IPEnvironment.SANDBOX else IPEnvironment.PRODUCTION
     IPConfiguration.getInstance().CLIENT_ID = BuildConfig.CLIENT_ID
