@@ -14,7 +14,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.ipification.mobile.auth.gmidbox.CellularRequest;
 import com.ipification.mobile.auth.gmidbox.CellularResponse;
-import com.ipification.mobile.auth.gmidbox.CellularService;
+import com.ipification.mobile.auth.gmidbox.CellularServices;
 import com.ipification.mobile.auth.gmidbox.callback.CellularCallback;
 import com.ipification.mobile.auth.gmidbox.exception.CellularException;
 
@@ -40,12 +40,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try{
                     dismissKeyboard();
-                    Uri endPoint = Uri.parse(textInputEditText.getText().toString());
-                    if(endPoint == null || endPoint.getHost() == null){
-                        textView.setText("error: url is not correct");
-                        textView.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
-                        return;
-                    }
+                    String endPoint = textInputEditText.getText().toString();
                     textView.setTextColor(getResources().getColor(android.R.color.holo_blue_light));
                     textView.setText("Connecting ...");
                     makeRequest(endPoint);
@@ -54,15 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        MaterialButton disConnectButton = findViewById(R.id.button_disconnect);
-        disConnectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                boolean result  = CellularService.Companion.unregisterNetwork(MainActivity.this);
-                textView.setText("disconnected: " + result);
-           }
-        });
     }
 
     private void dismissKeyboard() {
@@ -73,21 +60,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void makeRequest(Uri endPoint){
+    private void makeRequest(String endpointUrl){
         CellularRequest cellularRequest;
-        CellularService cellularService = new CellularService(this);
-
-        CellularRequest.Builder builder = new CellularRequest.Builder(endPoint);
+        CellularRequest.Builder builder = new CellularRequest.Builder();
         builder.addHeader("Accept", "application/json");
-
-        builder.addQueryParam("param1","value1");
-        builder.addQueryParam("param2","value2");
-
-
-
-        builder.setConnectTimeout(10000);
-        builder.setReadTimeout(12000);
+//
+        builder.addQueryParam("format","json");
+//        builder.addQueryParam("param2","value2");
+//        builder.setConnectTimeout(3000);
+//        builder.setReadTimeout(3000);
         cellularRequest = builder.build();
+
         CellularCallback callback = new CellularCallback() {
             @Override
             public void onSuccess(@NotNull final CellularResponse cellularResponse) {
@@ -120,6 +103,12 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        cellularService.performRequest(cellularRequest, callback);
+        CellularServices.Factory.requestTo(endpointUrl, this, cellularRequest, callback);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        CellularServices.Factory.unregisterNetwork(MainActivity.this);
     }
 }
