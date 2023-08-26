@@ -13,7 +13,7 @@
 		0A14D78C244195A3004F8B97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A14D78A244195A3004F8B97 /* Main.storyboard */; };
 		0A14D78E244195A5004F8B97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A14D78D244195A5004F8B97 /* Assets.xcassets */; };
 		0A14D791244195A5004F8B97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A14D78F244195A5004F8B97 /* LaunchScreen.storyboard */; };
-		0AFC734A2A99AB7600DF62C5 /* GMIDBOXSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0AFC73492A99AB7600DF62C5 /* GMIDBOXSDK */; };
+		0A8C36942A99AFBF00F59CC5 /* GMIDBOXSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0A8C36932A99AFBF00F59CC5 /* GMIDBOXSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,7 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0AFC734A2A99AB7600DF62C5 /* GMIDBOXSDK in Frameworks */,
+				0A8C36942A99AFBF00F59CC5 /* GMIDBOXSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,7 +108,7 @@
 			);
 			name = "GMIDBox iOS SDK Demo";
 			packageProductDependencies = (
-				0AFC73492A99AB7600DF62C5 /* GMIDBOXSDK */,
+				0A8C36932A99AFBF00F59CC5 /* GMIDBOXSDK */,
 			);
 			productName = "GMIDBox iOS SDK Demo";
 			productReference = 0A14D781244195A3004F8B97 /* GMIDBox iOS SDK Demo.app */;
@@ -139,7 +139,7 @@
 			);
 			mainGroup = 0A14D778244195A3004F8B97;
 			packageReferences = (
-				0AFC73482A99AB7600DF62C5 /* XCRemoteSwiftPackageReference "GMiDBoxSwiftDistribution" */,
+				0A8C36922A99AFBF00F59CC5 /* XCRemoteSwiftPackageReference "GMiDBoxSwiftDistribution" */,
 			);
 			productRefGroup = 0A14D782244195A3004F8B97 /* Products */;
 			projectDirPath = "";
@@ -388,7 +388,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		0AFC73482A99AB7600DF62C5 /* XCRemoteSwiftPackageReference "GMiDBoxSwiftDistribution" */ = {
+		0A8C36922A99AFBF00F59CC5 /* XCRemoteSwiftPackageReference "GMiDBoxSwiftDistribution" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/bvantagelimited/GMiDBoxSwiftDistribution";
 			requirement = {
@@ -399,9 +399,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0AFC73492A99AB7600DF62C5 /* GMIDBOXSDK */ = {
+		0A8C36932A99AFBF00F59CC5 /* GMIDBOXSDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0AFC73482A99AB7600DF62C5 /* XCRemoteSwiftPackageReference "GMiDBoxSwiftDistribution" */;
+			package = 0A8C36922A99AFBF00F59CC5 /* XCRemoteSwiftPackageReference "GMiDBoxSwiftDistribution" */;
 			productName = GMIDBOXSDK;
 		};
 /* End XCSwiftPackageProductDependency section */
