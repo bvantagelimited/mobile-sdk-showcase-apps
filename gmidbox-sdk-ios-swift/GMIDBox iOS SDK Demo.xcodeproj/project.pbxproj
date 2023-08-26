@@ -13,18 +13,16 @@
 		0A14D78C244195A3004F8B97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A14D78A244195A3004F8B97 /* Main.storyboard */; };
 		0A14D78E244195A5004F8B97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A14D78D244195A5004F8B97 /* Assets.xcassets */; };
 		0A14D791244195A5004F8B97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A14D78F244195A5004F8B97 /* LaunchScreen.storyboard */; };
-		0A4DF42F259C626000B25341 /* GMiDBOXSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A4DF42D259C625800B25341 /* GMiDBOXSDK.xcframework */; };
-		0A4DF430259C626000B25341 /* GMiDBOXSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A4DF42D259C625800B25341 /* GMiDBOXSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0AFC734A2A99AB7600DF62C5 /* GMIDBOXSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0AFC73492A99AB7600DF62C5 /* GMIDBOXSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		0A1CB1132456E71C00CB37F9 /* Embed Frameworks */ = {
+		0AFC73312A99042400DF62C5 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0A4DF430259C626000B25341 /* GMiDBOXSDK.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -40,7 +38,6 @@
 		0A14D78D244195A5004F8B97 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A14D790244195A5004F8B97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0A14D792244195A5004F8B97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0A4DF42D259C625800B25341 /* GMiDBOXSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = GMiDBOXSDK.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A4DF42F259C626000B25341 /* GMiDBOXSDK.xcframework in Frameworks */,
+				0AFC734A2A99AB7600DF62C5 /* GMIDBOXSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,9 +55,9 @@
 		0A14D778244195A3004F8B97 = {
 			isa = PBXGroup;
 			children = (
-				0A872DC624631C3300990584 /* sdk */,
 				0A14D783244195A3004F8B97 /* GMIDBox iOS SDK Demo */,
 				0A14D782244195A3004F8B97 /* Products */,
+				0AFC73212A98FC7800DF62C5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -86,12 +83,11 @@
 			path = "GMIDBox iOS SDK Demo";
 			sourceTree = "<group>";
 		};
-		0A872DC624631C3300990584 /* sdk */ = {
+		0AFC73212A98FC7800DF62C5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0A4DF42D259C625800B25341 /* GMiDBOXSDK.xcframework */,
 			);
-			path = sdk;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -104,13 +100,16 @@
 				0A14D77D244195A3004F8B97 /* Sources */,
 				0A14D77E244195A3004F8B97 /* Frameworks */,
 				0A14D77F244195A3004F8B97 /* Resources */,
-				0A1CB1132456E71C00CB37F9 /* Embed Frameworks */,
+				0AFC73312A99042400DF62C5 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "GMIDBox iOS SDK Demo";
+			packageProductDependencies = (
+				0AFC73492A99AB7600DF62C5 /* GMIDBOXSDK */,
+			);
 			productName = "GMIDBox iOS SDK Demo";
 			productReference = 0A14D781244195A3004F8B97 /* GMIDBox iOS SDK Demo.app */;
 			productType = "com.apple.product-type.application";
@@ -139,6 +138,9 @@
 				Base,
 			);
 			mainGroup = 0A14D778244195A3004F8B97;
+			packageReferences = (
+				0AFC73482A99AB7600DF62C5 /* XCRemoteSwiftPackageReference "GMiDBoxSwiftDistribution" */,
+			);
 			productRefGroup = 0A14D782244195A3004F8B97 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -301,6 +303,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -315,6 +318,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = MZTCFJJ5R8;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/sdk",
@@ -382,6 +386,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0AFC73482A99AB7600DF62C5 /* XCRemoteSwiftPackageReference "GMiDBoxSwiftDistribution" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bvantagelimited/GMiDBoxSwiftDistribution";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0AFC73492A99AB7600DF62C5 /* GMIDBOXSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0AFC73482A99AB7600DF62C5 /* XCRemoteSwiftPackageReference "GMiDBoxSwiftDistribution" */;
+			productName = GMIDBOXSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0A14D779244195A3004F8B97 /* Project object */;
 }

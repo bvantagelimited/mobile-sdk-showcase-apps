@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "gmidboxswiftdistribution",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/bvantagelimited/GMiDBoxSwiftDistribution",
+      "state" : {
+        "revision" : "01e1ae878173303cdcaa3a0461f5f6116f06c7c9",
+        "version" : "2.0.0"
+      }
+    }
+  ],
+  "version" : 2
+}

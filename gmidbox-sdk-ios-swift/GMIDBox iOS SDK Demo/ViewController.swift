@@ -17,116 +17,74 @@ class ViewController: UIViewController {
     @IBOutlet weak var wifiResult: UILabel!
     @IBOutlet weak var cellularResult: UILabel!
     
-    //    func onSuccess(response: CellularResponse) {
-    //        print("onsuccess", response.getData())
-    //
-    //    }
-    //
-    //    func onError(error: CellularException) {
-    //        print("onError" , error.localizedDescription)
-    //        sdkResult.text = error.localizedDescription
-    //    }
-    
-    @IBAction func onCellularRequest(_ sender: Any) {
-        inputField.resignFirstResponder()
-        if(inputField.text == nil ||  inputField.text == ""){
-            return
-        }
-        cellularResult.text = "Connecting..."
-        let url = URL(string: inputField.text!)!
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        NSURLConnection.sendAsynchronousRequest(request, queue: OperationQueue.main) {(response, data, error) in
-            guard let data = data else {
-                DispatchQueue.main.async {
-                    self.cellularResult.text = error?.localizedDescription ?? "Something wrong"
-                }
-                return
-                
-            }
-            DispatchQueue.main.async {
-                self.cellularResult.text = String(data: data, encoding: .utf8) ?? "error. cannot parse response data"
-            }
-        }
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
         
+        // set url
+        inputField.text = "https://api.ipify.org"
     }
     
-    
-    var cellularRequest: CellularRequest? = nil
-    
-    func onSDKConnect(){
+    @IBAction func onSDKConnect(_ sender: Any) {
+        sdkResult.text = "Connecting..."
+        self.makeSDKRequest()
+    }
+    func makeSDKRequest(){
         inputField.resignFirstResponder()
         if(inputField.text == nil || inputField.text == ""){
-            print("inputField is empty")
+            print("url is empty")
             return
         }
-        print(inputField.text ?? "???")
-        let endPoint = URL(string: inputField.text!)
-        let builder = CellularRequest.Builder(endpoint: endPoint!)
+//        print(inputField.text ?? "???")
+//        let requestBuilder = CellularRequest.Builder()
+//        requestBuilder.setConnectTimeout(value: 1000) //ms
+//        requestBuilder.setReadTimeout(value: 1000) // ms
+//        requestBuilder.addQueryParam(key: "format", value: "json")
+
+        let requestUrl = inputField.text!
+        CellularServices.sharedInstance.requestTo(url: requestUrl, successCallback: { response in
+                print(response.statusCode)
+                if(response.getResponseData() is String){
+                        DispatchQueue.main.async {
+                            self.sdkResult.text = response.getResponseData() as? String
+                            self.sdkResult.textColor = UIColor.green
+                        }
         
-        builder.setConnectTimeout(value: 10000) //ms
-        builder.setReadTimeout(value: 10000) // ms
-        builder.addQueryParam(key: "format", value: "json")
-        
-        let cellularRequest = builder.build()
-        let cellularService = CellularService()
-        
-        cellularService.callbackFailed = { (error) -> Void in
-            print("callbackFailed")
-            print(error.localizedDescription)
-            DispatchQueue.main.async {
-                self.sdkResult.text = error.localizedDescription
-            }
-            
-        }
-        cellularService.callbackSuccess = { (response) -> Void in
-            print("callbackSuccess")
-            if(response.getData() is String){
+                } else if(response.getResponseData() is [String: Any]){
+                        do {
+                            let data1 = try JSONSerialization.data(withJSONObject: response.getResponseData(), options: JSONSerialization.WritingOptions.fragmentsAllowed) // first of all convert json to the data
+                            let convertedString = String(data: data1, encoding: String.Encoding.utf8)
+                            DispatchQueue.main.async {
+                                self.sdkResult.text = convertedString
+                                self.sdkResult.textColor = UIColor.green
+                            }
+                        } catch let myJSONError {
+                            print(myJSONError)
+                        }
+                }
+            },
+            failureCallback: { exception in
+                print("Request failed: \(exception)")
                 DispatchQueue.main.async {
-                    self.sdkResult.text = response.getData() as? String
+                    self.sdkResult.text = "\(exception.errorCode) - \(exception.errorMessage)"
+                    self.sdkResult.textColor = UIColor.red
                 }
-                
-            }else if(response.getData() is [String: Any]){
-                do {
-                    
-                    let data1 = try JSONSerialization.data(withJSONObject: response.getData(), options: JSONSerialization.WritingOptions.fragmentsAllowed) // first of all convert json to the data
-                    let convertedString = String(data: data1, encoding: String.Encoding.utf8)
-                    DispatchQueue.main.async {
-                        self.sdkResult.text = convertedString
-                    }
-                    
-                } catch let myJSONError {
-                    print(myJSONError)
-                }
-            }
-        }
-        do{
-            try cellularService.performRequest(request: cellularRequest)
-        }catch{
-            print("Unexpected error: \(error).")
-        }
+            })
+        
     }
+    
     
     //Calls this function when the tap is recognized.
     @objc func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        //Looks for single or multiple taps.
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
-        
-        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
-        //tap.cancelsTouchesInView = false
-        //            inputField.text = "https://testpreload.bhtelecom.ba"
-        view.addGestureRecognizer(tap)
-    }
-    
-    @IBAction func wifiConnect(_ sender: Any) {
+    @IBAction func onActiveConnect(_ sender: Any) {
+        inputField.resignFirstResponder()
         if(inputField.text == nil || inputField.text == ""){
+            print("url is empty")
             return
         }
         wifiResult.text = "Connecting..."
@@ -148,14 +106,5 @@ class ViewController: UIViewController {
         
     }
     
-    @IBAction func onSDKConnect(_ sender: Any) {
-        if(inputField.text == nil || inputField.text == ""){
-            return
-        }
-        sdkResult.text = "connecting..."
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.onSDKConnect()
-        }
-    }
 }
 
