@@ -25,7 +25,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.ipification.mobile.auth.gmidbox:gmidbox-auth:2.0.0'
+    implementation 'com.ipification.mobile.auth.gmidbox:gmidbox-auth:2.0.1'
 
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.3.71"
