@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/bvantagelimited/GMiDBoxSwiftDistribution",
       "state" : {
-        "revision" : "d8acd868700f80371d4c96b1ba66c908b443c2d8",
-        "version" : "2.0.0"
+        "revision" : "7bbf260db41de07b4d0c614d6bf3f6ec92c42f53",
+        "version" : "2.0.1"
       }
     }
   ],

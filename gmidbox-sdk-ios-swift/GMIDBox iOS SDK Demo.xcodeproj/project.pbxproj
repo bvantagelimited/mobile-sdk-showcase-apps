@@ -324,6 +324,7 @@
 					"$(PROJECT_DIR)/sdk",
 				);
 				INFOPLIST_FILE = "GMIDBox iOS SDK Demo/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -350,6 +351,7 @@
 					"$(PROJECT_DIR)/sdk",
 				);
 				INFOPLIST_FILE = "GMIDBox iOS SDK Demo/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

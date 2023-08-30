@@ -19,8 +19,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
         // set url
@@ -37,41 +36,40 @@ class ViewController: UIViewController {
             print("url is empty")
             return
         }
-//        print(inputField.text ?? "???")
+//        custom header
 //        let requestBuilder = CellularRequest.Builder()
-//        requestBuilder.setConnectTimeout(value: 1000) //ms
-//        requestBuilder.setReadTimeout(value: 1000) // ms
+//        requestBuilder.setConnectTimeout(value: 3000)
+//        requestBuilder.setReadTimeout(value: 3000)
 //        requestBuilder.addQueryParam(key: "format", value: "json")
-
+        
         let requestUrl = inputField.text!
         CellularServices.sharedInstance.requestTo(url: requestUrl, successCallback: { response in
-                print(response.statusCode)
-                if(response.getResponseData() is String){
-                        DispatchQueue.main.async {
-                            self.sdkResult.text = response.getResponseData() as? String
-                            self.sdkResult.textColor = UIColor.green
-                        }
-        
-                } else if(response.getResponseData() is [String: Any]){
-                        do {
-                            let data1 = try JSONSerialization.data(withJSONObject: response.getResponseData(), options: JSONSerialization.WritingOptions.fragmentsAllowed) // first of all convert json to the data
-                            let convertedString = String(data: data1, encoding: String.Encoding.utf8)
-                            DispatchQueue.main.async {
-                                self.sdkResult.text = convertedString
-                                self.sdkResult.textColor = UIColor.green
-                            }
-                        } catch let myJSONError {
-                            print(myJSONError)
-                        }
-                }
-            },
-            failureCallback: { exception in
-                print("Request failed: \(exception)")
+            print(response.statusCode)
+            if(response.getResponseData() is String){
                 DispatchQueue.main.async {
-                    self.sdkResult.text = "\(exception.errorCode) - \(exception.errorMessage)"
-                    self.sdkResult.textColor = UIColor.red
+                    self.sdkResult.text = "responseData: \(response.getResponseData())"
+                    self.sdkResult.textColor = UIColor.green
                 }
-            })
+                
+            } else if(response.getResponseData() is [String: Any]){
+                do {
+                    let data1 = try JSONSerialization.data(withJSONObject: response.getResponseData(), options: JSONSerialization.WritingOptions.fragmentsAllowed) // first of all convert json to the data
+                    let convertedString = String(data: data1, encoding: String.Encoding.utf8)
+                    DispatchQueue.main.async {
+                        self.sdkResult.text = "responseData: \(convertedString ?? "")"
+                        self.sdkResult.textColor = UIColor.green
+                    }
+                } catch let myJSONError {
+                    print(myJSONError)
+                }
+            }
+        }, failureCallback: { exception in
+            print("Request failed: \(exception)")
+            DispatchQueue.main.async {
+                self.sdkResult.text = "errorCode: \(exception.errorCode) - errorMessage: \(exception.errorMessage)"
+                self.sdkResult.textColor = UIColor.red
+            }
+        })
         
     }
     
@@ -94,7 +92,7 @@ class ViewController: UIViewController {
         NSURLConnection.sendAsynchronousRequest(request, queue: OperationQueue.main) {(response, data, error) in
             guard let data = data else { DispatchQueue.main.async {
                 self.wifiResult.text = error?.localizedDescription ?? "Something wrong"
-                }
+            }
                 return
                 
             }
