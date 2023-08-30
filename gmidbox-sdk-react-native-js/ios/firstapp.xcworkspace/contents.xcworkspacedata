@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:/Users/nguyenhuutinh/Projects/IP_Projects/GitHub/mobile-sdk-showcase-apps/gmidbox-sdk-react-native-js/ios/IPificationDemoApp.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
+</Workspace>

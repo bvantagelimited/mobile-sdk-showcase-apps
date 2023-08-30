@@ -15,3 +15,11 @@ ipification-sdk-ionic-angular/android/.idea/
 ipification-sdk-ionic-angular/ipification-ionic-plugin_2.0.0/
 ipification-sdk-flutter-dart/android/.idea/
 ipification-sdk-flutter-dart/.dart_tool/
+gmidbox-sdk-react-native-js/android/.idea
+gmidbox-sdk-react-native-js/android/.gradle
+gmidbox-sdk-react-native-js/android/app/build
+gmidbox-sdk-react-native-js/android/app/src/debug
+gmidbox-sdk-react-native-js/NativeGMIDBOXLibrary
+gmidbox-sdk-react-native-js/ios/Pods
+gmidbox-sdk-react-native-js/ios/build
+gmidbox-sdk-react-native-js/node_modules

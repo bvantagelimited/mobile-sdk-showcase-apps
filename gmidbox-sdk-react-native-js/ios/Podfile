@@ -1,0 +1,64 @@
+require_relative '../node_modules/react-native/scripts/react_native_pods'
+require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+
+platform :ios, '13'
+
+# ================= Add This Line of Code =================
+
+# Force pods to match minimum iOS version for React Native
+# Fixes build issue on Xcode Cloud where some pods
+# Use iOS 12 calls despite being set as iOS 11
+def __apply_Xcode_14_3_RC_post_install_workaround(installer)
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      current_target = config.build_settings['IPHONEOS_DEPLOYMENT_TARGET']
+      minimum_target = min_ios_version_supported
+      if current_target.to_f < minimum_target.to_f
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = minimum_target
+      end
+    end
+  end
+end
+
+# ================= End =================
+
+target 'firstapp' do
+  config = use_native_modules!
+
+  use_react_native!(:path => config[:reactNativePath], :flipper_configuration => FlipperConfiguration.enabled)
+
+  target 'firstappTests' do
+    inherit! :complete
+    # Pods for testing
+  end
+
+  # Enables Flipper.
+  #
+  # Note that if you have use_frameworks! enabled, Flipper will not work and
+  # you should disable these next few lines.
+  # use_flipper!({ 'Flipper' => '0.78.0' })
+  post_install do |installer|
+    flipper_post_install(installer)
+    react_native_post_install(installer)
+    installer.pods_project.targets.each do |target|
+        target.build_configurations.each do |config|
+          config.build_settings["ONLY_ACTIVE_ARCH"] = "NO"
+        end
+        # if target.to_s === 'React-Codegen'
+        #   target.build_configurations.each do |config|
+        #     config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12'
+        #   end
+        # end
+    end
+  end
+    
+end
+
+target 'firstapp-tvOS' do
+  # Pods for firstapp-tvOS
+
+  target 'firstapp-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+end
