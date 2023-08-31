@@ -19,23 +19,13 @@ import {
 } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
 
-const { RNCellularService, RNCellularConfiguration } = NativeModules;
+const { RNCellularService} = NativeModules;
 
 const GMIDBOXScreen = ({ navigation }) => {
   const [url, onChangeUrl] = React.useState("https://api.ipify.org");
   const [result, setResult] = useState();
   const [isError, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  // useEffect(() => {
-    // init();
-  // }, []);
-
-  // init = () => {
-  //   custom timeout, default is 5s
-  //   RNCellularConfiguration.setConnectTimeout(3000);
-  //   RNCellularConfiguration.setReadTimeout(3000);
-  // };
 
   doRequest = async () => {
     Keyboard.dismiss();

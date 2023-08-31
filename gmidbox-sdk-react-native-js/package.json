@@ -12,19 +12,17 @@
     "nuke": "rm -rf node_modules; rm -rf ios/Pods; rm -rf ios/Podfile.lock; yarn; yarn podinstall"
   },
   "dependencies": {
-    
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.1",
     "jwt-decode": "^3.1.2",
     "react": "18.1.0",
     "react-native": "0.71.8",
-    "react-native-gmidbox": "./NativeGMIDBoxLibrary",
+    "react-native-gmidbox": "./ReactNativeGMIDBOXLibrary_2.0.1",
     "react-native-loading-spinner-overlay": "^3.0.0",
     "react-native-localize": "^2.2.4",
     "react-native-screens": "^3.13.1",
     "react-native-safe-area-context": "^4.2.4",
     "react-native-safe-area-view": "^1.1.1"
-
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",
