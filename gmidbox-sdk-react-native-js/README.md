@@ -11,7 +11,7 @@ To get a local copy up and running, follow these simple steps:
 #### 1. Download the plugin file we provided (on your request).
 #### 2. Extract the GMIDBOX plugin and correct the plugin path in `packages.js`.
 For example: `"react-native-gmidbox": "./ReactNativeGMIDBOXLibrary_2.0.1",`
-#### 3. Correct SDK dir in `android/local.properties`
+#### 3. Correct your android SDK dir in `android/local.properties`
 
 ## How to run the project:
 
