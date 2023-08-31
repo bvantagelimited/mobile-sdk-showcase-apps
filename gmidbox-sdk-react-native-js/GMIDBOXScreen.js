@@ -50,7 +50,33 @@ const GMIDBOXScreen = ({ navigation }) => {
       setLoading(false);
     });
   };
+  doRequestWithParams = async () => {
+    Keyboard.dismiss();
+    setLoading(true);
 
+    var seconds = new Date().getSeconds();
+    console.log(`call startRequest start at - second:${seconds}`);
+
+    RNCellularService.startRequestWithParams(url, {format: "json"}, (error, responseData) => {
+      console.log(
+        `RNCellularService - responseData: ${responseData} - error: ${error}`
+      );
+
+      var seconds = new Date().getSeconds();
+      setResult(`response=${responseData} - error=${error}`);
+      if (error) {
+        setError(true);
+      } else {
+        setError(false);
+      }
+      console.log(`call startRequest end at - second:${seconds}`);
+      setLoading(false);
+    });
+  };
+  
+  componentWillUnmount = () => {
+    RNCellularService.unregisterNetwork();
+  }
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.wrapper}>
