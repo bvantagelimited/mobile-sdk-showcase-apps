@@ -12,7 +12,6 @@ To get a local copy up and running, follow these simple steps:
 #### 2. Extract the GMIDBOX plugin and correct the plugin path in `packages.js`.
 For example: `"react-native-gmidbox": "./ReactNativeGMIDBOXLibrary_2.0.1",`
 #### 3. Correct SDK dir in `android/local.properties`
-#### 4. Check the `GMIDBOXScreen.js` file.
 
 ## How to run the project:
 
