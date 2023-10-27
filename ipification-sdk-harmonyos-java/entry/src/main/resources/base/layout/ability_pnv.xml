@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DirectionalLayout
+    xmlns:ohos="http://schemas.huawei.com/res/ohos"
+    ohos:height="match_parent"
+    ohos:width="match_parent"
+    ohos:orientation="vertical"
+    >
+
+    <Text
+        ohos:top_margin="80vp"
+        ohos:height="match_content"
+        ohos:width="match_parent"
+        ohos:left_margin="25vp"
+        ohos:right_margin="25vp"
+        ohos:text_alignment="left"
+        ohos:text="Enter your phone number:"
+        ohos:text_weight="400"
+        ohos:text_size="16fp"
+        />
+    <DirectionalLayout
+        ohos:height="60vp"
+        ohos:width="match_parent"
+        ohos:orientation="horizontal"
+        ohos:top_margin="20vp">
+
+        <TextField
+            ohos:id="$+id:input_phone"
+            ohos:height="50vp"
+            ohos:width="match_parent"
+            ohos:background_element="$graphic:background_text_field"
+            ohos:hint="+381123456789"
+            ohos:multiple_lines="false"
+            ohos:left_margin="20vp"
+            ohos:right_margin="25vp"
+            ohos:text_input_type="pattern_phone"
+            ohos:editor_action_text="Done"
+            ohos:left_padding="20vp"
+            ohos:text_weight="600"
+            ohos:text_size="18vp"
+        />
+    </DirectionalLayout>
+
+    <StackLayout
+        ohos:height="60vp"
+        ohos:width="300vp"
+        ohos:orientation="horizontal"
+        ohos:layout_alignment="horizontal_center"
+        ohos:top_margin="20vp"
+
+        >
+        <Button
+            ohos:layout_alignment="left"
+            ohos:id="$+id:button1"
+            ohos:height="50vp"
+            ohos:width="120vp"
+            ohos:background_element="$graphic:button_background"
+            ohos:bottom_margin="15vp"
+            ohos:text_color="#ffffff"
+            ohos:right_margin="15vp"
+            ohos:left_margin="15vp"
+            ohos:left_padding="8vp"
+            ohos:right_padding="8vp"
+            ohos:text="VERIFY"
+            ohos:text_size="16fp"
+            />
+
+        <Button
+            ohos:layout_alignment="right"
+            ohos:id="$+id:button2"
+            ohos:height="50vp"
+            ohos:width="120vp"
+            ohos:background_element="$graphic:button_background"
+            ohos:bottom_margin="15vp"
+            ohos:left_margin="15vp"
+            ohos:right_margin="15vp"
+            ohos:left_padding="8vp"
+            ohos:right_padding="8vp"
+            ohos:text="VERIFY+"
+            ohos:text_size="16fp"
+            ohos:text_color="#ffffff"
+            />
+    </StackLayout>
+</DirectionalLayout>
