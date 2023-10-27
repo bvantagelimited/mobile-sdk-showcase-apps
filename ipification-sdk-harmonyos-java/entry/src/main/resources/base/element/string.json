@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "app_name",
+      "value": "IPification Features showcase"
+    },
+    {
+      "name": "mainability_description",
+      "value": "Seamless authentication"
+    },
+    {
+      "name": "SendLogs",
+      "value": "Send logs"
+    }
+  ]
+}

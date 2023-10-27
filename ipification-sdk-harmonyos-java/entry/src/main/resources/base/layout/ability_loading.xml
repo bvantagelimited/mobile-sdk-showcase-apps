@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StackLayout
+    xmlns:ohos="http://schemas.huawei.com/res/ohos"
+    ohos:height="match_parent"
+    ohos:width="match_parent"
+    ohos:orientation="vertical"
+    >
+
+    <DirectionalLayout
+        ohos:height="match_content"
+        ohos:width="match_parent"
+        ohos:layout_alignment="center"
+        ohos:alignment="horizontal_center"
+        ohos:orientation="vertical">
+
+        <RoundProgressBar
+            ohos:id="$+id:round_progress_bar"
+            ohos:height="60vp"
+            ohos:width="60vp"
+            ohos:infinite="true"
+            ohos:progress_hint_text_color="#0F2CD3"
+            ohos:progress_width="3vp"/>
+
+        <Text
+            ohos:top_margin="50vp"
+            ohos:height="match_content"
+            ohos:width="match_parent"
+            ohos:left_margin="15vp"
+            ohos:right_margin="15vp"
+            ohos:text_alignment="center"
+            ohos:text="Verifying phone number with your"
+            ohos:text_size="16fp"
+            />
+        <Text
+            ohos:height="match_content"
+            ohos:width="match_parent"
+            ohos:left_margin="15vp"
+            ohos:text_alignment="center"
+            ohos:right_margin="15vp"
+            ohos:text="Telecom Network..."
+            ohos:top_margin="5vp"
+            ohos:bottom_margin="50vp"
+
+            ohos:text_size="16fp"
+            />
+    </DirectionalLayout>
+
+</StackLayout>

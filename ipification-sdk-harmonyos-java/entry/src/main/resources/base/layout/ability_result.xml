@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StackLayout
+    xmlns:ohos="http://schemas.huawei.com/res/ohos"
+    ohos:height="match_parent"
+    ohos:width="match_parent"
+    ohos:orientation="vertical"
+    >
+
+    <StackLayout
+        ohos:id="$+id:closelayout"
+        ohos:height="match_content"
+        ohos:width="match_content"
+        ohos:element_bottom="$id:response"
+        ohos:layout_alignment="top|left"
+        ohos:top_margin="15vp"
+        ohos:left_margin="5vp"
+        ohos:padding="20vp"
+        ohos:bottom_margin="40vp"
+
+        >
+
+        <Image
+            ohos:id="$+id:closeImg"
+            ohos:height="24vp"
+            ohos:width="24vp"
+            ohos:layout_alignment="left|vertical_center"
+            ohos:image_src="$media:close"
+
+            />
+    </StackLayout>
+
+    <Text
+
+        ohos:id="$+id:response"
+        ohos:height="match_content"
+        ohos:width="match_parent"
+        ohos:bottom_margin="20vp"
+        ohos:element_bottom="$id:sendlog"
+        ohos:layout_alignment="top"
+        ohos:left_margin="25vp"
+        ohos:multiple_lines="true"
+        ohos:right_margin="25vp"
+        ohos:text=""
+        ohos:text_alignment="left"
+        ohos:text_color="#000000"
+        ohos:text_size="14fp"
+        ohos:text_weight="400"
+        ohos:top_margin="120vp"
+        ohos:element_top="$id:closelayout"
+
+        />
+
+    <Text
+        ohos:id="$+id:sendlog"
+        ohos:height="30vp"
+        ohos:width="match_parent"
+        ohos:bottom_margin="40vp"
+        ohos:layout_alignment="bottom"
+        ohos:left_margin="25vp"
+        ohos:right_margin="25vp"
+        ohos:text="$string:SendLogs"
+        ohos:text_alignment="center"
+        ohos:text_size="14fp"
+        ohos:text_weight="500"
+
+        ohos:top_margin="20vp"
+        />
+
+</StackLayout>

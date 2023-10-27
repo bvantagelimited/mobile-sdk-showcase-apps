@@ -1,0 +1,88 @@
+{
+  "app": {
+    "bundleName": "com.ipification.demoapp",
+    "vendor": "ipification",
+    "version": {
+      "code": 100,
+      "name": "1.0.0"
+    },
+    "apiVersion": {
+      "compatible": 7,
+      "target": 7,
+      "releaseType": "Release"
+    }
+  },
+  "deviceConfig": {
+    "default": {
+      "network": {
+        "cleartextTraffic": true,
+        "securityConfig": {
+          "domainSettings": {
+            "cleartextPermitted": true,
+            "domains": [
+              {
+                "subdomains": true,
+                "name": "amazonaws.com"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "module": {
+    "reqPermissions": [
+      {
+        "usedScene": {
+          "ability": [
+            "com.ipification.demoapp.MainAbility"
+          ],
+          "when": "always"
+        },
+        "name": "ohos.permission.INTERNET",
+        "reason": "Internet permission"
+      }
+
+    ],
+    "package": "com.ipification.demoapp",
+    "name": "com.ipification.demoapp.MyApplication",
+    "deviceType": [
+      "phone"
+    ],
+    "distro": {
+      "deliveryWithInstall": true,
+      "moduleName": "entry",
+      "moduleType": "entry",
+      "installationFree": false
+    },
+    "abilities": [
+      {
+        "skills": [
+          {
+            "entities": [
+              "entity.system.home"
+            ],
+            "actions": [
+              "action.system.home"
+            ]
+          }
+        ],
+        "orientation": "portrait",
+        "name": "com.ipification.demoapp.MainAbility",
+        "icon": "$media:icon",
+        "label": "$string:app_name",
+        "type": "page",
+        "launchType": "standard"
+      },
+      {
+
+        "orientation": "portrait",
+        "name": "com.ipification.demoapp.ResultAbility",
+        "icon": "$media:icon",
+        "label": "$string:app_name",
+        "type": "page",
+        "launchType": "standard"
+      }
+    ]
+  }
+}
