@@ -38,13 +38,14 @@
 
     <TextView
         android:id="@+id/tvMainDetail"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="2sp"
+        android:layout_marginRight="2sp"
         android:layout_height="wrap_content"
         app:layout_constraintWidth_percent=".8"
         android:textColor="@color/colorAccent"
         android:gravity="center"
-        android:textStyle="bold"
-        android:textSize="20sp"
+        android:textSize="12sp"
         android:layout_marginTop="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

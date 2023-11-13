@@ -10,7 +10,8 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ipification.demoapp.BuildConfig
 import com.ipification.demoapp.databinding.ActivityImAuthenticationBinding
-import com.ipification.demoapp.manager.APIManager
+import com.ipification.demoapp.manager.IMHelper
+import com.ipification.demoapp.manager.IPHelper
 import com.ipification.demoapp.util.Util
 import com.ipification.mobile.sdk.android.IPConfiguration
 import com.ipification.mobile.sdk.android.IPEnvironment
@@ -19,8 +20,9 @@ import com.ipification.mobile.sdk.android.callback.IPificationCallback
 import com.ipification.mobile.sdk.android.exception.IPificationError
 import com.ipification.mobile.sdk.android.request.AuthRequest
 import com.ipification.mobile.sdk.android.response.AuthResponse
-import com.ipification.mobile.sdk.android.utils.IPConstant
+import com.ipification.mobile.sdk.android.utils.IPLogs
 import com.ipification.mobile.sdk.im.IMService
+import com.ipification.mobile.sdk.im.IMServices
 import com.ipification.mobile.sdk.im.util.isPackageInstalled
 
 class IMAuthActivity : AppCompatActivity() {
@@ -53,13 +55,13 @@ class IMAuthActivity : AppCompatActivity() {
         checkAndShowIMButtons()
 
         binding.whatsappBtn.setOnClickListener {
-            doIMFlow("wa")
+            callInstantMessageFlow("wa")
         }
         binding.viberBtn.setOnClickListener {
-            doIMFlow("viber")
+            callInstantMessageFlow("viber")
         }
         binding.telegramBtn.setOnClickListener {
-            doIMFlow("telegram")
+            callInstantMessageFlow("telegram")
         }
     }
 
@@ -92,14 +94,14 @@ class IMAuthActivity : AppCompatActivity() {
 
 
     private fun initFirebase() {
-        IPConstant.getInstance().LOG += "init FCM \n"
+        IPLogs.getInstance().LOG += "init FCM \n"
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w(TAG, "Fetching FCM registration token failed", task.exception)
-                IPConstant.getInstance().LOG += "Fetching FCM registration token failed \n"
+                IPLogs.getInstance().LOG += "Fetching FCM registration token failed \n"
                 try {
-                    IPConstant.getInstance().LOG += task.exception?.message?.substring(0, 100)
+                    IPLogs.getInstance().LOG += task.exception?.message?.substring(0, 100)
                 }catch (e: Exception){
 
                 }
@@ -108,18 +110,17 @@ class IMAuthActivity : AppCompatActivity() {
             }
             // Get new FCM registration token
             val token = task.result.toString()
-            APIManager.deviceToken = token
-            IPConstant.getInstance().LOG += "[initFirebas] get device Token ${token} \n"
+            IMHelper.deviceToken = token
+            IPLogs.getInstance().LOG += "[initFirebas] get device Token ${token} \n"
         })
     }
 
-    private fun doIMFlow(channel: String) {
+    private fun callInstantMessageFlow(channel: String) {
         updateStateAndDeviceToken()
-        // print logs
 
         val callback = object : IPificationCallback {
             override fun onSuccess(response: AuthResponse) {
-                Util.callTokenExchangeAPI(this@IMAuthActivity, response.getCode()!!)
+                IPHelper.callTokenExchangeAPI(this@IMAuthActivity, response.getCode()!!)
             }
             override fun onError(error: IPificationError) {
                 Log.d(TAG,"doIMAuth - error "+ error.error_description)
@@ -133,16 +134,16 @@ class IMAuthActivity : AppCompatActivity() {
     private fun doIMAuth(channel: String, callback: IPificationCallback) {
 
         val authRequestBuilder = AuthRequest.Builder()
-        authRequestBuilder.setState(APIManager.currentState)
+        authRequestBuilder.setState(IMHelper.currentState)
         authRequestBuilder.setScope("openid ip:phone")
         authRequestBuilder.addQueryParam("channel", channel)
-        IPificationServices.startAuthentication(this, authRequestBuilder.build(), callback)
+        IMServices.startAuthentication(this, authRequestBuilder.build(), callback)
 
     }
     // update state and device token to client server
     private fun updateStateAndDeviceToken() {
-        APIManager.currentState = IPificationServices.generateState()
-        APIManager.registerDevice(APIManager.deviceToken, APIManager.currentState)
+        IMHelper.currentState = IPificationServices.generateState()
+        IMHelper.registerDevice(IMHelper.deviceToken, IMHelper.currentState)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

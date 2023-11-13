@@ -5,7 +5,7 @@ import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ipification.demoapp.R
-import com.ipification.demoapp.manager.APIManager
+import com.ipification.demoapp.manager.IMHelper
 import com.ipification.mobile.sdk.im.IMService
 import com.ipification.mobile.sdk.im.ui.IMVerificationActivity
 
@@ -105,8 +105,8 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
      */
     private fun sendRegistrationToServer(token: String) {
         // TODO: Implement this method to send token to your app server.
-        APIManager.deviceToken = token
-        APIManager.registerDevice(token)
+        IMHelper.deviceToken = token
+        IMHelper.registerDevice(token)
     }
 
     private fun isNotificationActivityRunning(): Boolean{

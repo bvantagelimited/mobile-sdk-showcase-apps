@@ -11,20 +11,18 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.ipification.demoapp.BuildConfig
-import com.ipification.demoapp.Constant
-import com.ipification.demoapp.callback.IPAuthorizationCallback
-import com.ipification.demoapp.callback.IPCheckCoverageCallback
 import com.ipification.demoapp.databinding.ActivityIpAuthenticationBinding
-import com.ipification.demoapp.manager.APIManager
+import com.ipification.demoapp.manager.IPHelper
 import com.ipification.demoapp.util.Util
-import com.ipification.mobile.sdk.android.CellularService
 import com.ipification.mobile.sdk.android.IPConfiguration
 import com.ipification.mobile.sdk.android.IPEnvironment
-import com.ipification.mobile.sdk.android.InternalService
-import com.ipification.mobile.sdk.android.callback.CellularCallback
-import com.ipification.mobile.sdk.android.exception.CellularException
-import com.ipification.mobile.sdk.android.response.CellularResponse
-import com.ipification.mobile.sdk.android.utils.IPConstant
+import com.ipification.mobile.sdk.android.IPificationServices
+import com.ipification.mobile.sdk.android.callback.IPAuthCallback
+import com.ipification.mobile.sdk.android.callback.IPCoverageCallback
+import com.ipification.mobile.sdk.android.exception.IPificationError
+import com.ipification.mobile.sdk.android.request.AuthRequest
+import com.ipification.mobile.sdk.android.response.CoverageResponse
+import com.ipification.mobile.sdk.android.response.IPAuthResponse
 import com.mukesh.countrypicker.CountryPicker
 import java.lang.reflect.Method
 
@@ -42,19 +40,16 @@ class IPificationAuthActivity : AppCompatActivity() {
     }
 
     private fun initIPification() {
-        IPConfiguration.getInstance().debug = true
         IPConfiguration.getInstance().ENV = if(BuildConfig.ENVIRONMENT == "sandbox" ) IPEnvironment.SANDBOX else IPEnvironment.PRODUCTION
-        Constant.HOST = if(BuildConfig.ENVIRONMENT == "sandbox" ) IPConfiguration.getInstance().STAGE_HOST else IPConfiguration.getInstance().PRODUCTION_HOST // for demo only
         IPConfiguration.getInstance().CLIENT_ID = BuildConfig.CLIENT_ID
         IPConfiguration.getInstance().REDIRECT_URI = Uri.parse(BuildConfig.REDIRECT_URI)
-        checkIP()
     }
     private fun initView() {
         val actionbar = supportActionBar
         actionbar?.setDisplayHomeAsUpEnabled(true)
         initPhoneInputView()
         binding.loginBtn.setOnClickListener {
-            startIPAuthentication()
+            startIPAuthenticationFlow()
         }
     }
 
@@ -85,7 +80,6 @@ class IPificationAuthActivity : AppCompatActivity() {
             binding.phoneCodeEditText.setText("")
         }
 
-        val self = this
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             binding.countryCodeEditText.showSoftInputOnFocus = false
         } else {
@@ -99,7 +93,7 @@ class IPificationAuthActivity : AppCompatActivity() {
                 // ignore
             }
         }
-
+        val self = this
         binding.countryCodeEditText.setOnFocusChangeListener { view: View, b: Boolean ->
             if (b) {
                 picker.showBottomSheet(self)
@@ -109,67 +103,51 @@ class IPificationAuthActivity : AppCompatActivity() {
     }
 
 
-    private fun startIPAuthentication() {
+    private fun startIPAuthenticationFlow() {
         hideKeyboard()
         updateButton(isEnable = false)
-        // start checking coverage
-        val phoneNumber  = "${binding.countryCodeEditText.text}${binding.phoneCodeEditText.text}"
-
-        APIManager.checkCoverage(context = this, callback = object: IPCheckCoverageCallback {
-            override fun result(isAvailable: Boolean, operatorCode: String?, errorMessage: String?) {
-                if(isAvailable){
-                    // call Authorization API
-                    callIPAuth()
-                }else{
-                    Log.d("ss","ss" + IPConstant.getInstance().LOG)
-                    updateButton(true)
-                    // TODO fallback to other service
-                    Log.e("IP CheckCoverage", "not supported : $errorMessage")
-                    Util.openErrorActivity(this@IPificationAuthActivity, "$errorMessage")
-                }
-            }
-        })
-    }
-    private fun callIPAuth() {
 
         val phoneNumber  = "${binding.countryCodeEditText.text}${binding.phoneCodeEditText.text}"
-        val callback = object: IPAuthorizationCallback{
-            override fun result(code: String?, errorMessage: String?) {
-                if(code != null){ // success
-                    Util.callTokenExchangeAPI(this@IPificationAuthActivity, code)
-                } else{
-                    binding.result1.post {
-                        binding.result1.text = "auth error: $errorMessage"
 
-                    }
-                    Util.openErrorActivity(this@IPificationAuthActivity, "auth error:  $errorMessage")
+        // start checking coverage with user phone number
+        val coverageCallback = object : IPCoverageCallback
+        {
+            override fun onSuccess(response: CoverageResponse) {
+                if(response.isAvailable()) {
+                    // supported Telco. call IP Auth function
+                    callIPAuthentication(phoneNumber)
+                } else {
+                    // unsupported Telco. Fallback to another authentication service flow
+                    Util.openErrorActivity(this@IPificationAuthActivity, "unsupported")
                 }
-                updateButton(isEnable = true)
+            }
+            override fun onError(error: IPificationError) {
+                // error, handle it with another authentication service flow
+                Util.openErrorActivity(this@IPificationAuthActivity, error.getErrorMessage())
             }
         }
-        APIManager.callAuthorization(activity = this, phoneNumber = phoneNumber, callback = callback)
+        IPificationServices.startCheckCoverage( phoneNumber = phoneNumber , context = this,  callback = coverageCallback)
     }
-
-
-    private fun checkIP(){
-        val cellularService = InternalService<CellularResponse>(this)
-        val callback = object :
-            CellularCallback<CellularResponse> {
-            override fun onSuccess(response: CellularResponse) {
-                Log.d("checkIP", "response " + response.responseData)
+    private fun callIPAuthentication(phoneNumber: String) {
+        val authCallback = object: IPAuthCallback {
+            override fun onSuccess(response: IPAuthResponse) {
+                // call backend with {response.code}
+                IPHelper.callTokenExchangeAPI(this@IPificationAuthActivity, response.code)
             }
-
-            override fun onError(error: CellularException) {
-                Log.e("checkIP", "response " + error.getErrorMessage())
+            override fun onError(error: IPificationError) {
+                Util.openErrorActivity(this@IPificationAuthActivity, "auth error:  ${error.getErrorMessage()}")
             }
         }
-        cellularService.checkRequestedIP("http://checkip.amazonaws.com/", callback)
+        val authRequestBuilder = AuthRequest.Builder()
+        authRequestBuilder.addQueryParam("login_hint", phoneNumber)
+        val authRequest = authRequestBuilder.build()
+        IPificationServices.startAuthentication(this, authRequest, authCallback)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        // unregister network. See https://developer.ipification.com/#/android/latest/?id=_5-unregister-cellular-network
-        CellularService.unregisterNetwork(this)
+        // unregister cellular network. See https://developer.ipification.com/#/android/latest/?id=_5-unregister-cellular-network
+        IPificationServices.unregisterNetwork(this)
     }
 
 

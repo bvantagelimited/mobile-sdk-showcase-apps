@@ -12,8 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:launchMode="singleInstance"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        >
 
         <activity android:name="com.ipification.demoapp.activity.ResultFailActivity" />
         <activity android:name="com.ipification.demoapp.activity.ResultSuccessActivity" />

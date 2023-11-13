@@ -7,7 +7,7 @@ import com.ipification.demoapp.activity.ResultFailActivity
 import com.ipification.demoapp.activity.ResultSuccessActivity
 import com.ipification.demoapp.callback.TokenCallback
 import com.ipification.demoapp.data.TokenInfo
-import com.ipification.demoapp.manager.APIManager
+import com.ipification.demoapp.manager.IMHelper
 import org.json.JSONObject
 
 class Util {
@@ -61,7 +61,7 @@ class Util {
         }
 
         fun callLoginAPI(activity: Activity, state: String) {
-            APIManager.signIn(state, callback = object : TokenCallback {
+            IMHelper.signIn(state, callback = object : TokenCallback {
                 override fun onSuccess(response: String) {
                     openSuccessActivity(activity, responseStr = response)
                 }
@@ -86,24 +86,7 @@ class Util {
             )
             activity.startActivity(intent)
         }
-        fun callTokenExchangeAPI(activity: Activity, code: String) {
-            APIManager.doPostToken(code, callback = object: TokenCallback {
-                override fun onSuccess(response: String) {
-                    val phoneNumberVerified = Util.parseUserInfoJSON(response, "phone_number_verified")
-                    val phoneNumber = Util.parseUserInfoJSON(response, "phone_number")
-                    if(phoneNumberVerified == "true" || phoneNumber != null){
-                        Util.openSuccessActivity(activity, response)
-                    }else{
-                        Util.openErrorActivity(activity, response)
-                    }
-                }
 
-                override fun onError(errorMessage: String) {
-                    Util.openErrorActivity(activity, errorMessage ?: "error")
-                }
-
-            })
-        }
 
     }
 }

@@ -10,7 +10,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ipification.demoapp.BuildConfig
 import com.ipification.demoapp.databinding.ActivityImAuthenticationBinding
-import com.ipification.demoapp.manager.APIManager
+import com.ipification.demoapp.manager.IMHelper
 import com.ipification.demoapp.util.Util
 import com.ipification.mobile.sdk.android.IMPublicAPIServices
 import com.ipification.mobile.sdk.android.IPConfiguration
@@ -20,7 +20,7 @@ import com.ipification.mobile.sdk.android.exception.IPificationError
 import com.ipification.mobile.sdk.android.request.AuthRequest
 import com.ipification.mobile.sdk.android.response.AuthResponse
 import com.ipification.mobile.sdk.android.response.IMResponse
-import com.ipification.mobile.sdk.android.utils.IPConstant
+import com.ipification.mobile.sdk.android.utils.IPLogs
 import com.ipification.mobile.sdk.im.IMService
 import com.ipification.mobile.sdk.im.listener.IMPublicAPICallback
 import com.ipification.mobile.sdk.im.util.isPackageInstalled
@@ -97,23 +97,23 @@ class IMAuthManualActivity : AppCompatActivity() {
 
 
     private fun initFirebase() {
-        IPConstant.getInstance().LOG += "init FCM \n"
+        IPLogs.getInstance().LOG += "init FCM \n"
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w(TAG, "Fetching FCM registration token failed", task.exception)
-                IPConstant.getInstance().LOG += "Fetching FCM registration token failed \n"
+                IPLogs.getInstance().LOG += "Fetching FCM registration token failed \n"
                 try {
-                    IPConstant.getInstance().LOG += task.exception?.message?.substring(0, 100)
-                }catch (e: Exception){
-
+                    IPLogs.getInstance().LOG += task.exception?.message?.substring(0, 100)
+                } catch (e: Exception){
+                    print(e.message)
                 }
                 return@OnCompleteListener
             }
             // Get new FCM registration token
             val token = task.result.toString()
-            APIManager.deviceToken = token
-            IPConstant.getInstance().LOG += "[initFirebas] get device Token ${token} \n"
+            IMHelper.deviceToken = token
+            IPLogs.getInstance().LOG += "[initFirebas] get device Token ${token} \n"
         })
     }
 
@@ -140,7 +140,7 @@ class IMAuthManualActivity : AppCompatActivity() {
     private fun doIMAuth(channel: String, callback: IMPublicAPICallback) {
 
         val authRequestBuilder = AuthRequest.Builder()
-        authRequestBuilder.setState(APIManager.currentState)
+        authRequestBuilder.setState(IMHelper.currentState)
         authRequestBuilder.setScope("openid ip:phone")
         authRequestBuilder.addQueryParam("channel", channel)
         IMPublicAPIServices.startAuthentication(this, authRequestBuilder.build(), callback)
@@ -148,8 +148,8 @@ class IMAuthManualActivity : AppCompatActivity() {
     }
     // update state and device token to client server
     private fun updateStateAndDeviceToken() {
-        APIManager.currentState = IPificationServices.generateState()
-        APIManager.registerDevice(APIManager.deviceToken, APIManager.currentState)
+        IMHelper.currentState = IPificationServices.generateState()
+        IMHelper.registerDevice(IMHelper.deviceToken, IMHelper.currentState)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
