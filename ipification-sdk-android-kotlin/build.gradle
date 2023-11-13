@@ -24,16 +24,7 @@ allprojects {
         maven { url "https://jitpack.io" }
         //IPification maven
         maven {
-//                        url "https://artifacts.ipification.com/artifactory/libs-snapshot-local/"
             url "https://artifacts.ipification.com/artifactory/mobile-libs-release/"
-
-//            credentials {
-//                username 'tinhn'
-//                password 'J6b*39@Vu7&*$9H^d#L'
-//            }
-//            authentication {
-//                basic(BasicAuthentication)
-//            }
         }
     }
 }
