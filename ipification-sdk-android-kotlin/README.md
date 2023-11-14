@@ -62,7 +62,7 @@ private fun startIPAuthenticationFlow() {
     IPificationServices.startCheckCoverage( phoneNumber = phoneNumber , context = this,  callback = coverageCallback)
 }
 ```
-#### 2. Authentication:
+#### 3. Authentication:
 
 ```IPificationAuthActivity.kt
 private fun callIPAuthentication(phoneNumber: String) {
@@ -81,7 +81,7 @@ private fun callIPAuthentication(phoneNumber: String) {
     IPificationServices.startAuthentication(this, authRequest, authCallback)
 }
 ```
-#### 3. Call Token Exchange API with Authorized Code (S2S api)
+#### 4. Call Token Exchange API with Authorized Code (S2S api)
 https://developer.ipification.com/#/android/latest/?id=_14-call-your-backend-service-with-authorization_code-
 
 ------------------------------------------------------------------------
