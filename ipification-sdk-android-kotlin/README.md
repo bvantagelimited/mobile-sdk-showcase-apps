@@ -27,10 +27,11 @@ stage {
 ```
 #### 2. Initial IP configuration
 ```IPificationAuthActivity.kt
-private fun initIPification(){
+private fun initIPification() {
     IPConfiguration.getInstance().ENV = if(BuildConfig.ENVIRONMENT == "sandbox" ) IPEnvironment.SANDBOX else IPEnvironment.PRODUCTION
     IPConfiguration.getInstance().CLIENT_ID = BuildConfig.CLIENT_ID
     IPConfiguration.getInstance().REDIRECT_URI = Uri.parse(BuildConfig.REDIRECT_URI)
+}
 ```
 #### 4. Main function:
 * Check Coverage:
@@ -47,19 +48,17 @@ private fun initIPification(){
                     // supported Telco. call IP Auth function
                     callIPAuthentication(phoneNumber)
                 } else {
-                    // unsupported Telco. Fallback to another authentication service flow
-                    Util.openErrorActivity(this@IPificationAuthActivity, "unsupported")
+                    // unsupported Telco. Fallback to SMS authentication service flow
                 }
             }
             override fun onError(error: IPificationError) {
-                // error, handle it with another authentication service flow
-                Util.openErrorActivity(this@IPificationAuthActivity, error.getErrorMessage())
+                // error, handle it with SMS authentication service flow
             }
         }
         IPificationServices.startCheckCoverage( phoneNumber = phoneNumber , context = this,  callback = coverageCallback)
     }
   ```
-  * Call Authentication
+* Call Authentication
   ```
     private fun callIPAuthentication(phoneNumber: String) {
         val authCallback = object: IPAuthCallback {
@@ -68,7 +67,7 @@ private fun initIPification(){
                 IPHelper.callTokenExchangeAPI(this@IPificationAuthActivity, response.code)
             }
             override fun onError(error: IPificationError) {
-                Util.openErrorActivity(this@IPificationAuthActivity, "auth error:  ${error.getErrorMessage()}")
+                  // error, handle it with SMS authentication service flow
             }
         }
         val authRequestBuilder = AuthRequest.Builder()
