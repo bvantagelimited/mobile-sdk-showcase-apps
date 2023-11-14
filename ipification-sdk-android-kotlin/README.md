@@ -4,7 +4,7 @@
 <!-- GETTING STARTED -->
 ## Getting Started
 
-### I. IPification Authentication:
+### I. PNV Authentication:
 <p align="center">
     <img src='https://github.com/bvantagelimited/mobile-sdk-showcase-apps/assets/4114159/f563302c-d54c-402a-90b9-27053f13a7bd' width='220'>
     <img src='https://github.com/bvantagelimited/mobile-sdk-showcase-apps/assets/4114159/8d9ddc09-a96e-4185-a093-23d721f7e967' width='220'>
