@@ -34,7 +34,7 @@ private fun initIPification() {
 }
 ```
 #### 4. Main function:
-* Check Coverage:
+* Call CheckCoverage:
   ```
   private fun startIPAuthenticationFlow() {
 
@@ -67,7 +67,7 @@ private fun initIPification() {
                 IPHelper.callTokenExchangeAPI(this@IPificationAuthActivity, response.code)
             }
             override fun onError(error: IPificationError) {
-                  // error, handle it with SMS authentication service flow
+                // error, handle it with SMS authentication service flow
             }
         }
         val authRequestBuilder = AuthRequest.Builder()
@@ -80,17 +80,11 @@ private fun initIPification() {
 
 #### 4. Build and Run the project
 
-
-
-
 ------------------------------------------------------------------------
 ------------------------------------------------------------------------
 
 ### II. Instant Message Authentication
-
-#### 2. Instant Message Authentication
 <p align="center">
-<img src='https://user-images.githubusercontent.com/4114159/176865974-427bad75-1993-4d25-ba2e-c3f742575d84.png' width='220'>
 <img src='https://user-images.githubusercontent.com/4114159/176865227-d9b565c4-ec0e-44f3-80a4-c39d960ae066.png' width='220'>
 <img src='https://user-images.githubusercontent.com/4114159/176865253-856df6fd-a951-4ba0-bf76-22d47d276743.png' width='220'>
 <img src='https://user-images.githubusercontent.com/4114159/176865288-c842e3ce-7d9f-45bc-93c8-15f370d48961.png' width='220'>
