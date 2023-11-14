@@ -59,6 +59,24 @@ private fun initIPification(){
         IPificationServices.startCheckCoverage( phoneNumber = phoneNumber , context = this,  callback = coverageCallback)
     }
   ```
+  * Call Authentication
+  ```
+    private fun callIPAuthentication(phoneNumber: String) {
+        val authCallback = object: IPAuthCallback {
+            override fun onSuccess(response: IPAuthResponse) {
+                // call backend with {response.code}
+                IPHelper.callTokenExchangeAPI(this@IPificationAuthActivity, response.code)
+            }
+            override fun onError(error: IPificationError) {
+                Util.openErrorActivity(this@IPificationAuthActivity, "auth error:  ${error.getErrorMessage()}")
+            }
+        }
+        val authRequestBuilder = AuthRequest.Builder()
+        authRequestBuilder.addQueryParam("login_hint", phoneNumber)
+        val authRequest = authRequestBuilder.build()
+        IPificationServices.startAuthentication(this, authRequest, authCallback)
+    }
+  ```
 #### 3. Use correct `variant` (stageDebug, stageRelease, productionDebug, productionRelease)
 
 #### 4. Build and Run the project
