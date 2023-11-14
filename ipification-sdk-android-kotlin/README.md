@@ -33,7 +33,7 @@ stage {
 #### 1. Initial IP configuration
 ```IPificationAuthActivity.kt
 private fun initIPification() {
-    IPConfiguration.getInstance().ENV = if(BuildConfig.ENVIRONMENT == "sandbox" ) IPEnvironment.SANDBOX else IPEnvironment.PRODUCTION
+    IPConfiguration.getInstance().ENV = if(BuildConfig.ENVIRONMENT == "sandbox") IPEnvironment.SANDBOX else IPEnvironment.PRODUCTION
     IPConfiguration.getInstance().CLIENT_ID = BuildConfig.CLIENT_ID
     IPConfiguration.getInstance().REDIRECT_URI = Uri.parse(BuildConfig.REDIRECT_URI)
 }
