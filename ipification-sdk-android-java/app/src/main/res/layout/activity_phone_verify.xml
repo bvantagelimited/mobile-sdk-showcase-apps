@@ -44,7 +44,7 @@
         android:layout_marginTop="20dp"
         android:hint=""
         android:inputType="numberSigned|phone"
-        android:text=""
+        android:text="123456789"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/countryCodeEditText"

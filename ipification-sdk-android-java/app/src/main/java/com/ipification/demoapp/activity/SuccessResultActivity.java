@@ -14,6 +14,9 @@ import com.ipification.demoapp.data.TokenInfo;
 import com.ipification.demoapp.databinding.ActivityPhoneVerifyBinding;
 import com.ipification.demoapp.databinding.ActivitySuccessResultBinding;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class SuccessResultActivity extends AppCompatActivity {
 
     private ActivitySuccessResultBinding binding;
@@ -26,31 +29,37 @@ public class SuccessResultActivity extends AppCompatActivity {
         setContentView(view);
 
         initView();
-        ActionBar actionbar = getSupportActionBar();
-        if(actionbar != null){
-            //set actionbar title
-            actionbar.setTitle("Result");
-            actionbar.setDisplayHomeAsUpEnabled(true);
-        }
+        setupActionBar();
     }
 
     private void initView() {
-        String result = getIntent().getStringExtra("responseStr");
+        String tokenInfo = getIntent().getStringExtra("responseStr");
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(tokenInfo != null ? tokenInfo : "");
+            binding.tvMainDetail.setText(jsonObject.toString(4)); // 4 is the number of spaces for indentation
 
-        binding.tvMainDetail.setText(result);
+        } catch (JSONException e) {
+            binding.tvMainDetail.setText(tokenInfo);
+        }
 
+    }
 
+    private void setupActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle("Result");
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {// API 5+ solution
+        if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
         } else {
-            super.onOptionsItemSelected(item);
+            return super.onOptionsItemSelected(item);
         }
-        return false;
     }
-
 }

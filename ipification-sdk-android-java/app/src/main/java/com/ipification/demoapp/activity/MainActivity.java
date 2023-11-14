@@ -1,7 +1,6 @@
 package com.ipification.demoapp.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,17 +11,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ipification.demoapp.BuildConfig;
-import com.ipification.demoapp.Constant;
-import com.ipification.demoapp.R;
-import com.ipification.demoapp.data.TokenInfo;
 import com.ipification.demoapp.databinding.ActivityMainBinding;
-import com.ipification.demoapp.callback.TokenCallback;
-import com.ipification.demoapp.manager.ApiManager;
+import com.ipification.demoapp.manager.IMHelper;
+import com.ipification.demoapp.manager.IPHelper;
 import com.ipification.demoapp.util.Util;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.ipification.mobile.sdk.android.CellularService;
 import com.ipification.mobile.sdk.android.IPConfiguration;
 import com.ipification.mobile.sdk.android.IPEnvironment;
 import com.ipification.mobile.sdk.android.IPificationServices;
@@ -30,17 +23,12 @@ import com.ipification.mobile.sdk.android.callback.IPificationCallback;
 import com.ipification.mobile.sdk.android.exception.IPificationError;
 import com.ipification.mobile.sdk.android.request.AuthRequest;
 import com.ipification.mobile.sdk.android.response.AuthResponse;
-import com.ipification.mobile.sdk.im.IMLocale;
 import com.ipification.mobile.sdk.im.IMService;
-import com.ipification.mobile.sdk.im.IMTheme;
-
-import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    ActivityMainBinding binding;
-
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,20 +40,12 @@ public class MainActivity extends AppCompatActivity {
         initIPification();
         initActions();
         initFirebase();
-        
     }
 
     private void initIPification() {
-
         IPConfiguration.getInstance().setENV(IPEnvironment.SANDBOX);
         IPConfiguration.getInstance().setCLIENT_ID(BuildConfig.CLIENT_ID);
         IPConfiguration.getInstance().setREDIRECT_URI(Uri.parse(BuildConfig.REDIRECT_URI));
-
-//       4. Theme (optional)
-//        IPificationServices.Factory.setTheme(new IMTheme(Color.parseColor("#FFFFFF"), Color.parseColor("#E35259"),  Color.parseColor("#ACE1AF")));
-//       5. Locale (optional)
-//        IPificationServices.Factory.setLocale(new IMLocale( "IPification", "Description", "Whatsapp",  "Telegram",  "Viber","", View.VISIBLE));
-
     }
 
     private void initActions() {
@@ -89,9 +69,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(@NonNull AuthResponse authResponse) {
-                if(authResponse.getCode() != null){
+                if (authResponse.getCode() != null) {
                     callTokenExchange(authResponse.getCode());
-                }else{
+                } else {
                     openErrorActivity(authResponse.getErrorMessage());
                 }
             }
@@ -104,38 +84,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void registerDevice() {
-        ApiManager.currentState = IPificationServices.Factory.generateState();
-        ApiManager.registerDevice(ApiManager.currentToken, ApiManager.currentState);
+        IMHelper.currentState = IPificationServices.Factory.generateState();
+        IMHelper.registerDevice(IMHelper.currentToken, IMHelper.currentState);
     }
-
 
     private void openSuccessActivity(String responseStr) {
         Intent intent = new Intent(this, SuccessResultActivity.class);
         intent.putExtra("responseStr", responseStr);
         startActivity(intent);
-
     }
-    private void openErrorActivity(String error){
-        Intent intent = new Intent(this, FailResultActivity.class);
-        intent.putExtra(
-                "error",
-                error
-        );
 
+    private void openErrorActivity(String error) {
+        Intent intent = new Intent(this, FailResultActivity.class);
+        intent.putExtra("error", error);
         startActivity(intent);
     }
-    // Todo : should be done on your server side  (S2S)
+
+    // Todo: should be done on your server side (S2S)
     private void callTokenExchange(String code) {
-        ApiManager.doPostToken(code, (response, errorMessage) -> {
-            if(!response.equals("")){
+        IPHelper.doPostToken(code, (response, errorMessage) -> {
+            if (!response.equals("")) {
                 String phoneNumberVerified = Util.parseUserInfoJSON(response, "phone_number_verified");
                 String phoneNumber = Util.parseUserInfoJSON(response, "phone_number");
-                if(phoneNumberVerified.equals("true") || !phoneNumber.equals("")){
+                if (phoneNumberVerified.equals("true") || !phoneNumber.equals("")) {
                     openSuccessActivity(response);
-                }else{
+                } else {
                     openErrorActivity(response);
                 }
-            }else{
+            } else {
                 openErrorActivity(errorMessage);
             }
         });
@@ -143,10 +119,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void doIMAuth(IPificationCallback callback) {
         AuthRequest.Builder authRequestBuilder = new AuthRequest.Builder();
-        authRequestBuilder.setState(ApiManager.currentState);
+        authRequestBuilder.setState(IMHelper.currentState);
         authRequestBuilder.setScope("openid ip:phone");
         authRequestBuilder.addQueryParam("channel", "wa viber telegram");
-
 
         IPificationServices.Factory.startAuthentication(this, authRequestBuilder.build(), callback);
     }
@@ -157,23 +132,21 @@ public class MainActivity extends AppCompatActivity {
         IMService.Factory.onActivityResult(requestCode, resultCode, data);
     }
 
-
-
-    //register FCM notification service
-    public void initFirebase(){
+    // Register FCM notification service
+    public void initFirebase() {
         FirebaseMessaging.getInstance().getToken()
-            .addOnCompleteListener(task -> {
-                if (!task.isSuccessful()) {
-                    Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-                    return;
-                }
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
 
-                // Get new FCM registration token
-                String token = task.getResult();
-                if (token != null) {
-                    Log.d(TAG, "device token: "+token);
-                    ApiManager.currentToken = token;
-                }
-            });
+                    // Get new FCM registration token
+                    String token = task.getResult();
+                    if (token != null) {
+                        Log.d(TAG, "device token: " + token);
+                        IMHelper.currentToken = token;
+                    }
+                });
     }
 }

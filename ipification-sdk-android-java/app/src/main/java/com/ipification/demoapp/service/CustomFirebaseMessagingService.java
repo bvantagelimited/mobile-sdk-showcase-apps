@@ -1,28 +1,15 @@
 package com.ipification.demoapp.service;
 
-import android.app.ActivityManager;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.ipification.demoapp.R;
-import com.ipification.demoapp.manager.ApiManager;
-import com.ipification.mobile.sdk.android.IPConfiguration;
+import com.ipification.demoapp.manager.IMHelper;
+import com.ipification.demoapp.manager.IPHelper;
 import com.ipification.mobile.sdk.im.IMService;
-import com.ipification.mobile.sdk.im.ui.IMVerificationActivity;
-
-import java.util.List;
 
 public class CustomFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "CustomFMS";
@@ -48,7 +35,7 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
      */
     private void sendRegistrationToServer(String token) {
         // TODO: Implement this method to send token to your app server.
-        ApiManager.currentToken = token;
+        IMHelper.currentToken = token;
     }
 
     /**
