@@ -26,10 +26,13 @@ import com.ipification.mobile.sdk.android.response.IPAuthResponse
 import com.mukesh.countrypicker.CountryPicker
 import java.lang.reflect.Method
 
-
 class IPificationAuthActivity : AppCompatActivity() {
-    val TAG = "IPAuthAct"
-    lateinit var binding: ActivityIpAuthenticationBinding
+    companion object {
+        private const val TAG = "IPAuthAct"
+        private const val DEFAULT_COUNTRY_CODE = "+999"
+    }
+
+    private lateinit var binding: ActivityIpAuthenticationBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,13 +43,16 @@ class IPificationAuthActivity : AppCompatActivity() {
     }
 
     private fun initIPification() {
-        IPConfiguration.getInstance().ENV = if(BuildConfig.ENVIRONMENT == "sandbox" ) IPEnvironment.SANDBOX else IPEnvironment.PRODUCTION
-        IPConfiguration.getInstance().CLIENT_ID = BuildConfig.CLIENT_ID
-        IPConfiguration.getInstance().REDIRECT_URI = Uri.parse(BuildConfig.REDIRECT_URI)
+        val environment = if (BuildConfig.ENVIRONMENT == "sandbox") IPEnvironment.SANDBOX else IPEnvironment.PRODUCTION
+        with(IPConfiguration.getInstance()) {
+            ENV = environment
+            CLIENT_ID = BuildConfig.CLIENT_ID
+            REDIRECT_URI = Uri.parse(BuildConfig.REDIRECT_URI)
+        }
     }
+
     private fun initView() {
-        val actionbar = supportActionBar
-        actionbar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         initPhoneInputView()
         binding.loginBtn.setOnClickListener {
             startIPAuthenticationFlow()
@@ -54,12 +60,12 @@ class IPificationAuthActivity : AppCompatActivity() {
     }
 
     private fun initPhoneInputView() {
-        //hide autofocus
+        // hide autofocus
         binding.countryCodeEditText.hideKeyboard()
 
         val builder = CountryPicker.Builder().with(this)
             .listener { country ->
-                Log.d(TAG, "country code = " + country?.dialCode)
+                Log.d(TAG, "Country code = ${country?.dialCode}")
                 binding.countryCodeEditText.setText(country?.dialCode)
                 binding.phoneCodeEditText.requestFocus()
             }
@@ -69,15 +75,10 @@ class IPificationAuthActivity : AppCompatActivity() {
         val picker = builder.build()
         val country = picker.countryFromSIM
 
-        //TODO
+        binding.countryCodeEditText.setText(if (BuildConfig.ENVIRONMENT == "sandbox") DEFAULT_COUNTRY_CODE else country?.dialCode)
+        binding.countryCodeEditText.isEnabled = BuildConfig.ENVIRONMENT != "sandbox"
         if(BuildConfig.ENVIRONMENT == "sandbox"){
-            binding.countryCodeEditText.setText("+999")
-            binding.countryCodeEditText.isEnabled = false
             binding.phoneCodeEditText.setText("123456789")
-        }else{
-            binding.countryCodeEditText.setText(country.dialCode)
-            binding.countryCodeEditText.isEnabled = true
-            binding.phoneCodeEditText.setText("")
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -94,7 +95,7 @@ class IPificationAuthActivity : AppCompatActivity() {
             }
         }
         val self = this
-        binding.countryCodeEditText.setOnFocusChangeListener { view: View, b: Boolean ->
+        binding.countryCodeEditText.setOnFocusChangeListener { _, b ->
             if (b) {
                 picker.showBottomSheet(self)
                 binding.countryCodeEditText.hideKeyboard()
@@ -102,45 +103,39 @@ class IPificationAuthActivity : AppCompatActivity() {
         }
     }
 
-
     private fun startIPAuthenticationFlow() {
         hideKeyboard()
         updateButton(isEnable = false)
 
-        val phoneNumber  = "${binding.countryCodeEditText.text}${binding.phoneCodeEditText.text}"
+        val phoneNumber = "${binding.countryCodeEditText.text}${binding.phoneCodeEditText.text}"
 
-        // start checking coverage with user phone number
-        val coverageCallback = object : IPCoverageCallback
-        {
+        val coverageCallback = object : IPCoverageCallback {
             override fun onSuccess(response: CoverageResponse) {
-                if(response.isAvailable()) {
-                    // supported Telco. call IP Auth function
+                if (response.isAvailable()) {
                     callIPAuthentication(phoneNumber)
                 } else {
-                    // unsupported Telco. Fallback to another authentication service flow
                     Util.openErrorActivity(this@IPificationAuthActivity, "unsupported")
                     updateButton(isEnable = true)
                 }
             }
+
             override fun onError(error: IPificationError) {
-                // error, handle it with another authentication service flow
                 Util.openErrorActivity(this@IPificationAuthActivity, error.getErrorMessage())
                 updateButton(isEnable = true)
             }
         }
-        IPificationServices.startCheckCoverage( phoneNumber = phoneNumber , context = this,  callback = coverageCallback)
+        IPificationServices.startCheckCoverage(phoneNumber = phoneNumber, context = this, callback = coverageCallback)
     }
-    private fun callIPAuthentication(phoneNumber: String) {
-        val authCallback = object: IPAuthCallback {
-            override fun onSuccess(response: IPAuthResponse) {
-                // call backend with {response.code}
-                IPHelper.callTokenExchangeAPI(this@IPificationAuthActivity, response.code)
 
+    private fun callIPAuthentication(phoneNumber: String) {
+        val authCallback = object : IPAuthCallback {
+            override fun onSuccess(response: IPAuthResponse) {
+                IPHelper.callTokenExchangeAPI(this@IPificationAuthActivity, response.code)
                 updateButton(isEnable = true)
             }
+
             override fun onError(error: IPificationError) {
                 Util.openErrorActivity(this@IPificationAuthActivity, "auth error:  ${error.getErrorMessage()}")
-
                 updateButton(isEnable = true)
             }
         }
@@ -152,15 +147,12 @@ class IPificationAuthActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        // unregister cellular network. See https://developer.ipification.com/#/android/latest/?id=_5-unregister-cellular-network
         IPificationServices.unregisterNetwork(this)
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                // API 5+ solution
                 onBackPressed()
                 true
             }
@@ -169,28 +161,16 @@ class IPificationAuthActivity : AppCompatActivity() {
     }
 
     private fun updateButton(isEnable: Boolean) {
-        if (isEnable) {
-            binding.loginBtn.post {
-                binding.loginBtn.isEnabled = true
-                binding.loginBtn.alpha = 1f
-                binding.loginBtn.isEnabled = true
-                binding.loginBtn.alpha = 1f
-            }
-//            sendLog()
-        } else {
-            binding.loginBtn.post {
-                binding.loginBtn.isEnabled = false
-                binding.loginBtn.alpha = 0.2f
-                binding.loginBtn.isEnabled = false
-                binding.loginBtn.alpha = 0.2f
+        binding.loginBtn.post {
+            with(binding.loginBtn) {
+                isEnabled = isEnable
+                alpha = if (isEnable) 1f else 0.2f
             }
         }
     }
-
 }
 
-
-//extension
+// extension
 fun Activity.hideKeyboard() {
     if (currentFocus != null) {
         val inputMethodManager: InputMethodManager =

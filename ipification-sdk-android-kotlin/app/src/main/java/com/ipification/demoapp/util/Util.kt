@@ -9,84 +9,75 @@ import com.ipification.demoapp.callback.TokenCallback
 import com.ipification.demoapp.data.TokenInfo
 import com.ipification.demoapp.manager.IMHelper
 import org.json.JSONObject
-
 class Util {
 
     companion object Factory {
+
         fun parseAccessToken(accessToken: String?): TokenInfo? {
             if (accessToken.isNullOrEmpty()) {
                 return null
             }
 
-            lateinit var jwt: JWT
-            var error: String? = null
             try {
-                jwt = JWT(accessToken)
-            } catch (e: Exception) {
-                error = e.localizedMessage
-            }
-            if (error.isNullOrEmpty() == false) {
-                return null
-            } else {
+                val jwt = JWT(accessToken)
                 val phoneVerify = jwt.getClaim("phone_number_verified").asString()
                 val phoneNumber = jwt.getClaim("phone_number").asString()
                 val loginHint = jwt.getClaim("login_hint").asString()
                 val sub = jwt.getClaim("sub").asString()
                 val mobileID = jwt.getClaim("mobile_id").asString()
+
                 return TokenInfo(
-                    if (phoneVerify == null) true else phoneVerify == "true",
+                    phoneVerify == "true" || phoneVerify == null,
                     phoneNumber,
                     loginHint,
                     sub,
                     mobileID
                 )
+            } catch (e: Exception) {
+                return null
             }
         }
 
-        fun parseAccessTokenFromJSON(jsonStr: String): String?{
-            try {
-                val jObject = JSONObject(jsonStr)
-                return jObject.getString("access_token")
+        fun parseAccessTokenFromJSON(jsonStr: String): String? {
+            return try {
+                JSONObject(jsonStr).getString("access_token")
             } catch (error: Exception) {
-                return null
+                null
             }
         }
-        fun parseUserInfoJSON(jsonStr: String, pattern: String) : String?{
-            try {
-                val jObject = JSONObject(jsonStr)
-                return jObject.getString(pattern)
+
+        fun parseUserInfoJSON(jsonStr: String, pattern: String): String? {
+            return try {
+                JSONObject(jsonStr).getString(pattern)
             } catch (error: Exception) {
-                return null
+                null
             }
         }
 
         fun callLoginAPI(activity: Activity, state: String) {
-            IMHelper.signIn(state, callback = object : TokenCallback {
+            IMHelper.signIn(state, object : TokenCallback {
                 override fun onSuccess(response: String) {
-                    openSuccessActivity(activity, responseStr = response)
+                    openSuccessActivity(activity, response)
                 }
 
                 override fun onError(errorMessage: String) {
-                    openErrorActivity(activity, error = errorMessage)
+                    openErrorActivity(activity, errorMessage)
                 }
             })
         }
 
         fun openSuccessActivity(activity: Activity, responseStr: String) {
-            val intent = Intent(activity, ResultSuccessActivity::class.java)
-            intent.putExtra("responseStr", responseStr)
-            activity.startActivity(intent)
-
-        }
-        fun openErrorActivity(activity: Activity, error: String){
-            val intent = Intent(activity, ResultFailActivity::class.java)
-            intent.putExtra(
-                "error",
-                error
-            )
-            activity.startActivity(intent)
+            startResultActivity(activity, ResultSuccessActivity::class.java, "responseStr", responseStr)
         }
 
+        fun openErrorActivity(activity: Activity, error: String) {
+            startResultActivity(activity, ResultFailActivity::class.java, "error", error)
+        }
 
+        private fun startResultActivity(activity: Activity, resultActivity: Class<*>, key: String, value: String) {
+            val intent = Intent(activity, resultActivity)
+            intent.putExtra(key, value)
+            activity.startActivity(intent)
+        }
     }
 }

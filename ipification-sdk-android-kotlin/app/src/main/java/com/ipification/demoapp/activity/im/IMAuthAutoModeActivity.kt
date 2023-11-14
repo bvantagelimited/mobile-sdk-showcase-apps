@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ipification.demoapp.BuildConfig
 import com.ipification.demoapp.databinding.ActivityImAutomodeAuthenticationBinding
@@ -23,12 +24,8 @@ import com.ipification.mobile.sdk.android.utils.IPLogs
 import com.ipification.mobile.sdk.im.IMService
 import com.ipification.mobile.sdk.im.IMServices
 
-
-// IM Authentication (Auto Mode)
-// See :  https://developer.ipification.com/#/android-automode/latest/
 class IMAuthAutoModeActivity : AppCompatActivity() {
     private val TAG: String = "IMAutoAuth"
-
     lateinit var binding: ActivityImAutomodeAuthenticationBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,21 +36,20 @@ class IMAuthAutoModeActivity : AppCompatActivity() {
         initView()
     }
 
-    private fun initIPification(){
-        IPConfiguration.getInstance().ENV = if(BuildConfig.ENVIRONMENT == "sandbox" ) IPEnvironment.SANDBOX else IPEnvironment.PRODUCTION
+    private fun initIPification() {
+        IPConfiguration.getInstance().ENV =
+            if (BuildConfig.ENVIRONMENT == "sandbox") IPEnvironment.SANDBOX else IPEnvironment.PRODUCTION
         IPConfiguration.getInstance().CLIENT_ID = BuildConfig.CLIENT_ID
-        IPConfiguration.getInstance().REDIRECT_URI = Uri.parse(BuildConfig.REDIRECT_URI) // this uri should be do S2S to exchange token
+        IPConfiguration.getInstance().REDIRECT_URI = Uri.parse(BuildConfig.REDIRECT_URI)  // this uri should be used for S2S to exchange token
 
-        //enable Auto Mode
+        // Enable Auto Mode
         IPConfiguration.getInstance().IM_AUTO_MODE = true
         IPConfiguration.getInstance().IM_PRIORITY_APP_LIST = arrayOf("wa")
-
     }
 
     private fun initView() {
         val actionbar = supportActionBar
         actionbar?.setDisplayHomeAsUpEnabled(true)
-
         supportActionBar?.title = "IM - AutoMode - ${BuildConfig.VERSION_NAME}"
         // init FCM
         initFirebase()
@@ -63,34 +59,36 @@ class IMAuthAutoModeActivity : AppCompatActivity() {
         }
     }
 
-
-
-    //Update onActivityResult
+    // Update onActivityResult
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         IMService.onActivityResult(requestCode, resultCode, data)
     }
 
-
     private fun initFirebase() {
         IPLogs.getInstance().LOG += "init FCM \n"
-
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
-                IPLogs.getInstance().LOG += "Fetching FCM registration token failed \n"
-                try {
-                    IPLogs.getInstance().LOG += task.exception?.message?.substring(0, 100)
-                }catch (e: Exception){
-
-                }
+                handleFirebaseTokenError(task)
                 return@OnCompleteListener
             }
-            // Get new FCM registration token
-            val token = task.result.toString()
-            IMHelper.deviceToken = token
-            IPLogs.getInstance().LOG += "[initFirebas] get device Token ${token} \n"
+            handleFirebaseTokenSuccess(task)
         })
+    }
+
+    private fun handleFirebaseTokenError(task: Task<String>) {
+        Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+        IPLogs.getInstance().LOG += "Fetching FCM registration token failed \n"
+        try {
+            IPLogs.getInstance().LOG += task.exception?.message?.substring(0, 100)
+        } catch (e: Exception) {
+        }
+    }
+
+    private fun handleFirebaseTokenSuccess(task: Task<String>) {
+        val token = task.result.toString()
+        IMHelper.deviceToken = token
+        IPLogs.getInstance().LOG += "[initFirebas] get device Token ${token} \n"
     }
 
     private fun doIMFlow() {
@@ -98,16 +96,25 @@ class IMAuthAutoModeActivity : AppCompatActivity() {
 
         val callback = object : IPificationCallback {
             override fun onSuccess(response: AuthResponse) {
-                Log.d("aaa","eeee" + response.getState())
-                Util.callLoginAPI(this@IMAuthAutoModeActivity, IMHelper.currentState!!)
+                handleIMFlowSuccess(response)
             }
+
             override fun onError(error: IPificationError) {
-                Log.d(TAG,"doIMAuth - error "+ error.error_description)
-                Util.openErrorActivity(this@IMAuthAutoModeActivity, error.getErrorMessage())
+                handleIMFlowError(error)
             }
         }
         // do IM Auth
         doIMAuth(callback)
+    }
+
+    private fun handleIMFlowSuccess(response: AuthResponse) {
+        Log.d("aaa", "eeee" + response.getState())
+        Util.callLoginAPI(this@IMAuthAutoModeActivity, IMHelper.currentState!!)
+    }
+
+    private fun handleIMFlowError(error: IPificationError) {
+        Log.d(TAG, "doIMAuth - error " + error.error_description)
+        Util.openErrorActivity(this@IMAuthAutoModeActivity, error.getErrorMessage())
     }
 
     private fun doIMAuth(callback: IPificationCallback) {
@@ -115,8 +122,8 @@ class IMAuthAutoModeActivity : AppCompatActivity() {
         authRequestBuilder.setState(IMHelper.currentState)
         authRequestBuilder.setScope("openid ip:phone")
         IMServices.startAuthentication(this, authRequestBuilder.build(), callback)
-
     }
+
     // update state and device token to client server
     private fun updateStateAndDeviceToken() {
         IMHelper.currentState = IPificationServices.generateState()
@@ -134,4 +141,5 @@ class IMAuthAutoModeActivity : AppCompatActivity() {
         }
     }
 }
+
 

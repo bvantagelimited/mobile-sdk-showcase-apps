@@ -5,38 +5,30 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.ipification.demoapp.activity.im.IMAuthActivity
 import com.ipification.demoapp.databinding.ActivityMainBinding
-
 class MainActivity : AppCompatActivity() {
     private val TAG: String = "MainActivity"
-
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.ipButton.setOnClickListener {
-            openIPActivity()
-        }
-        binding.imButton.setOnClickListener {
-            openIMActivity()
-        }
-
+        setupButtonListeners()
     }
 
+    private fun setupButtonListeners() {
+        binding.ipButton.setOnClickListener { openActivity(IPificationAuthActivity::class.java) }
+        binding.imButton.setOnClickListener { openActivity(IMAuthActivity::class.java) }
+        // Uncomment the line below to open a specific IM activity
+        // binding.imButton.setOnClickListener { openActivity(IMAuthAutoModeActivity::class.java) }
+        // binding.imButton.setOnClickListener { openActivity(IMAuthManualActivity::class.java) }
+    }
 
-    private fun openIPActivity() {
-        val intent = Intent(applicationContext, IPificationAuthActivity::class.java)
+    private fun openActivity(activityClass: Class<*>) {
+        val intent = Intent(applicationContext, activityClass)
         startActivity(intent)
     }
-
-    private fun openIMActivity() {
-        val intent = Intent(applicationContext, IMAuthActivity::class.java)
-//        val intent = Intent(applicationContext, IMAuthAutoModeActivity::class.java)
-//        val intent = Intent(applicationContext, IMAuthManualActivity::class.java)
-        startActivity(intent)
-    }
-
 }
+
 
