@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    tools:context=".activity.PhoneVerifyActivity">
+    tools:context=".activity.IPificationAuthActivity">
 
 
     <Button
@@ -54,10 +54,9 @@
         android:id="@+id/lbl1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:text="Please enter your phone number"
-        android:textAlignment="center"
+        android:text="Please enter your phone number:"
+        android:textAlignment="textStart"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"

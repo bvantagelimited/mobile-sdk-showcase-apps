@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.ipification.demoapp.databinding.ActivitySuccessResultBinding
+import org.json.JSONObject
 
 class ResultSuccessActivity : AppCompatActivity() {
     lateinit var binding: ActivitySuccessResultBinding
@@ -17,7 +18,8 @@ class ResultSuccessActivity : AppCompatActivity() {
 
     private fun setup(){
         val tokenInfo = intent.getStringExtra("responseStr")
-        binding.tvMainDetail.text = tokenInfo
+        val jsonObject = JSONObject(tokenInfo ?: "")
+        binding.tvMainDetail.text = (jsonObject.toString(4)) // 4 is number of spaces for indent
         val actionbar = supportActionBar
         //set actionbar title
         actionbar!!.title = "Result"

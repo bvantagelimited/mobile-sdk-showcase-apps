@@ -119,11 +119,13 @@ class IPificationAuthActivity : AppCompatActivity() {
                 } else {
                     // unsupported Telco. Fallback to another authentication service flow
                     Util.openErrorActivity(this@IPificationAuthActivity, "unsupported")
+                    updateButton(isEnable = true)
                 }
             }
             override fun onError(error: IPificationError) {
                 // error, handle it with another authentication service flow
                 Util.openErrorActivity(this@IPificationAuthActivity, error.getErrorMessage())
+                updateButton(isEnable = true)
             }
         }
         IPificationServices.startCheckCoverage( phoneNumber = phoneNumber , context = this,  callback = coverageCallback)
@@ -133,9 +135,13 @@ class IPificationAuthActivity : AppCompatActivity() {
             override fun onSuccess(response: IPAuthResponse) {
                 // call backend with {response.code}
                 IPHelper.callTokenExchangeAPI(this@IPificationAuthActivity, response.code)
+
+                updateButton(isEnable = true)
             }
             override fun onError(error: IPificationError) {
                 Util.openErrorActivity(this@IPificationAuthActivity, "auth error:  ${error.getErrorMessage()}")
+
+                updateButton(isEnable = true)
             }
         }
         val authRequestBuilder = AuthRequest.Builder()

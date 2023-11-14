@@ -29,18 +29,18 @@ android {
     productFlavors {
         stage {
             buildConfigField "String", "ENVIRONMENT", "\"sandbox\""
-            buildConfigField "String", "CLIENT_ID", "\"demo\""
-            buildConfigField "String", "CLIENT_SECRET", "\"demo\""
+            buildConfigField "String", "CLIENT_ID", "\"6f2026a683bc439ebb414a03f9012f27\""
+            buildConfigField "String", "CLIENT_SECRET", "\"4bc14abb-fd00-4fd7-b274-88205f2f11cb\""
 
-            buildConfigField "String", "REDIRECT_URI", "\"demo\""
+            buildConfigField "String", "REDIRECT_URI", "\"https://test-stage.ipification.com/\""
 
         }
         production {
-            buildConfigField "String", "ENVIRONMENT", "\"production\""
-            buildConfigField "String", "CLIENT_ID", "\"demo\""
-            buildConfigField "String", "CLIENT_SECRET", "\"demo\""
+            buildConfigField "String", "ENVIRONMENT", "\"sandbox\""
+            buildConfigField "String", "CLIENT_ID", "\"6f2026a683bc439ebb414a03f9012f27\""
+            buildConfigField "String", "CLIENT_SECRET", "\"4bc14abb-fd00-4fd7-b274-88205f2f11cb\""
 
-            buildConfigField "String", "REDIRECT_URI", "\"demo\""
+            buildConfigField "String", "REDIRECT_URI", "\"https://test-stage.ipification.com/\""
         }
     }
 }
