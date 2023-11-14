@@ -34,7 +34,7 @@ stage {
     buildConfigField "String", "ENVIRONMENT", "\"sandbox\""
     buildConfigField "String", "CLIENT_ID", "\"\""
     buildConfigField "String", "REDIRECT_URI", "\"\""
-    buildConfigField "String", "CLIENT_SECRET", "\"\""
+    buildConfigField "String", "CLIENT_SECRET", "\"\"" (for demo only)
 
 }
 ```
@@ -55,7 +55,7 @@ stage {
     buildConfigField "String", "ENVIRONMENT", "\"sandbox\""
     buildConfigField "String", "CLIENT_ID", "\"\""
     buildConfigField "String", "REDIRECT_URI", "\"\""
-    buildConfigField "String", "CLIENT_SECRET", "\"\""
+    buildConfigField "String", "CLIENT_SECRET", "\"\"" (for demo only)
 
 }
 ```
