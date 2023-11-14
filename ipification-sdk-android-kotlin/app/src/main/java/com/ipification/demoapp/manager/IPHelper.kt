@@ -3,7 +3,7 @@ package com.ipification.demoapp.manager;
 import android.app.Activity
 import android.util.Log
 import com.ipification.demoapp.BuildConfig
-import com.ipification.demoapp.Constant
+import com.ipification.demoapp.Urls
 import com.ipification.demoapp.callback.TokenCallback
 import com.ipification.demoapp.util.Util
 import com.ipification.mobile.sdk.android.IPConfiguration
@@ -43,7 +43,7 @@ class IPHelper {
         }
 
         private fun doPostToken(code: String, callback: TokenCallback) {
-            val url = Constant.EXCHANGE_TOKEN_URL
+            val url = Urls.getTokenExchangeUrl()
             val body: RequestBody = FormBody.Builder()
                 .add("client_id", IPConfiguration.getInstance().CLIENT_ID)
                 .add("grant_type", "authorization_code")
@@ -89,7 +89,7 @@ class IPHelper {
         }
 
         fun postUserInfo(accessToken: String, callback: TokenCallback) {
-            val url = Constant.USER_INFO_URL
+            val url = Urls.getUserInfoUrl()
             val body: RequestBody = FormBody.Builder()
                 .add("access_token", accessToken)
 

@@ -1,7 +1,7 @@
 package com.ipification.demoapp.manager
 
 import android.util.Log
-import com.ipification.demoapp.Constant
+import com.ipification.demoapp.Urls
 import com.ipification.demoapp.callback.TokenCallback
 import okhttp3.Call
 import okhttp3.Callback
@@ -29,7 +29,7 @@ class IMHelper {
             }
             val JSON = "application/json; charset=utf-8".toMediaTypeOrNull();
 //            val JSON = MediaType.parse("application/json; charset=utf-8")
-            val url = Constant.DEVICE_TOKEN_REGISTRATION_URL
+            val url = Urls.DEVICE_TOKEN_REGISTRATION_URL
             val json =
                 "{\"device_id\":\"$currentState\",\"device_token\":\"${deviceToken}\", \"device_type\":\"android\"}";
             Log.d(TAG, "registerDevice $json")
@@ -53,7 +53,7 @@ class IMHelper {
 
         fun signIn(state: String, callback: TokenCallback) {
 
-            val url = Constant.AUTOMODE_SIGN_IN_URL
+            val url = Urls.AUTOMODE_SIGN_IN_URL
             val mediaType = "application/json; charset=utf-8".toMediaType()
 //            val JSON = MediaType.parse("application/json; charset=utf-8")
 
