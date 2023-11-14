@@ -1,7 +1,7 @@
 
 <h1 align="center">IPification Sample Project</h1>
 
-#### 1. IP Authentication
+#### 1. IPification Authentication
 <p align="center">
 <img src='https://user-images.githubusercontent.com/4114159/176865959-8c16cbd7-cdee-4cb4-bd37-7bdd2fce7659.png' width='220'>
 <img src='https://user-images.githubusercontent.com/4114159/176863776-8961c9d7-a64f-4b14-965e-1ddc222bd96e.png' width='220'>
@@ -10,7 +10,7 @@
 </p>
 
 
-#### 2. IM Authentication
+#### 2. Instant Message Authentication
 <p align="center">
 <img src='https://user-images.githubusercontent.com/4114159/176865974-427bad75-1993-4d25-ba2e-c3f742575d84.png' width='220'>
 <img src='https://user-images.githubusercontent.com/4114159/176865227-d9b565c4-ec0e-44f3-80a4-c39d960ae066.png' width='220'>
@@ -26,7 +26,7 @@
 
 To get a local copy up and running follow these simple example steps:
 
-### I. IP Authentication:
+### I. IPification Authentication:
 
 #### 1. Update with your credentials in `app/build.gradle`
 ```
@@ -41,13 +41,15 @@ stage {
 
 #### 2. Use correct `variant` (stageDebug, stageRelease, productionDebug, productionRelease)
 
-#### 3. Run the project on the device
+#### 3. Build and Run the project
+
 
 
 
 ------------------------------------------------------------------------
+------------------------------------------------------------------------
 
-### II. IM Authentication
+### II. Instant Message Authentication
 
 #### 1. Update with your credentials in `app/build.gradle`
 ```
