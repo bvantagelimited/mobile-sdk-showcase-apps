@@ -1,61 +1,110 @@
 
 <h1 align="center">IPification Sample Project</h1>
 
-#### 1. IP Authentication
-<p align="center">
-<img src='https://user-images.githubusercontent.com/4114159/176865959-8c16cbd7-cdee-4cb4-bd37-7bdd2fce7659.png' width='220'>
-<img src='https://user-images.githubusercontent.com/4114159/176863776-8961c9d7-a64f-4b14-965e-1ddc222bd96e.png' width='220'>
-<img src='https://user-images.githubusercontent.com/4114159/176863792-ee7ffc89-600e-42f8-ad75-2475726c5929.png' width='220'>
+<!-- GETTING STARTED -->
+## Getting Started
 
+### I. IPification Authentication:
+<p align="center">
+    <img src='https://github.com/bvantagelimited/mobile-sdk-showcase-apps/assets/4114159/f563302c-d54c-402a-90b9-27053f13a7bd' width='220'>
+    <img src='https://github.com/bvantagelimited/mobile-sdk-showcase-apps/assets/4114159/8d9ddc09-a96e-4185-a093-23d721f7e967' width='220'>
 </p>
 
 
-#### 2. IM Authentication
+To get a local copy up and running, follow these simple steps:
+
+#### 1. Update with your credentials in `app/build.gradle`:
+```
+stage {
+    buildConfigField "String", "ENVIRONMENT", "\"sandbox\""
+    buildConfigField "String", "CLIENT_ID", "\"\""
+    buildConfigField "String", "REDIRECT_URI", "\"\""
+    buildConfigField "String", "CLIENT_SECRET", "\"\"" (for demo only)
+
+}
+
+``` 
+#### 2. Use correct `variant` (stageDebug, stageRelease, productionDebug, productionRelease).
+
+#### 3. Build and Run the project.
+---------
+
+#### Core functions:
+#### 1. Initial IP configuration
+```IPificationAuthActivity.kt
+private fun initIPification() {
+    IPConfiguration.getInstance().ENV = if(BuildConfig.ENVIRONMENT == "sandbox") IPEnvironment.SANDBOX else IPEnvironment.PRODUCTION
+    IPConfiguration.getInstance().CLIENT_ID = BuildConfig.CLIENT_ID
+    IPConfiguration.getInstance().REDIRECT_URI = Uri.parse(BuildConfig.REDIRECT_URI)
+}
+```
+#### 2. CheckCoverage:
+```IPificationAuthActivity.kt
+private fun startIPAuthenticationFlow() {
+
+    val phoneNumber  = "${binding.countryCodeEditText.text}${binding.phoneCodeEditText.text}"
+
+    // start checking coverage with user phone number
+    val coverageCallback = object : IPCoverageCallback
+    {
+        override fun onSuccess(response: CoverageResponse) {
+            if(response.isAvailable()) {
+                // supported Telco. call IP Auth function
+                callIPAuthentication(phoneNumber)
+            } else {
+                // unsupported Telco. Fallback to SMS authentication service flow
+            }
+        }
+        override fun onError(error: IPificationError) {
+            // error, handle it with SMS authentication service flow
+        }
+    }
+    IPificationServices.startCheckCoverage( phoneNumber = phoneNumber , context = this,  callback = coverageCallback)
+}
+```
+#### 2. Authentication:
+
+```IPificationAuthActivity.kt
+private fun callIPAuthentication(phoneNumber: String) {
+    val authCallback = object: IPAuthCallback {
+        override fun onSuccess(response: IPAuthResponse) {
+            // call backend with {response.code}
+            IPHelper.callTokenExchangeAPI(this@IPificationAuthActivity, response.code)
+        }
+        override fun onError(error: IPificationError) {
+            // error, handle it with SMS authentication service flow
+        }
+    }
+    val authRequestBuilder = AuthRequest.Builder()
+    authRequestBuilder.addQueryParam("login_hint", phoneNumber)
+    val authRequest = authRequestBuilder.build()
+    IPificationServices.startAuthentication(this, authRequest, authCallback)
+}
+```
+#### 3. Call Token Exchange API with Authorized Code (S2S api)
+https://developer.ipification.com/#/android/latest/?id=_14-call-your-backend-service-with-authorization_code-
+
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+
+### II. Instant Message Authentication
 <p align="center">
-<img src='https://user-images.githubusercontent.com/4114159/176865974-427bad75-1993-4d25-ba2e-c3f742575d84.png' width='220'>
 <img src='https://user-images.githubusercontent.com/4114159/176865227-d9b565c4-ec0e-44f3-80a4-c39d960ae066.png' width='220'>
 <img src='https://user-images.githubusercontent.com/4114159/176865253-856df6fd-a951-4ba0-bf76-22d47d276743.png' width='220'>
+    <br/>
 <img src='https://user-images.githubusercontent.com/4114159/176865288-c842e3ce-7d9f-45bc-93c8-15f370d48961.png' width='220'>
 <img src='https://user-images.githubusercontent.com/4114159/176865314-04082643-c9fc-475d-99b4-c873e1d90152.png' width='220'>
 <img src='https://user-images.githubusercontent.com/4114159/176865326-b7eb2c08-0c3f-466c-aa88-712e42eb782f.png' width='220'>
 </p>
 
 
-<!-- GETTING STARTED -->
-## Getting Started
-
-To get a local copy up and running follow these simple example steps:
-
-### I. IP Authentication:
-
 #### 1. Update with your credentials in `app/build.gradle`
 ```
 stage {
     buildConfigField "String", "ENVIRONMENT", "\"sandbox\""
     buildConfigField "String", "CLIENT_ID", "\"\""
     buildConfigField "String", "REDIRECT_URI", "\"\""
-    buildConfigField "String", "CLIENT_SECRET", "\"\""
-
-}
-```
-
-#### 2. Use correct `variant` (stageDebug, stageRelease, productionDebug, productionRelease)
-
-#### 3. Run the project on the device
-
-
-
-------------------------------------------------------------------------
-
-### II. IM Authentication
-
-#### 1. Update with your credentials in `app/build.gradle`
-```
-stage {
-    buildConfigField "String", "ENVIRONMENT", "\"sandbox\""
-    buildConfigField "String", "CLIENT_ID", "\"\""
-    buildConfigField "String", "REDIRECT_URI", "\"\""
-    buildConfigField "String", "CLIENT_SECRET", "\"\""
+    buildConfigField "String", "CLIENT_SECRET", "\"\"" (for demo only)
 
 }
 ```
