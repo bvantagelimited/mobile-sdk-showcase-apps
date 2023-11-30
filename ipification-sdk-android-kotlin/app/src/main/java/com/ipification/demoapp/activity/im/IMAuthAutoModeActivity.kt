@@ -108,8 +108,7 @@ class IMAuthAutoModeActivity : AppCompatActivity() {
     }
 
     private fun handleIMFlowSuccess(response: AuthResponse) {
-        Log.d("aaa", "eeee" + response.getState())
-        Util.callLoginAPI(this@IMAuthAutoModeActivity, IMHelper.currentState!!)
+        Util.callLoginAPI(this@IMAuthAutoModeActivity, response.getState())
     }
 
     private fun handleIMFlowError(error: IPificationError) {
