@@ -107,7 +107,7 @@ public class IMAuthManualActivity extends AppCompatActivity {
                 });
             });
         }else{
-            // TODO: handle no IM app
+            // TODO: handle case: no IM app
         }
 
     }
