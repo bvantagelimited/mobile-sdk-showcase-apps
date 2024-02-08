@@ -24,6 +24,7 @@ import com.ipification.mobile.sdk.android.response.AuthResponse;
 import com.ipification.mobile.sdk.android.response.IMResponse;
 import com.ipification.mobile.sdk.im.IMService;
 import com.ipification.mobile.sdk.im.data.IMInfo;
+import com.ipification.mobile.sdk.im.di.RepositoryModule;
 import com.ipification.mobile.sdk.im.listener.IMPublicAPICallback;
 import com.ipification.mobile.sdk.im.listener.RedirectDataCallback;
 import com.ipification.mobile.sdk.android.IMPublicAPIServices;
@@ -33,7 +34,6 @@ public class IMAuthManualActivity extends AppCompatActivity {
     private static final String TAG = "IMAuthManualActivity";
     private ActivityImBinding binding;
     private Boolean onNewIntent = false;
-    private IMSession sessionInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +44,6 @@ public class IMAuthManualActivity extends AppCompatActivity {
         initView();
     }
 
-    // Initialize IPification SDK
-    private void initIPification() {
-        // Set environment based on build configuration
-        IPConfiguration.getInstance().setENV(BuildConfig.ENVIRONMENT.equals("sandbox") ?
-                IPEnvironment.SANDBOX : IPEnvironment.PRODUCTION);
-        IPConfiguration.getInstance().setCLIENT_ID(BuildConfig.CLIENT_ID);
-        IPConfiguration.getInstance().setIM_AUTO_MODE(true);
-        IPConfiguration.getInstance().setREDIRECT_URI(Uri.parse(BuildConfig.REDIRECT_URI));
-    }
 
     // Initialize view components
     private void initView() {
@@ -66,6 +57,133 @@ public class IMAuthManualActivity extends AppCompatActivity {
         binding.whatsappBtn.setOnClickListener(v -> doIMFlow("wa"));
         binding.viberBtn.setOnClickListener(v -> doIMFlow("viber"));
         binding.telegramBtn.setOnClickListener(v -> doIMFlow("telegram"));
+    }
+
+
+    // Initialize IPification SDK
+    private void initIPification() {
+        // Set environment based on build configuration
+        IPConfiguration.getInstance().setENV(BuildConfig.ENVIRONMENT.equals("sandbox") ?
+                IPEnvironment.SANDBOX : IPEnvironment.PRODUCTION);
+        IPConfiguration.getInstance().setCLIENT_ID(BuildConfig.CLIENT_ID);
+        IPConfiguration.getInstance().setIM_AUTO_MODE(true);
+        IPConfiguration.getInstance().setREDIRECT_URI(Uri.parse(BuildConfig.REDIRECT_URI));
+    }
+
+    // Initiate IM authentication flow
+    private void doIMFlow(String channel) {
+        IMPublicAPICallback callback = new IMPublicAPICallback() {
+            @Override
+            public void onSuccess(IMResponse imResponse, AuthResponse ipResponse) {
+                handleIMFlowSuccess(imResponse);
+            }
+
+            @Override
+            public void onError(IPificationError error) {
+                handleIMFlowError(error);
+            }
+
+            @Override
+            public void onCancel() {
+                // Do nothing
+            }
+        };
+        doIMAuth(channel, callback);
+    }
+
+    // Handle IM authentication flow success
+    private void handleIMFlowSuccess(IMResponse imResponse) {
+        IMHelper.sessionInfo = imResponse.getSessionInfo();
+        List<IMInfo> validApp = IMPublicAPIServices.Factory.checkValidApps(IMHelper.sessionInfo, getPackageManager());
+        runOnUiThread(() -> {
+            IMPublicAPIServices.Factory.startGetRedirect(validApp.get(0).getMessage(), IMAuthManualActivity.this, new RedirectDataCallback() {
+                @Override
+                public void onResponse(String res) {
+                    IMPublicAPIServices.Factory.openAppViaDeepLink(IMAuthManualActivity.this, res);
+                }
+            });
+        });
+    }
+
+    // Handle IM authentication flow error
+    private void handleIMFlowError(IPificationError error) {
+        // TODO
+        Log.d(TAG, "doIMAuth - error " + error.getErrorMessage());
+        Intent intent = new Intent(IMAuthManualActivity.this, FailResultActivity.class);
+        intent.putExtra("error", error.getErrorMessage());
+        startActivity(intent);
+    }
+
+    // Initiate IM authentication
+    private void doIMAuth(String channel, IMPublicAPICallback callback) {
+        AuthRequest.Builder authRequestBuilder = new AuthRequest.Builder();
+        authRequestBuilder.setScope("openid ip:phone");
+        authRequestBuilder.addQueryParam("channel", channel);
+        IMPublicAPIServices.Factory.startAuthentication(IMAuthManualActivity.this, authRequestBuilder.build(), callback);
+    }
+
+
+    // Handle new intent
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        onNewIntent = true;
+        finishSession(intent);
+    }
+
+    // Handle resume
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!onNewIntent) {
+            finishSession(getIntent());
+        }
+    }
+
+    // Finish session
+    private void finishSession(Intent intent) {
+        // cancel IP Notification if it's showing
+        try {
+            NotificationManagerCompat.from(this).cancel(IPConfiguration.getInstance().getNOTIFICATION_ID());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (getSessionID() == null) {
+            return;
+        }
+
+        IMHelper.signIn(IPConfiguration.getInstance().getCurrentState(), new TokenCallback() {
+            @Override
+            public void onSuccess(String response) {
+                //clear sessionInfo
+                clearSessionInfo();
+                Intent intent = new Intent(IMAuthManualActivity.this, SuccessResultActivity.class);
+                intent.putExtra("responseStr", response);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                //clear sessionInfo
+                clearSessionInfo();
+
+                Intent intent = new Intent(IMAuthManualActivity.this, FailResultActivity.class);
+                intent.putExtra("error", errorMessage);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void clearSessionInfo() {
+        IMHelper.sessionInfo = null;
+    }
+
+    private String getSessionID() {
+        if(IMHelper.sessionInfo != null){
+            return IMHelper.sessionInfo.getSessionId();
+        }
+        return null;
     }
 
     // Check and show IM buttons based on installed apps
@@ -94,72 +212,7 @@ public class IMAuthManualActivity extends AppCompatActivity {
         }
     }
 
-    // Handle activity result
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        IMService.Factory.onActivityResult(requestCode, resultCode, data);
-    }
 
-    // Initiate IM authentication flow
-    private void doIMFlow(String channel) {
-        IMPublicAPICallback callback = new IMPublicAPICallback() {
-            @Override
-            public void onSuccess(IMResponse imResponse, AuthResponse ipResponse) {
-                handleIMFlowSuccess(imResponse);
-            }
-
-            @Override
-            public void onError(IPificationError error) {
-                handleIMFlowError(error);
-            }
-
-            @Override
-            public void onCancel() {
-                // Do nothing
-            }
-        };
-        doIMAuth(channel, callback);
-    }
-
-    // Handle IM authentication flow success
-    private void handleIMFlowSuccess(IMResponse imResponse) {
-        sessionInfo = imResponse.getSessionInfo();
-        List<IMInfo> validApp = IMPublicAPIServices.Factory.checkValidApps(sessionInfo, getPackageManager());
-        runOnUiThread(() -> {
-            IMPublicAPIServices.Factory.startGetRedirect(validApp.get(0).getMessage(), IMAuthManualActivity.this, new RedirectDataCallback() {
-                @Override
-                public void onResponse(String res) {
-                    IMPublicAPIServices.Factory.openAppViaDeepLink(IMAuthManualActivity.this, res);
-                }
-            });
-        });
-    }
-
-    // Handle IM authentication flow error
-    private void handleIMFlowError(IPificationError error) {
-        // TODO
-        Log.d(TAG, "doIMAuth - error " + error.getErrorMessage());
-        Intent intent = new Intent(IMAuthManualActivity.this, FailResultActivity.class);
-        intent.putExtra("error", error.getErrorMessage());
-        startActivity(intent);
-    }
-
-    // Initiate IM authentication
-    private void doIMAuth(String channel, IMPublicAPICallback callback) {
-        AuthRequest.Builder authRequestBuilder = new AuthRequest.Builder();
-        authRequestBuilder.setScope("openid ip:phone");
-        authRequestBuilder.addQueryParam("channel", channel);
-        IMPublicAPIServices.Factory.startAuthentication(IMAuthManualActivity.this, authRequestBuilder.build(), callback);
-    }
-
-    // Update state and device token
-    private void updateStateAndDeviceToken() {
-        // To be implemented
-//        IMHelper.setCurrentState(IPificationServices.generateState());
-//        IMHelper.registerDevice(IMHelper.getDeviceToken(), IMHelper.getCurrentState());
-
-    }
 
     // Handle options item selected
     @Override
@@ -169,61 +222,5 @@ public class IMAuthManualActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    // Handle new intent
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        onNewIntent = true;
-        finishSession(intent);
-    }
-
-    // Handle resume
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (!onNewIntent) {
-            finishSession(getIntent());
-        }
-    }
-
-    // Finish session
-    private void finishSession(Intent intent) {
-        // cancel IP Notification if it's showing
-        try {
-            NotificationManagerCompat.from(this).cancel(IPConfiguration.getInstance().getNOTIFICATION_ID());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (sessionInfo == null) {
-            return;
-        }
-
-        IMHelper.signIn(IPConfiguration.getInstance().getCurrentState(), new TokenCallback() {
-            @Override
-            public void onSuccess(String response) {
-                //clear sessionInfo
-                clearSessionInfo();
-                Intent intent = new Intent(IMAuthManualActivity.this, SuccessResultActivity.class);
-                intent.putExtra("responseStr", response);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                //clear sessionInfo
-                clearSessionInfo();
-
-                Intent intent = new Intent(IMAuthManualActivity.this, FailResultActivity.class);
-                intent.putExtra("error", errorMessage);
-                startActivity(intent);
-            }
-        });
-    }
-
-    private void clearSessionInfo() {
-        sessionInfo = null;
     }
 }

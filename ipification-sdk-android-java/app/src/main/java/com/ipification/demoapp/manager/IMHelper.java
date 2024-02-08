@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.ipification.demoapp.Urls;
 import com.ipification.demoapp.callback.TokenCallback;
+import com.ipification.mobile.sdk.android.model.IMSession;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -25,6 +26,7 @@ public class IMHelper {
     public static String currentState = null;
     public static String currentToken = null;
     private static MediaType JSON_MEDIA_TYPE = MediaType.parse("application/json; charset=utf-8");
+    public static IMSession sessionInfo;
 
     public static void registerDevice(String deviceToken, String state) {
         if (deviceToken.isEmpty() || state == null || state.equals("")) {
