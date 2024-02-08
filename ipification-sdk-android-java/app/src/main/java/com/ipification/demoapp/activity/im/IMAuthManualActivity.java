@@ -97,14 +97,19 @@ public class IMAuthManualActivity extends AppCompatActivity {
     private void handleIMFlowSuccess(IMResponse imResponse) {
         IMHelper.sessionInfo = imResponse.getSessionInfo();
         List<IMInfo> validApp = IMPublicAPIServices.Factory.checkValidApps(IMHelper.sessionInfo, getPackageManager());
-        runOnUiThread(() -> {
-            IMPublicAPIServices.Factory.startGetRedirect(validApp.get(0).getMessage(), IMAuthManualActivity.this, new RedirectDataCallback() {
-                @Override
-                public void onResponse(String res) {
-                    IMPublicAPIServices.Factory.openAppViaDeepLink(IMAuthManualActivity.this, res);
-                }
+        if(validApp.size() > 0){
+            runOnUiThread(() -> {
+                IMPublicAPIServices.Factory.startGetRedirect(validApp.get(0).getMessage(), IMAuthManualActivity.this, new RedirectDataCallback() {
+                    @Override
+                    public void onResponse(String res) {
+                        IMPublicAPIServices.Factory.openAppViaDeepLink(IMAuthManualActivity.this, res);
+                    }
+                });
             });
-        });
+        }else{
+            // TODO: handle no IM app
+        }
+
     }
 
     // Handle IM authentication flow error
