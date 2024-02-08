@@ -51,14 +51,14 @@ public class IPHelper {
                             // call userInfo
                             doPostUserInfo(accessToken, callback);
                         } else {
-                            callback.result("", response.body().string());
+//                            callback.result("", response.body().string());
                         }
                     } else {
                         try {
                             if (response.body() != null) {
-                                callback.result("", response.body().string());
+//                                callback.result("", response.body().string());
                             } else {
-                                callback.result("", "error body is null " + response.code());
+//                                callback.result("", "error body is null " + response.code());
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -68,14 +68,14 @@ public class IPHelper {
 
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    callback.result("", e.getMessage());
+//                    callback.result("", e.getMessage());
                     Log.e(TAG, "token exchange error: " + e.getMessage());
                 }
             });
         } catch (Exception e) {
             Log.e(TAG, "token exchange error: " + e.getMessage());
             e.printStackTrace();
-            callback.result("", e.getMessage());
+//            callback.result("", e.getMessage());
         }
     }
     public static void doPostUserInfo(String accessToken, final TokenCallback callback) {
@@ -94,13 +94,13 @@ public class IPHelper {
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                     if (response.isSuccessful() && response.body() != null) {
-                        callback.result(response.body().string(), "");
+//                        callback.result(response.body().string(), "");
                     } else {
                         try {
                             if (response.body() != null) {
-                                callback.result("", response.body().string());
+//                                callback.result("", response.body().string());
                             } else {
-                                callback.result("", "error body is null " + response.code());
+//                                callback.result("", "error body is null " + response.code());
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -110,14 +110,14 @@ public class IPHelper {
 
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    callback.result("", e.getMessage());
+//                    callback.result("", e.getMessage());
                     Log.e(TAG, "token exchange error: " + e.getMessage());
                 }
             });
         } catch (Exception e) {
             Log.e(TAG, "token exchange error: " + e.getMessage());
             e.printStackTrace();
-            callback.result("", e.getMessage());
+//            callback.result("", e.getMessage());
         }
     }
 }

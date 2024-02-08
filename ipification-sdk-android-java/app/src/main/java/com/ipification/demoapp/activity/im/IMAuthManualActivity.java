@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
-
 import com.ipification.demoapp.BuildConfig;
 import com.ipification.demoapp.activity.FailResultActivity;
 import com.ipification.demoapp.activity.SuccessResultActivity;
@@ -26,9 +25,8 @@ import com.ipification.mobile.sdk.android.response.IMResponse;
 import com.ipification.mobile.sdk.im.IMService;
 import com.ipification.mobile.sdk.im.data.IMInfo;
 import com.ipification.mobile.sdk.im.listener.IMPublicAPICallback;
-import com.ipification.mobile.sdk.android.IMPublicAPIServices;
 import com.ipification.mobile.sdk.im.listener.RedirectDataCallback;
-
+import com.ipification.mobile.sdk.android.IMPublicAPIServices;
 import java.util.List;
 
 public class IMAuthManualActivity extends AppCompatActivity {
@@ -46,7 +44,9 @@ public class IMAuthManualActivity extends AppCompatActivity {
         initView();
     }
 
+    // Initialize IPification SDK
     private void initIPification() {
+        // Set environment based on build configuration
         IPConfiguration.getInstance().setENV(BuildConfig.ENVIRONMENT.equals("sandbox") ?
                 IPEnvironment.SANDBOX : IPEnvironment.PRODUCTION);
         IPConfiguration.getInstance().setCLIENT_ID(BuildConfig.CLIENT_ID);
@@ -54,6 +54,7 @@ public class IMAuthManualActivity extends AppCompatActivity {
         IPConfiguration.getInstance().setREDIRECT_URI(Uri.parse(BuildConfig.REDIRECT_URI));
     }
 
+    // Initialize view components
     private void initView() {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -61,17 +62,20 @@ public class IMAuthManualActivity extends AppCompatActivity {
         }
         checkAndShowIMButtons();
 
+        // Set click listeners for IM buttons
         binding.whatsappBtn.setOnClickListener(v -> doIMFlow("wa"));
         binding.viberBtn.setOnClickListener(v -> doIMFlow("viber"));
         binding.telegramBtn.setOnClickListener(v -> doIMFlow("telegram"));
     }
 
+    // Check and show IM buttons based on installed apps
     private void checkAndShowIMButtons() {
         disableButtonIfNotInstalled(binding.whatsappBtn, IPConfiguration.getInstance().getWhatsappPackageName());
         disableButtonIfNotInstalled(binding.telegramBtn, IPConfiguration.getInstance().getTelegramPackageName());
         disableButtonIfNotInstalled(binding.viberBtn, IPConfiguration.getInstance().getViberPackageName());
     }
 
+    // Disable button if app is not installed
     private void disableButtonIfNotInstalled(View button, String packageName) {
         PackageManager packageManager = getPackageManager();
         if (!isPackageInstalled(packageManager, packageName)) {
@@ -79,6 +83,8 @@ public class IMAuthManualActivity extends AppCompatActivity {
             button.setAlpha(0.3f);
         }
     }
+
+    // Check if app is installed
     public boolean isPackageInstalled(PackageManager packageManager, String packageName) {
         try {
             packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
@@ -88,15 +94,15 @@ public class IMAuthManualActivity extends AppCompatActivity {
         }
     }
 
+    // Handle activity result
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         IMService.Factory.onActivityResult(requestCode, resultCode, data);
     }
 
+    // Initiate IM authentication flow
     private void doIMFlow(String channel) {
-//        updateStateAndDeviceToken();
-
         IMPublicAPICallback callback = new IMPublicAPICallback() {
             @Override
             public void onSuccess(IMResponse imResponse, AuthResponse ipResponse) {
@@ -110,34 +116,36 @@ public class IMAuthManualActivity extends AppCompatActivity {
 
             @Override
             public void onCancel() {
-                //do nothing
+                // Do nothing
             }
         };
-
         doIMAuth(channel, callback);
     }
 
+    // Handle IM authentication flow success
     private void handleIMFlowSuccess(IMResponse imResponse) {
         sessionInfo = imResponse.getSessionInfo();
         List<IMInfo> validApp = IMPublicAPIServices.Factory.checkValidApps(sessionInfo, getPackageManager());
-        runOnUiThread(new Runnable() {
-            public void run() {
-                IMPublicAPIServices.Factory.startGetRedirect(validApp.get(0).getMessage(), IMAuthManualActivity.this, new RedirectDataCallback() {
-                    @Override
-                    public void onResponse(String res) {
-                        IMPublicAPIServices.Factory.openAppViaDeepLink(IMAuthManualActivity.this, res);
-                    }
-                });
-            }
+        runOnUiThread(() -> {
+            IMPublicAPIServices.Factory.startGetRedirect(validApp.get(0).getMessage(), IMAuthManualActivity.this, new RedirectDataCallback() {
+                @Override
+                public void onResponse(String res) {
+                    IMPublicAPIServices.Factory.openAppViaDeepLink(IMAuthManualActivity.this, res);
+                }
+            });
         });
-
     }
 
+    // Handle IM authentication flow error
     private void handleIMFlowError(IPificationError error) {
+        // TODO
         Log.d(TAG, "doIMAuth - error " + error.getErrorMessage());
-//        Util.openErrorActivity(IMAuthManualActivity.this, error.getErrorMessage());
+        Intent intent = new Intent(IMAuthManualActivity.this, FailResultActivity.class);
+        intent.putExtra("error", error.getErrorMessage());
+        startActivity(intent);
     }
 
+    // Initiate IM authentication
     private void doIMAuth(String channel, IMPublicAPICallback callback) {
         AuthRequest.Builder authRequestBuilder = new AuthRequest.Builder();
         authRequestBuilder.setScope("openid ip:phone");
@@ -145,11 +153,15 @@ public class IMAuthManualActivity extends AppCompatActivity {
         IMPublicAPIServices.Factory.startAuthentication(IMAuthManualActivity.this, authRequestBuilder.build(), callback);
     }
 
+    // Update state and device token
     private void updateStateAndDeviceToken() {
+        // To be implemented
 //        IMHelper.setCurrentState(IPificationServices.generateState());
 //        IMHelper.registerDevice(IMHelper.getDeviceToken(), IMHelper.getCurrentState());
+
     }
 
+    // Handle options item selected
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -159,6 +171,7 @@ public class IMAuthManualActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Handle new intent
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -166,6 +179,7 @@ public class IMAuthManualActivity extends AppCompatActivity {
         finishSession(intent);
     }
 
+    // Handle resume
     @Override
     protected void onResume() {
         super.onResume();
@@ -174,23 +188,24 @@ public class IMAuthManualActivity extends AppCompatActivity {
         }
     }
 
+    // Finish session
     private void finishSession(Intent intent) {
-         // cancel IP Notification if it's showing
-         try {
-             NotificationManagerCompat.from(this).cancel(IPConfiguration.getInstance().getNOTIFICATION_ID());
-         } catch (Exception e) {
-             e.printStackTrace();
-         }
+        // cancel IP Notification if it's showing
+        try {
+            NotificationManagerCompat.from(this).cancel(IPConfiguration.getInstance().getNOTIFICATION_ID());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (sessionInfo == null) {
             return;
         }
 
         IMHelper.signIn(IPConfiguration.getInstance().getCurrentState(), new TokenCallback() {
-
             @Override
             public void onSuccess(String response) {
-                sessionInfo = null;
+                //clear sessionInfo
+                clearSessionInfo();
                 Intent intent = new Intent(IMAuthManualActivity.this, SuccessResultActivity.class);
                 intent.putExtra("responseStr", response);
                 startActivity(intent);
@@ -198,7 +213,9 @@ public class IMAuthManualActivity extends AppCompatActivity {
 
             @Override
             public void onError(String errorMessage) {
-                sessionInfo = null;
+                //clear sessionInfo
+                clearSessionInfo();
+
                 Intent intent = new Intent(IMAuthManualActivity.this, FailResultActivity.class);
                 intent.putExtra("error", errorMessage);
                 startActivity(intent);
@@ -206,4 +223,7 @@ public class IMAuthManualActivity extends AppCompatActivity {
         });
     }
 
+    private void clearSessionInfo() {
+        sessionInfo = null;
+    }
 }
