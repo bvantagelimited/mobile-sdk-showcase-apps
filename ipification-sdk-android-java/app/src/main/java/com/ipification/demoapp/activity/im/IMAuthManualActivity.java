@@ -66,8 +66,10 @@ public class IMAuthManualActivity extends AppCompatActivity {
         IPConfiguration.getInstance().setENV(BuildConfig.ENVIRONMENT.equals("sandbox") ?
                 IPEnvironment.SANDBOX : IPEnvironment.PRODUCTION);
         IPConfiguration.getInstance().setCLIENT_ID(BuildConfig.CLIENT_ID);
-        IPConfiguration.getInstance().setIM_AUTO_MODE(true);
         IPConfiguration.getInstance().setREDIRECT_URI(Uri.parse(BuildConfig.REDIRECT_URI));
+
+        // enable auto mode
+        IPConfiguration.getInstance().setIM_AUTO_MODE(true);
     }
 
     // Initiate IM authentication flow
