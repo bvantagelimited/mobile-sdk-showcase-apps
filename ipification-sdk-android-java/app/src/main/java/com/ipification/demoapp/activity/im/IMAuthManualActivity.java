@@ -109,7 +109,6 @@ public class IMAuthManualActivity extends AppCompatActivity {
         }else{
             // TODO: handle case: no IM app
         }
-
     }
 
     // Handle IM authentication flow error
@@ -195,19 +194,34 @@ public class IMAuthManualActivity extends AppCompatActivity {
 
     // Check and show IM buttons based on installed apps
     private void checkAndShowIMButtons() {
-        disableButtonIfNotInstalled(binding.whatsappBtn, IPConfiguration.getInstance().getWhatsappPackageName());
-        disableButtonIfNotInstalled(binding.telegramBtn, IPConfiguration.getInstance().getTelegramPackageName());
-        disableButtonIfNotInstalled(binding.viberBtn, IPConfiguration.getInstance().getViberPackageName());
+        String[] whatsappPackages = {IPConfiguration.getInstance().getWhatsappPackageName()};
+        disableButtonIfNotInstalled(binding.whatsappBtn, whatsappPackages);
+
+        // Disable Telegram button if Telegram package is not installed
+        String[] telegramPackages = {IPConfiguration.getInstance().getTelegramPackageName(), IPConfiguration.getInstance().getTelegramWebPackageName()};
+        disableButtonIfNotInstalled(binding.telegramBtn, telegramPackages);
+
+        // Disable Viber button if Viber package is not installed
+        String[] viberPackages = {IPConfiguration.getInstance().getViberPackageName()};
+        disableButtonIfNotInstalled(binding.viberBtn, viberPackages);
     }
 
     // Disable button if app is not installed
-    private void disableButtonIfNotInstalled(View button, String packageName) {
+    private void disableButtonIfNotInstalled(View button, String[] packageNames) {
         PackageManager packageManager = getPackageManager();
-        if (!isPackageInstalled(packageManager, packageName)) {
+        boolean isInstalled = false;
+        for (String packageName : packageNames) {
+            if (isPackageInstalled(packageManager, packageName)) {
+                isInstalled = true;
+                break;
+            }
+        }
+        if (!isInstalled) {
             button.setEnabled(false);
             button.setAlpha(0.3f);
         }
     }
+
 
     // Check if app is installed
     public boolean isPackageInstalled(PackageManager packageManager, String packageName) {
