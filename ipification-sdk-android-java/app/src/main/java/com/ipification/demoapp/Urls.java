@@ -18,4 +18,7 @@ public  class Urls {
     public static String getUserInfoUrl(){
         return IPConfiguration.getInstance().getENV() == IPEnvironment.PRODUCTION ? "https://api.ipification.com/auth/realms/ipification/protocol/openid-connect/userinfo" : "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/userinfo";
     }
+
+    public static String AUTOMODE_SIGN_IN_URL = "https://cases.ipification.com/merchant-service/s2s/signin";
+
 }

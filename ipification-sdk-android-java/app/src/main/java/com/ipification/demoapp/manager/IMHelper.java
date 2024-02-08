@@ -3,8 +3,11 @@ package com.ipification.demoapp.manager;
 import android.util.Log;
 
 import com.ipification.demoapp.Urls;
+import com.ipification.demoapp.callback.TokenCallback;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -21,6 +24,7 @@ public class IMHelper {
     private static final String TAG = "IMHelper";
     public static String currentState = null;
     public static String currentToken = null;
+    private static MediaType JSON_MEDIA_TYPE = MediaType.parse("application/json; charset=utf-8");
 
     public static void registerDevice(String deviceToken, String state) {
         if (deviceToken.isEmpty() || state == null || state.equals("")) {
@@ -51,4 +55,47 @@ public class IMHelper {
             }
         });
     }
+
+    public static void signIn(String state, TokenCallback callback) {
+        String url = Urls.AUTOMODE_SIGN_IN_URL;
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("state", state);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RequestBody body = RequestBody.create(jsonObject.toString(), JSON_MEDIA_TYPE);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                String error = e.getLocalizedMessage();
+                Log.e(TAG, "SignIn onFailure: " + error, e);
+                callback.onError(error != null ? error : "postUserInfo - onFailure");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    String responseBody = response.body().string();
+
+                    if (response.isSuccessful()) {
+                        callback.onSuccess(responseBody != null ? responseBody : "");
+                    } else {
+                        callback.onError(responseBody != null ? responseBody : "");
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "Error processing response", e);
+                    callback.onError(e.getLocalizedMessage() != null ? e.getLocalizedMessage() : "Error processing response");
+                }
+            }
+        });
+    }
+
 }

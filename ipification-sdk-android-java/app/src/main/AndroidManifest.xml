@@ -21,6 +21,23 @@
         <activity
             android:name=".activity.SuccessResultActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".activity.im.IMAuthManualActivity"
+            android:exported="true" >
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="your_deeplink"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+
+
         <activity android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -29,6 +46,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.ipification.mobile.sdk.im.ui.IMVerificationActivity"
             android:exported="true"

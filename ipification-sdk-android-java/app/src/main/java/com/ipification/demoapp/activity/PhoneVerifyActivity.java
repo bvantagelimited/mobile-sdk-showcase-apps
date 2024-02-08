@@ -174,9 +174,9 @@ public class PhoneVerifyActivity extends AppCompatActivity {
     }
 
     private void callTokenExchange(String code) {
-        IPHelper.doPostToken(code, (response, errorMessage) -> {
-            handleTokenExchangeResponse(response, errorMessage);
-        });
+//        IPHelper.doPostToken(code, (response, errorMessage) -> {
+//            handleTokenExchangeResponse(response, errorMessage);
+//        });
     }
 
     private void handleTokenExchangeResponse(String response, String errorMessage) {
