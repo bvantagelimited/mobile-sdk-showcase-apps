@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
+
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.ipification.demoapp.BuildConfig;
 import com.ipification.demoapp.activity.FailResultActivity;
 import com.ipification.demoapp.activity.SuccessResultActivity;
@@ -17,6 +19,7 @@ import com.ipification.demoapp.databinding.ActivityImBinding;
 import com.ipification.demoapp.manager.IMHelper;
 import com.ipification.mobile.sdk.android.IPConfiguration;
 import com.ipification.mobile.sdk.android.IPEnvironment;
+import com.ipification.mobile.sdk.android.IPificationServices;
 import com.ipification.mobile.sdk.android.exception.IPificationError;
 import com.ipification.mobile.sdk.android.model.IMSession;
 import com.ipification.mobile.sdk.android.request.AuthRequest;
@@ -42,6 +45,8 @@ public class IMAuthManualActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         initIPification();
         initView();
+        initFirebase();
+
     }
 
 
@@ -123,6 +128,7 @@ public class IMAuthManualActivity extends AppCompatActivity {
     // Initiate IM authentication
     private void doIMAuth(String channel, IMPublicAPICallback callback) {
         AuthRequest.Builder authRequestBuilder = new AuthRequest.Builder();
+        authRequestBuilder.setState(IMHelper.currentState); // important when you send notification
         authRequestBuilder.setScope("openid ip:phone");
         authRequestBuilder.addQueryParam("channel", channel);
         IMPublicAPIServices.Factory.startAuthentication(IMAuthManualActivity.this, authRequestBuilder.build(), callback);
@@ -192,6 +198,27 @@ public class IMAuthManualActivity extends AppCompatActivity {
         return null;
     }
 
+    public void initFirebase() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
+
+                    // Get new FCM registration token
+                    String token = task.getResult();
+                    if (token != null) {
+                        Log.d(TAG, "device token: " + token);
+                        IMHelper.currentDeviceToken = token;
+                        registerDevice();
+                    }
+                });
+    }
+    private void registerDevice() {
+        IMHelper.currentState = IPificationServices.Factory.generateState();
+        IMHelper.registerDevice(IMHelper.currentDeviceToken, IMHelper.currentState);
+    }
     // Check and show IM buttons based on installed apps
     private void checkAndShowIMButtons() {
         String[] whatsappPackages = {IPConfiguration.getInstance().getWhatsappPackageName()};

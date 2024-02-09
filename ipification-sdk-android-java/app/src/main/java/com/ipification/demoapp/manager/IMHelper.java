@@ -24,7 +24,7 @@ public class IMHelper {
 
     private static final String TAG = "IMHelper";
     public static String currentState = null;
-    public static String currentToken = null;
+    public static String currentDeviceToken = null;
     private static MediaType JSON_MEDIA_TYPE = MediaType.parse("application/json; charset=utf-8");
     public static IMSession sessionInfo;
 

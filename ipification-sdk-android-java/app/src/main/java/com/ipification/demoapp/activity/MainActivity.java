@@ -6,19 +6,25 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ipification.demoapp.BuildConfig;
 import com.ipification.demoapp.activity.im.IMAuthManualActivity;
+import com.ipification.demoapp.callback.TokenCallback;
 import com.ipification.demoapp.databinding.ActivityMainBinding;
 import com.ipification.demoapp.manager.IMHelper;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.ipification.demoapp.manager.IPHelper;
+import com.ipification.demoapp.util.Util;
 import com.ipification.mobile.sdk.android.IPConfiguration;
 import com.ipification.mobile.sdk.android.IPEnvironment;
 import com.ipification.mobile.sdk.android.IPificationServices;
 import com.ipification.mobile.sdk.android.callback.IPificationCallback;
+import com.ipification.mobile.sdk.android.exception.IPificationError;
 import com.ipification.mobile.sdk.android.request.AuthRequest;
+import com.ipification.mobile.sdk.android.response.AuthResponse;
 import com.ipification.mobile.sdk.im.IMService;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
         initIPification();
         initActions();
+
+        //FCM
         initFirebase();
 
     }
@@ -56,36 +64,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void doIMFlow() {
-//        registerDevice();
+        //FCM
+        registerDevice();
 //
-//        doIMAuth(new IPificationCallback() {
-//            @Override
-//            public void onIMCancel() {
-//                // hide loading or do nothing
-//            }
-//
-//            @Override
-//            public void onSuccess(@NonNull AuthResponse authResponse) {
-//                if (authResponse.getCode() != null) {
-//                    callTokenExchange(authResponse.getCode());
-//                } else {
-//                    openErrorActivity(authResponse.getErrorMessage());
-//                }
-//            }
-//
-//            @Override
-//            public void onError(@NonNull IPificationError iPificationError) {
-//                openErrorActivity(iPificationError.getErrorMessage());
-//            }
-//        });
-        Intent intent = new Intent(this, IMAuthManualActivity.class);
-//        intent.putExtra("responseStr", responseStr);
-        startActivity(intent);
+        doIMAuth(new IPificationCallback() {
+            @Override
+            public void onIMCancel() {
+                // hide loading or do nothing
+            }
+
+            @Override
+            public void onSuccess(@NonNull AuthResponse authResponse) {
+                if (authResponse.getCode() != null) {
+                    callTokenExchange(authResponse.getCode());
+                } else {
+                    openErrorActivity(authResponse.getErrorMessage());
+                }
+            }
+
+            @Override
+            public void onError(@NonNull IPificationError iPificationError) {
+                openErrorActivity(iPificationError.getErrorMessage());
+            }
+        });
+
     }
 
     private void registerDevice() {
         IMHelper.currentState = IPificationServices.Factory.generateState();
-        IMHelper.registerDevice(IMHelper.currentToken, IMHelper.currentState);
+        IMHelper.registerDevice(IMHelper.currentDeviceToken, IMHelper.currentState);
     }
 
     private void openSuccessActivity(String responseStr) {
@@ -102,19 +109,25 @@ public class MainActivity extends AppCompatActivity {
 
     // Todo: should be done on your server side (S2S)
     private void callTokenExchange(String code) {
-//        IPHelper.doPostToken(code, (response, errorMessage) -> {
-//            if (!response.equals("")) {
-//                String phoneNumberVerified = Util.parseUserInfoJSON(response, "phone_number_verified");
-//                String phoneNumber = Util.parseUserInfoJSON(response, "phone_number");
-//                if (phoneNumberVerified.equals("true") || !phoneNumber.equals("")) {
-//                    openSuccessActivity(response);
-//                } else {
-//                    openErrorActivity(response);
-//                }
-//            } else {
-//                openErrorActivity(errorMessage);
-//            }
-//        });
+        IPHelper.doPostToken(code, new TokenCallback(){
+
+            @Override
+            public void onSuccess(String response) {
+                String phoneNumberVerified = Util.parseUserInfoJSON(response, "phone_number_verified");
+                String phoneNumber = Util.parseUserInfoJSON(response, "phone_number");
+                if (phoneNumberVerified.equals("true") || !phoneNumber.equals("")) {
+                    openSuccessActivity(response);
+                } else {
+                    openErrorActivity(response);
+                }
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                openErrorActivity(errorMessage);
+
+            }
+        });
     }
 
     private void doIMAuth(IPificationCallback callback) {
@@ -145,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                     String token = task.getResult();
                     if (token != null) {
                         Log.d(TAG, "device token: " + token);
-                        IMHelper.currentToken = token;
+                        IMHelper.currentDeviceToken = token;
                     }
                 });
     }
