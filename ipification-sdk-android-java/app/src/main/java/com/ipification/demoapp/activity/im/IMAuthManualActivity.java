@@ -45,6 +45,8 @@ public class IMAuthManualActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         initIPification();
         initView();
+
+        //FCM
         initFirebase();
 
     }
