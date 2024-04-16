@@ -18,6 +18,7 @@ import android.widget.EditText;
 
 import com.ipification.demoapp.BuildConfig;
 import com.ipification.demoapp.callback.CoverageCallback;
+import com.ipification.demoapp.callback.TokenCallback;
 import com.ipification.demoapp.databinding.ActivityPhoneVerifyBinding;
 import com.ipification.demoapp.manager.IPHelper;
 import com.ipification.demoapp.util.Util;
@@ -174,9 +175,17 @@ public class PhoneVerifyActivity extends AppCompatActivity {
     }
 
     private void callTokenExchange(String code) {
-//        IPHelper.doPostToken(code, (response, errorMessage) -> {
-//            handleTokenExchangeResponse(response, errorMessage);
-//        });
+        IPHelper.doPostToken(code, new TokenCallback() {
+            @Override
+            public void onSuccess(String response) {
+                    handleTokenExchangeResponse(response, "");
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                handleTokenExchangeResponse("", errorMessage);
+            }
+        });
     }
 
     private void handleTokenExchangeResponse(String response, String errorMessage) {
