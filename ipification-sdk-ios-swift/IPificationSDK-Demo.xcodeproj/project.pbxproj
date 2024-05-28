@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		0A16D1A5276B6FA0007F0EB8 /* FailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A16D1A4276B6FA0007F0EB8 /* FailViewController.swift */; };
+		0A7303D82A1F34D3004C3CA9 /* IPificationSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0A7303D72A1F34D3004C3CA9 /* IPificationSDK */; };
 		0A81B41B278D99BE00B46746 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A81B418278D99BE00B46746 /* GoogleService-Info.plist */; };
 		0A8B3FC4261B4D3400FA3DE0 /* SuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8B3FC3261B4D3400FA3DE0 /* SuccessViewController.swift */; };
 		0AB2A45C279432020094EDD5 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB2A45B279432020094EDD5 /* APIManager.swift */; };
@@ -23,12 +24,11 @@
 		0ADC4736279A4A62004B9C7B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADC4735279A4A62004B9C7B /* Constants.swift */; };
 		0ADC473C279A4FD0004B9C7B /* TokenInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADC473B279A4FD0004B9C7B /* TokenInfo.swift */; };
 		0ADC473E279A503D004B9C7B /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADC473D279A503D004B9C7B /* Util.swift */; };
-		0AF9B94E282E971C006696F2 /* IPificationSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0AF9B94D282E971C006696F2 /* IPificationSDK */; };
 		A591AA3726AAC2EFB1B72B95 /* Pods_IPificationSDK_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EE857D6521419F86EA13A94 /* Pods_IPificationSDK_Demo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		0A8762CA27A3971D00D65BAD /* Embed Frameworks */ = {
+		0A90C4AD2A1E8C0B008801DB /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
@@ -47,7 +47,6 @@
 		0A6ED279270BF5E00071E443 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		0A6ED27A270BF5E90071E443 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		0A81B418278D99BE00B46746 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		0A8588A4277993F5007651CE /* IPificationSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = IPificationSDK.xcframework; path = sdk/IPificationSDK.xcframework; sourceTree = "<group>"; };
 		0A8B3FC3261B4D3400FA3DE0 /* SuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessViewController.swift; sourceTree = "<group>"; };
 		0AB2A45B279432020094EDD5 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		0ABAB97C276AFD4600CF9AF2 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -74,7 +73,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A591AA3726AAC2EFB1B72B95 /* Pods_IPificationSDK_Demo.framework in Frameworks */,
-				0AF9B94E282E971C006696F2 /* IPificationSDK in Frameworks */,
+				0A7303D82A1F34D3004C3CA9 /* IPificationSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,7 +84,6 @@
 			isa = PBXGroup;
 			children = (
 				3EE857D6521419F86EA13A94 /* Pods_IPificationSDK_Demo.framework */,
-				0A8588A4277993F5007651CE /* IPificationSDK.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -172,7 +170,7 @@
 				0AD40BA6248753FA00B0D1A6 /* Frameworks */,
 				0AD40BA7248753FA00B0D1A6 /* Resources */,
 				A15EFD051A33FB1B625A4937 /* [CP] Embed Pods Frameworks */,
-				0A8762CA27A3971D00D65BAD /* Embed Frameworks */,
+				0A90C4AD2A1E8C0B008801DB /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -180,7 +178,7 @@
 			);
 			name = "IPificationSDK-Demo";
 			packageProductDependencies = (
-				0AF9B94D282E971C006696F2 /* IPificationSDK */,
+				0A7303D72A1F34D3004C3CA9 /* IPificationSDK */,
 			);
 			productName = "IPificationSDK-Demo";
 			productReference = 0AD40BA9248753FA00B0D1A6 /* IPificationSDK-Demo.app */;
@@ -211,7 +209,7 @@
 			);
 			mainGroup = 0AD40BA0248753FA00B0D1A6;
 			packageReferences = (
-				0AF9B94C282E971C006696F2 /* XCRemoteSwiftPackageReference "IPificationSwiftDistribution" */,
+				0A7303D62A1F34D3004C3CA9 /* XCRemoteSwiftPackageReference "IPificationSwiftDistribution" */,
 			);
 			productRefGroup = 0AD40BAA248753FA00B0D1A6 /* Products */;
 			projectDirPath = "";
@@ -442,9 +440,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "IPificationSDK-Demo/IPificationSDK-Demo.entitlements";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 20;
-				DEVELOPMENT_TEAM = 33X8PA8375;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = MZTCFJJ5R8;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/sdk",
@@ -455,8 +455,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ipification.demoapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ipification.showcases;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "IPification Showcases App";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -468,9 +470,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "IPificationSDK-Demo/IPificationSDK-Demo.entitlements";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 20;
-				DEVELOPMENT_TEAM = 33X8PA8375;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = MZTCFJJ5R8;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/sdk",
@@ -481,8 +485,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ipification.demoapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ipification.showcases;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "IPification Showcases App";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -512,20 +518,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		0AF9B94C282E971C006696F2 /* XCRemoteSwiftPackageReference "IPificationSwiftDistribution" */ = {
+		0A7303D62A1F34D3004C3CA9 /* XCRemoteSwiftPackageReference "IPificationSwiftDistribution" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/bvantagelimited/IPificationSwiftDistribution";
 			requirement = {
-				kind = exactVersion;
-				version = 2.0.8;
+				kind = upToNextMinorVersion;
+				minimumVersion = 2.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0AF9B94D282E971C006696F2 /* IPificationSDK */ = {
+		0A7303D72A1F34D3004C3CA9 /* IPificationSDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0AF9B94C282E971C006696F2 /* XCRemoteSwiftPackageReference "IPificationSwiftDistribution" */;
+			package = 0A7303D62A1F34D3004C3CA9 /* XCRemoteSwiftPackageReference "IPificationSwiftDistribution" */;
 			productName = IPificationSDK;
 		};
 /* End XCSwiftPackageProductDependency section */

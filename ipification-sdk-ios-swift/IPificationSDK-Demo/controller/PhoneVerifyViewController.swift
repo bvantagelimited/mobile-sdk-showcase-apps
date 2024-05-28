@@ -37,7 +37,6 @@ class PhoneVerifyViewController: BaseViewController {
             // Fallback on earlier versions
         }
         verifyBtn.layer.cornerRadius = 5
-        checkIP()
 
     }
 
@@ -54,6 +53,7 @@ class PhoneVerifyViewController: BaseViewController {
         let coverageService = CoverageService()
         coverageService.callbackFailed = { (error) -> Void in
             print("CoverageService callbackFailed ", error.localizedDescription)
+            self.showErrorAlert(message: "CoverageService callbackFailed  [\(error.localizedDescription)]")
         }
 
         coverageService.callbackSuccess = { (response) -> Void in
@@ -62,9 +62,9 @@ class PhoneVerifyViewController: BaseViewController {
                 // call Authorization API
                 self.doIPAuthenticationAPI()
             } else{
-                // TODO: TELCO is not supported
+                // TODO: TELCO is not supported, switch to OTP
                 // demo
-                self.doIPAuthenticationAPI()
+                self.showErrorAlert(message: "your active Data Network is not supported")
             }
         }
         coverageService.checkCoverage()
@@ -78,6 +78,8 @@ class PhoneVerifyViewController: BaseViewController {
         let phone = phoneInputTextField.text!
         if(phone == ""){
             print("phone number error : \(phone)! \n")
+            let message = "The phone number entered \(phone) is invalid. Please check the number and try again."
+            self.showErrorAlert(message: message)
             return
         }
         
@@ -95,6 +97,8 @@ class PhoneVerifyViewController: BaseViewController {
                 self.callExchangeToken(code: response.getCode()!)
             }else{
                 print("auth failed", response.getPlainResponse())
+                let message = "auth failed [\(response.getPlainResponse())]"
+                self.showErrorAlert(message: message)
             }
             
         }
@@ -115,23 +119,6 @@ class PhoneVerifyViewController: BaseViewController {
 
     }
     
-    func checkIP(){
-        
-        let authorizationService =  AuthorizationService()
-        
-        authorizationService.callbackSuccess = { (response) -> Void in
-            print("your IP: ", response.getPlainResponse())
-            
-        }
-        authorizationService.callbackFailed = { (error) -> Void in
-            print("callback IP ", error.localizedDescription)
-        }
-        
-        
-        let authorizationRequest =  AuthorizationRequest.Builder()
-        let authRequest = authorizationRequest.build()
-        authorizationService.checkIPAddress()
-    }
     
     
     // TODO: do this at your backend side
@@ -228,4 +215,17 @@ extension PhoneVerifyViewController{
         }
     }
     
+    
+    
+}
+
+extension UIViewController {
+
+
+    func showErrorAlert(message: String) {
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
 }
