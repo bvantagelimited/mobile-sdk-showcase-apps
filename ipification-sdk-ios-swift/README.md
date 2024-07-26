@@ -29,11 +29,11 @@ To get a local copy up and running follow these simple example steps:
 
 ### 1. Update IP's Configuration in HomeViewController.swift
 ```
-IPConfiguration.sharedInstance.ENV = IPEnvironment.PRODUCTION // 1. SANDBOX or PRODUCTION
+IPConfiguration.sharedInstance.ENV = IPEnvironment.SANDBOX // SANDBOX or PRODUCTION
 ```
 
 ### 2. Update Constants.swift
-- Update endpoint of IP's HOST // production or sandbox
+- Update the endpoint (for demo only - used to call the access token with the {code} parameter)
 ```
 static let HOST = "https://api.ipification.com" // sandbox: https://stage.ipification.com or production: https://api.ipification.com
 
@@ -42,9 +42,11 @@ static let HOST = "https://api.ipification.com" // sandbox: https://stage.ipific
 ```
 static let CLIENT_ID = "your_client_id"
 static let REDIRECT_URI = "your_redirect_uri"
-// warning: put here only for demo
+// Warning: Put here for demo purposes only
 static let CLIENT_SECRET = "your_client_secret" // 
 ```
+### 3. Clean and build the project
+### 4. Run the project
 
 ----------------------
 
@@ -52,7 +54,7 @@ static let CLIENT_SECRET = "your_client_secret" //
 
 ### 1. Update IP's Configuration in HomeViewController.swift
 ```
-IPConfiguration.sharedInstance.ENV = IPEnvironment.PRODUCTION // 1. SANDBOX or PRODUCTIOn
+IPConfiguration.sharedInstance.ENV = IPEnvironment.PRODUCTION // SANDBOX or PRODUCTIOn
 ```
 
 ### 2. Update Constants.swift
@@ -65,12 +67,14 @@ static let HOST = "https://api.ipification.com" // sandbox: https://stage.ipific
 ```
 static let CLIENT_ID = "your_client_id"
 static let REDIRECT_URI = "your_redirect_uri"
-// warning: put here only for demo
+// Warning: Put here for demo purposes only
 static let CLIENT_SECRET = "your_client_secret" // 
 ```
 
 - Update `REGISTER_DEVICE_URL` (for Push Notification)
 - Set up your FCM and override `GoogleService-Info.plist`
+### 3. Clean and build the project
+### 4. Run the project
 
   
 
