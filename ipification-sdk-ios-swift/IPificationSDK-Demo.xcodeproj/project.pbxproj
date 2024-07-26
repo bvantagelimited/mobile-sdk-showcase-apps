@@ -522,8 +522,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/bvantagelimited/IPificationSwiftDistribution";
 			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 2.0.0;
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

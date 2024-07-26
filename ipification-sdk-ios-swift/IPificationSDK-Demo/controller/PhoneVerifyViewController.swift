@@ -52,7 +52,7 @@ class PhoneVerifyViewController: BaseViewController {
 
         let coverageService = CoverageService()
         coverageService.callbackFailed = { (error) -> Void in
-            print("CoverageService callbackFailed ", error.localizedDescription)
+            print("CoverageService callbackFailed ", error.errorCode, error.localizedDescription)
             self.showErrorAlert(message: "CoverageService callbackFailed  [\(error.localizedDescription)]")
         }
 
@@ -64,10 +64,18 @@ class PhoneVerifyViewController: BaseViewController {
             } else{
                 // TODO: TELCO is not supported, switch to OTP
                 // demo
-                self.showErrorAlert(message: "your active Data Network is not supported")
+                self.showErrorAlert(message: "Your active data network is not supported.")
             }
         }
-        coverageService.checkCoverage()
+        // sync with 2.1.0
+        let phone = phoneInputTextField.text!
+        if(phone == ""){
+            print("phone number error : \(phone)! \n")
+            let message = "The phone number entered \(phone) is invalid. Please check the number and try again."
+            self.showErrorAlert(message: message)
+            return
+        }
+        coverageService.startCheckCoverage(phoneNumber: phone)
     }
     
     // call IPification Authorization API Only (Not enable IM Auth)
