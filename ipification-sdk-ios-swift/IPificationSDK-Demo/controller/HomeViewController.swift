@@ -30,10 +30,10 @@ class HomeViewController : BaseViewController{
             Messaging.messaging().token { token, error in
               if let error = error {
                 print("Error fetching FCM registration token: \(error)")
-                IPConfiguration.sharedInstance.log += "Error fetching FCM registration token: \(error) \n"
+                IPLogs.sharedInstance.log += "Error fetching FCM registration token: \(error) \n"
               } else if let token = token {
                   print("FCM registration token: \(token)")
-                  IPConfiguration.sharedInstance.log += "FCM registration token: \(token) \n"
+                  IPLogs.sharedInstance.log += "FCM registration token: \(token) \n"
                   APIManager.sharedInstance.deviceToken = token
                   
               }
@@ -54,6 +54,7 @@ class HomeViewController : BaseViewController{
         IPConfiguration.sharedInstance.ENV = IPEnvironment.SANDBOX
         IPConfiguration.sharedInstance.CLIENT_ID = Constants.CLIENT_ID
         IPConfiguration.sharedInstance.REDIRECT_URI = Constants.REDIRECT_URI
+//        IPConfiguration.sharedInstance.debug = true
 //        updateThemeAndLocale()
     }
     
@@ -77,13 +78,15 @@ class HomeViewController : BaseViewController{
         }
         
 
-        IPConfiguration.sharedInstance.debug = true
+//        IPConfiguration.sharedInstance.debug = true
+        IPConfiguration.sharedInstance.IM_AUTO_MODE = true
+        IPConfiguration.sharedInstance.IM_PRIORITY_APP_LIST = ["wa"]
         showLoadingView()
         
 
         let authorizationService =  AuthorizationService()
         authorizationService.callbackSuccess = { (response) -> Void in
-            print("[Auth] Result - callbackSuccess", response.getPlainResponse() )
+            print("[Auth] Result - callbackSuccess", response.getState() ?? "" )
             
             DispatchQueue.main.async {
                 self.hideLoadingView()
@@ -109,7 +112,7 @@ class HomeViewController : BaseViewController{
         let authorizationRequest =  AuthorizationRequest.Builder()
         authorizationRequest.setState(value: APIManager.sharedInstance.state)
         authorizationRequest.setScope(value: "openid ip:phone")
-        authorizationRequest.addQueryParam(key: "channel", value: "wa viber telegram")
+//        authorizationRequest.addQueryParam(key: "channel", value: "telegram viber")
         
         let authRequest = authorizationRequest.build()
         authorizationService.startIMAuthorization(viewController: self, authRequest)

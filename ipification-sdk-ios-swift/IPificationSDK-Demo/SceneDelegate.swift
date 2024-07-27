@@ -52,15 +52,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>){
         let urlContext = URLContexts.first // Because I don't know how to properly deal with Sets
-        if let url = urlContext?.url{
-        }
+//        if let url = urlContext?.url{
+//        }
     }
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
 //        print("scene", userActivity.webpageURL)
 //        let url = userActivity.webpageURL
 //        var options: [UIApplication.OpenURLOptionsKey : Any] = [:]
 //        SCSDKVerifyClient.application(UIApplication.shared, open: url!, options: options)
-//        print(IPConfiguration.sharedInstance.log)
+//        print(IPLogs.sharedInstance.log)
     }
 }
 

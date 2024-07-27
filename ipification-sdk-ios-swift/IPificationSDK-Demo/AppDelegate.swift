@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Print full message.
         print(userInfo)
-        IPConfiguration.sharedInstance.log += "didReceiveRemoteNotification userInfo \(userInfo)"
+        IPLogs.sharedInstance.log += "didReceiveRemoteNotification userInfo \(userInfo)"
         completionHandler(UIBackgroundFetchResult.newData)
       }
 
@@ -76,7 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       func application(_ application: UIApplication,
                        didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Unable to register for remote notifications: \(error.localizedDescription)")
-        IPConfiguration.sharedInstance.log += "Unable to register for remote notifications: \(error.localizedDescription)"
+          IPLogs.sharedInstance.log += "Unable to register for remote notifications: \(error.localizedDescription)"
       }
 
     

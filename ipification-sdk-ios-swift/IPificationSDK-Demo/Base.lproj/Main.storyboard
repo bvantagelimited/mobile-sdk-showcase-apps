@@ -239,25 +239,25 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AUTHORIZED" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cs2-nh-PJQ">
-                                <rect key="frame" x="114.5" y="80" width="185" height="36"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <rect key="frame" x="151.5" y="200" width="111.5" height="21.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <color key="textColor" red="0.0" green="0.61996182528409083" blue="0.076788502454701646" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="success" translatesAutoresizingMaskIntoConstraints="NO" id="uEH-oU-0hX">
-                                <rect key="frame" x="130" y="146" width="154" height="91"/>
+                                <rect key="frame" x="130" y="251.5" width="154" height="91"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="91" id="dWA-d6-3zq"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jlb-Kg-1mz">
-                                <rect key="frame" x="10" y="268" width="394" height="0.0"/>
+                                <rect key="frame" x="10" y="373.5" width="394" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <color key="textColor" red="0.0" green="0.61996182529999999" blue="0.076788502450000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WBs-XF-doh">
-                                <rect key="frame" x="10" y="318" width="394" height="0.0"/>
+                                <rect key="frame" x="10" y="423.5" width="394" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" systemColor="systemGrayColor"/>
                                 <nil key="highlightedColor"/>
@@ -275,7 +275,7 @@
                             <constraint firstItem="uEH-oU-0hX" firstAttribute="centerX" secondItem="IR3-mK-LUs" secondAttribute="centerX" id="REU-OQ-iam"/>
                             <constraint firstItem="bli-CE-H3e" firstAttribute="trailing" secondItem="WBs-XF-doh" secondAttribute="trailing" constant="10" id="ZBL-mK-1mB"/>
                             <constraint firstItem="WBs-XF-doh" firstAttribute="leading" secondItem="bli-CE-H3e" secondAttribute="leading" constant="10" id="hFP-iL-vwL"/>
-                            <constraint firstItem="cs2-nh-PJQ" firstAttribute="top" secondItem="IR3-mK-LUs" secondAttribute="top" constant="80" id="hyQ-eC-Lgp"/>
+                            <constraint firstItem="cs2-nh-PJQ" firstAttribute="top" secondItem="IR3-mK-LUs" secondAttribute="top" constant="200" id="hyQ-eC-Lgp"/>
                             <constraint firstAttribute="bottom" secondItem="3uy-gN-J8v" secondAttribute="bottom" constant="30" id="oeL-d1-GkJ"/>
                             <constraint firstItem="uEH-oU-0hX" firstAttribute="top" secondItem="cs2-nh-PJQ" secondAttribute="bottom" constant="30" id="x7j-xk-izX"/>
                             <constraint firstItem="bli-CE-H3e" firstAttribute="trailing" secondItem="jlb-Kg-1mz" secondAttribute="trailing" constant="10" id="zDH-JD-cKK"/>
@@ -328,25 +328,25 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AUTHENTICATION FAILED" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z69-95-53s">
-                                <rect key="frame" x="31.5" y="80" width="351" height="36"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <rect key="frame" x="111.5" y="200" width="191.5" height="19.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="0.96611279250000004" green="0.1273535532" blue="0.00032506379580000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fail" translatesAutoresizingMaskIntoConstraints="NO" id="dAD-Oz-PmJ">
-                                <rect key="frame" x="130" y="136" width="154" height="120"/>
+                                <rect key="frame" x="130" y="239.5" width="154" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="120" id="KCu-9t-iBw"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R1Y-MP-L05">
-                                <rect key="frame" x="10" y="306" width="394" height="0.0"/>
+                                <rect key="frame" x="10" y="409.5" width="394" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <color key="textColor" red="0.96611279250000004" green="0.22459833470000001" blue="0.19572362909999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LRM-IE-7QM">
-                                <rect key="frame" x="10" y="348" width="394" height="0.0"/>
+                                <rect key="frame" x="10" y="451.5" width="394" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" systemColor="systemGrayColor"/>
                                 <nil key="highlightedColor"/>
@@ -364,7 +364,7 @@
                             <constraint firstItem="dAD-Oz-PmJ" firstAttribute="leading" secondItem="gII-qU-jhp" secondAttribute="leading" constant="130" id="KWN-eg-2YG"/>
                             <constraint firstItem="gII-qU-jhp" firstAttribute="trailing" secondItem="R1Y-MP-L05" secondAttribute="trailing" constant="10" id="MWt-4Q-hu9"/>
                             <constraint firstItem="dAD-Oz-PmJ" firstAttribute="centerX" secondItem="z69-95-53s" secondAttribute="centerX" id="OkW-hO-QUX"/>
-                            <constraint firstItem="z69-95-53s" firstAttribute="top" secondItem="J8R-0f-YvM" secondAttribute="top" constant="80" id="d5e-wN-gQ6"/>
+                            <constraint firstItem="z69-95-53s" firstAttribute="top" secondItem="J8R-0f-YvM" secondAttribute="top" constant="200" id="d5e-wN-gQ6"/>
                             <constraint firstItem="LRM-IE-7QM" firstAttribute="top" secondItem="R1Y-MP-L05" secondAttribute="bottom" constant="42" id="iDz-YX-G7v"/>
                             <constraint firstItem="dAD-Oz-PmJ" firstAttribute="centerX" secondItem="J8R-0f-YvM" secondAttribute="centerX" id="rAl-oH-ajK"/>
                             <constraint firstItem="R1Y-MP-L05" firstAttribute="leading" secondItem="gII-qU-jhp" secondAttribute="leading" constant="10" id="vE3-nS-79g"/>
@@ -378,7 +378,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZuO-M3-oMt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="333" y="858"/>
+            <point key="canvasLocation" x="331.8840579710145" y="857.8125"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

@@ -1,13 +1,13 @@
 {
-  "originHash" : "caade300568d081f33bd3a860acf14449063f4188d2844160a43ea8411b38997",
+  "originHash" : "d78722b3b856fc07c8285b2ab811bd9c8ea2940a0a09af10c2a3b83249764c53",
   "pins" : [
     {
       "identity" : "ipificationswiftdistribution",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/bvantagelimited/IPificationSwiftDistribution",
       "state" : {
-        "revision" : "c32bf34f49680f1779c658918a5260d99d65d516",
-        "version" : "2.0.11"
+        "revision" : "0fd222e1ce961236debf4bc42d61307341dd2a71",
+        "version" : "2.1.1"
       }
     }
   ],

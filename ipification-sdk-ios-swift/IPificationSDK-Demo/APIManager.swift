@@ -142,7 +142,7 @@ import IPificationSDK
             return
         }
         print(String(format: "register device: %@  with state:   %@", deviceToken, state))
-        IPConfiguration.sharedInstance.log += String(format: "\n\n[registerDevice] device_token: %@ with state: %@ \n", deviceToken, state)
+        IPLogs.sharedInstance.log += String(format: "\n\n[registerDevice] device_token: %@ with state: %@ \n", deviceToken, state)
         let url = URL(string: String(format: Constants.REGISTER_DEVICE_URL))!
         
         
@@ -160,26 +160,26 @@ import IPificationSDK
         let loadDataTask = session.dataTask(with: request) { (data, response, error) in
             if let err = error {
                 print("[registerDevice] error", err)
-                IPConfiguration.sharedInstance.log += "[registerDevice] error \(err.localizedDescription) \n"
+                IPLogs.sharedInstance.log += "[registerDevice] error \(err.localizedDescription) \n"
 
                 return
             }
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode != 200){
                     print("[registerDevice] error", httpResponse.statusCode)
-                    IPConfiguration.sharedInstance.log += "[registerDevice] error \(httpResponse.statusCode) \n"
+                    IPLogs.sharedInstance.log += "[registerDevice] error \(httpResponse.statusCode) \n"
 
                 }
                 do{
                     let json = try JSONSerialization.jsonObject(with: data!) as! Dictionary<String, AnyObject>
-                    IPConfiguration.sharedInstance.log += "[registerDevice] success \(json) \n"
+                    IPLogs.sharedInstance.log += "[registerDevice] success \(json) \n"
                 } catch {
                     print("error")
-                    IPConfiguration.sharedInstance.log += "[registerDevice] error parse json \n"
+                    IPLogs.sharedInstance.log += "[registerDevice] error parse json \n"
                 }
             } else{
                 print("registerDevice error")
-                IPConfiguration.sharedInstance.log += "[registerDevice] error general \n"
+                IPLogs.sharedInstance.log += "[registerDevice] error general \n"
             }
             
         }

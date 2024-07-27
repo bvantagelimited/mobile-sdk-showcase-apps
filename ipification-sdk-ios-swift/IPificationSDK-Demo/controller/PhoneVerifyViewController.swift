@@ -83,6 +83,8 @@ class PhoneVerifyViewController: BaseViewController {
         DispatchQueue.main.async {
             self.showLoadingView()
         }
+
+//        print(IPLogs.sharedInstance.log)
         let phone = phoneInputTextField.text!
         if(phone == ""){
             print("phone number error : \(phone)! \n")
@@ -108,6 +110,7 @@ class PhoneVerifyViewController: BaseViewController {
                 let message = "auth failed [\(response.getPlainResponse())]"
                 self.showErrorAlert(message: message)
             }
+//            print(IPLogs.sharedInstance.log)
             
         }
         authorizationService.callbackFailed = { (error) -> Void in
@@ -115,6 +118,8 @@ class PhoneVerifyViewController: BaseViewController {
             DispatchQueue.main.async {
                 self.hideLoadingView()
             }
+//            print(IPLogs.sharedInstance.log)
+            self.showErrorAlert(message: error.localizedDescription)
         }
         
         
