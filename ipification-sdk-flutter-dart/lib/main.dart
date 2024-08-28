@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:ipification_plugin/error_codes.dart';
 import 'package:ipification_plugin_demo_app/constant.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ipification_plugin_demo_app/failed.dart';
@@ -17,20 +17,20 @@ import 'package:ipification_plugin/ipification.dart';
 void main() async {
   // setup FCM
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  // await Firebase.initializeApp();
+  // FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   // ask permission
-  NotificationSettings settings = await messaging.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
-    sound: true,
-  );
-  print('User granted permission: ${settings.authorizationStatus}');
+  // NotificationSettings settings = await messaging.requestPermission(
+  //   alert: true,
+  //   announcement: false,
+  //   badge: true,
+  //   carPlay: false,
+  //   criticalAlert: false,
+  //   provisional: false,
+  //   sound: true,
+  // );
+  // print('User granted permission: ${settings.authorizationStatus}');
 
   runApp(MaterialApp(
     home: MyApp(),
@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
   String? authCode = '';
   String alertMessage = '';
   String fcmToken = "";
-  late final FirebaseMessaging _messaging;
+  // late final FirebaseMessaging _messaging;
 
   @override
   Widget build(BuildContext context) {
@@ -154,13 +154,13 @@ class _MyAppState extends State<MyApp> {
     IPificationPlugin.setClientId(Constant.CLIENT_ID);
     IPificationPlugin.setRedirectUri(Constant.REDIRECT_URI);
 
-    final token = await FirebaseMessaging.instance.getToken();
-    if (token != null) {
-      fcmToken = token;
-    }
-    FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
-      fcmToken = newToken;
-    });
+    // final token = await FirebaseMessaging.instance.getToken();
+    // if (token != null) {
+    //   fcmToken = token;
+    // }
+    // FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
+    //   fcmToken = newToken;
+    // });
 
     registerFCM();
 
@@ -273,12 +273,12 @@ class _MyAppState extends State<MyApp> {
   }
 
   void registerFCM() async {
-    FirebaseMessaging.onMessageOpenedApp
-        .listen((RemoteMessage message) async {});
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print(message.data);
-    });
-    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+    // FirebaseMessaging.onMessageOpenedApp
+    //     .listen((RemoteMessage message) async {});
+    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    //   print(message.data);
+    // });
+    // FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   }
 
   void updateThemeAndLocale() {
@@ -305,9 +305,9 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print("firebaseMessagingBackgroundHandler ${message.data}");
+// Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   print("firebaseMessagingBackgroundHandler ${message.data}");
 
-  IPificationPlugin.showNotification(
-      "Demo App", message.data["body"] ?? "", "mipmap", "ic_launcher");
-}
+//   IPificationPlugin.showNotification(
+//       "Demo App", message.data["body"] ?? "", "mipmap", "ic_launcher");
+// }
