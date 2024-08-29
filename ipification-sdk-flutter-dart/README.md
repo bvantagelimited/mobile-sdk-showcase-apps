@@ -11,10 +11,10 @@ This project is a starting point for a IPification Demo application on Flutter.
 - [Document](https://developer.ipification.com/#/flutter-plugin/latest/)
 
 2. Update project:
-+ `pubspec.yaml` : Update IPification Plugin location at line 22
-+ `lib/constant.dart`: Update Client information , Stage / Production Host
+- `lib/constant.dart`: Update your crediential information , choose the right environment (Stage / Production)
 
-Update configuration file for FCM:
+for IM testing only:
+Update the configuration file for FCM service:
 + Android: `google-services.json`
 + iOS: `GoogleService-Info.plist`
 
