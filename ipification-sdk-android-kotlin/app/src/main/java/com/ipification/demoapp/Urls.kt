@@ -5,7 +5,7 @@ import com.ipification.mobile.sdk.android.IPEnvironment
 class Urls {
     companion object Factory {
         // Base URLs
-        private const val STAGE_BASE_URL = "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/"
+        private const val STAGE_BASE_URL = "https://api.stage.ipification.com/auth/realms/ipification/protocol/openid-connect/"
         private const val LIVE_BASE_URL = "https://api.ipification.com/auth/realms/ipification/protocol/openid-connect/"
 
         // Specific endpoints
