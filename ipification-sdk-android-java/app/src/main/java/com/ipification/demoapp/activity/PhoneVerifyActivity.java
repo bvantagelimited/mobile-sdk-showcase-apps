@@ -110,7 +110,7 @@ public class PhoneVerifyActivity extends AppCompatActivity {
                 startAuth();
             } else {
                 Log.e(TAG, "callCheckCoverage failed");
-                openErrorActivity("callCheckCoverage failed");
+                openErrorActivity("callCheckCoverage failed. error:  " + errorMessage);
             }
         });
     }
