@@ -1,21 +1,26 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.6.0'
-    ext.anko_version = '0.10.8'
+    // Updated Kotlin version (choose one that works for your project)
+    ext.kotlin_version = '1.8.21'
+
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.google.gms:google-services:4.3.10'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.8.1'
+        // Retain your R8 version if needed
+        classpath 'com.android.tools:r8:8.0.40'
+        // Update Google Services if there's a newer version (optional)
+        classpath 'com.google.gms:google-services:4.3.15'
+        // Update the Android Gradle Plugin to a version compatible with Gradle 8.5
+        classpath 'com.android.tools.build:gradle:8.0.2'
+        // Use the updated Kotlin version
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.2'
 
-        classpath 'com.android.tools.build:gradle:7.4.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.30"
     }
 }
-
 
 allprojects {
     repositories {
