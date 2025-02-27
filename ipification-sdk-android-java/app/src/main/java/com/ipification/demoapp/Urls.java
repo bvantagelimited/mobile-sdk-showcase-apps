@@ -12,11 +12,11 @@ public  class Urls {
 
     // warning: only call these apis on DEMO
     public static String getExchangeTokenUrl(){
-        return IPConfiguration.getInstance().getENV() == IPEnvironment.PRODUCTION ? "https://api.ipification.com/auth/realms/ipification/protocol/openid-connect/token" : "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/token";
+        return IPConfiguration.getInstance().getENV() == IPEnvironment.PRODUCTION ? "https://api.ipification.com/auth/realms/ipification/protocol/openid-connect/token" : "https://api.stage.ipification.com/auth/realms/ipification/protocol/openid-connect/token";
     }
     // warning: only call these apis on DEMO
     public static String getUserInfoUrl(){
-        return IPConfiguration.getInstance().getENV() == IPEnvironment.PRODUCTION ? "https://api.ipification.com/auth/realms/ipification/protocol/openid-connect/userinfo" : "https://stage.ipification.com/auth/realms/ipification/protocol/openid-connect/userinfo";
+        return IPConfiguration.getInstance().getENV() == IPEnvironment.PRODUCTION ? "https://api.ipification.com/auth/realms/ipification/protocol/openid-connect/userinfo" : "https://api.stage.ipification.com/auth/realms/ipification/protocol/openid-connect/userinfo";
     }
 
     public static String AUTOMODE_SIGN_IN_URL = "https://cases.ipification.com/merchant-service/s2s/signin";
