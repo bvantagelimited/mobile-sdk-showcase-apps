@@ -10,7 +10,7 @@ import Foundation
 struct Constants {
     
     
-    static let HOST = "https://stage.ipification.com"
+    static let HOST = "https://api.stage.ipification.com"
     // should be call (S2S) from your backend service
     static let EXCHANGE_TOKEN_URL = "\(HOST)/auth/realms/ipification/protocol/openid-connect/token"
     static let USER_INFO_URL = "\(HOST)/auth/realms/ipification/protocol/openid-connect/userinfo"
