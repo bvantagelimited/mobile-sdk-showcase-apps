@@ -12,9 +12,9 @@ class Constant {
       "$_host/auth/realms/ipification/protocol/openid-connect/userinfo";
 
   // Credentials and redirect URI.
-  static const String clientId = "201ccc790ebc4498b6f30c1d06826a16";
-  static const String clientSecret = "4rMBROeFNe7TmeM6E35yi3wDTuyjWtUZ";
-  static const String redirectUri = "https://bakong.nbc.gov.kh";
+  static const String clientId = "";
+  static const String clientSecret = "";
+  static const String redirectUri = "";
 
   // Device registration endpoint.
   // TODO: update with your value.
