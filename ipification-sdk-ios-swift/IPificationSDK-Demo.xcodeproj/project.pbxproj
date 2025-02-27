@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A006FE92C54A7690077E457 /* IPificationSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0A006FE82C54A7690077E457 /* IPificationSDK */; };
 		0A16D1A5276B6FA0007F0EB8 /* FailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A16D1A4276B6FA0007F0EB8 /* FailViewController.swift */; };
 		0A81B41B278D99BE00B46746 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A81B418278D99BE00B46746 /* GoogleService-Info.plist */; };
+		0A8ACB8F2CC7CD4800D73488 /* IPificationSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0A8ACB8E2CC7CD4800D73488 /* IPificationSDK */; };
 		0A8B3FC4261B4D3400FA3DE0 /* SuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8B3FC3261B4D3400FA3DE0 /* SuccessViewController.swift */; };
 		0AB2A45C279432020094EDD5 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB2A45B279432020094EDD5 /* APIManager.swift */; };
 		0ABAB97D276AFD4600CF9AF2 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABAB97C276AFD4600CF9AF2 /* HomeViewController.swift */; };
@@ -73,7 +73,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A591AA3726AAC2EFB1B72B95 /* Pods_IPificationSDK_Demo.framework in Frameworks */,
-				0A006FE92C54A7690077E457 /* IPificationSDK in Frameworks */,
+				0A8ACB8F2CC7CD4800D73488 /* IPificationSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,7 +178,7 @@
 			);
 			name = "IPificationSDK-Demo";
 			packageProductDependencies = (
-				0A006FE82C54A7690077E457 /* IPificationSDK */,
+				0A8ACB8E2CC7CD4800D73488 /* IPificationSDK */,
 			);
 			productName = "IPificationSDK-Demo";
 			productReference = 0AD40BA9248753FA00B0D1A6 /* IPificationSDK-Demo.app */;
@@ -209,7 +209,7 @@
 			);
 			mainGroup = 0AD40BA0248753FA00B0D1A6;
 			packageReferences = (
-				0A006FE72C54A7690077E457 /* XCRemoteSwiftPackageReference "IPificationSwiftDistribution" */,
+				0A8ACB8D2CC7CD4800D73488 /* XCRemoteSwiftPackageReference "IPificationSwiftDistribution" */,
 			);
 			productRefGroup = 0AD40BAA248753FA00B0D1A6 /* Products */;
 			projectDirPath = "";
@@ -518,20 +518,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		0A006FE72C54A7690077E457 /* XCRemoteSwiftPackageReference "IPificationSwiftDistribution" */ = {
+		0A8ACB8D2CC7CD4800D73488 /* XCRemoteSwiftPackageReference "IPificationSwiftDistribution" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/bvantagelimited/IPificationSwiftDistribution.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.1.1;
+				minimumVersion = 2.1.4;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0A006FE82C54A7690077E457 /* IPificationSDK */ = {
+		0A8ACB8E2CC7CD4800D73488 /* IPificationSDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0A006FE72C54A7690077E457 /* XCRemoteSwiftPackageReference "IPificationSwiftDistribution" */;
+			package = 0A8ACB8D2CC7CD4800D73488 /* XCRemoteSwiftPackageReference "IPificationSwiftDistribution" */;
 			productName = IPificationSDK;
 		};
 /* End XCSwiftPackageProductDependency section */
