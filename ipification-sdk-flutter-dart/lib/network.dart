@@ -3,40 +3,50 @@ import 'package:http/http.dart' as http;
 import 'package:ipification_plugin/ipification.dart';
 import 'constant.dart';
 
+typedef SuccessCallback = void Function(String);
+typedef ErrorCallback = void Function(String);
+
 class IPNetwork {
   static Future<void> doTokenExchange(
-      var authCode, Function(String) success, Function(String) fail) async {
-    var clientID = await IPificationPlugin.getClientId();
-    var redirectURI = await IPificationPlugin.getRedirectUri();
-    print(authCode);
-    print("client_id:$clientID");
-    print("redirect_uri:$redirectURI");
+    String authCode,
+    SuccessCallback success,
+    ErrorCallback fail,
+  ) async {
+    final clientId = await IPificationPlugin.getClientId();
+    final redirectURI = await IPificationPlugin.getRedirectUri();
 
-    var details = {
-      'client_id': clientID,
+    print('Auth Code: $authCode');
+    print('client_id: $clientId');
+    print('redirect_uri: $redirectURI');
+
+    final details = {
+      'client_id': clientId,
       'grant_type': 'authorization_code',
-      'client_secret': Constant.CLIENT_SECRET,
+      'client_secret': Constant.clientSecret,
       'redirect_uri': redirectURI,
-      'code': authCode
+      'code': authCode,
     };
-    print(details);
-    var client = http.Client();
-    try {
-      print(Constant.TOKEN_URL);
+    print('Token exchange details: $details');
 
-      var responseJson =
-          await client.post(Uri.parse(Constant.TOKEN_URL), body: details);
-      print(responseJson.body);
-      if (responseJson.statusCode == 200) {
-        Map<String, dynamic> parse = jsonDecode(responseJson.body);
-        Future.delayed(const Duration(milliseconds: 500), () async {
-          await getUserInfo(parse["access_token"], success, fail);
-        });
+    final client = http.Client();
+    try {
+      final response = await client.post(
+        Uri.parse(Constant.tokenUrl),
+        body: details,
+      );
+      print('Token exchange response: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        final String accessToken = data["access_token"];
+        // Optionally wait before requesting user info.
+        await Future.delayed(const Duration(milliseconds: 500));
+        await getUserInfo(accessToken, success, fail);
       } else {
-        fail(responseJson.body);
+        fail(response.body);
       }
     } catch (e) {
-      print(e);
+      print('Error in doTokenExchange: $e');
       fail(e.toString());
     } finally {
       client.close();
@@ -44,53 +54,67 @@ class IPNetwork {
   }
 
   static Future<void> getUserInfo(
-      var accessToken, Function(String) success, Function(String) fail) async {
-    print("getUserInfo");
-    var details = {'access_token': accessToken};
-    var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    String accessToken,
+    SuccessCallback success,
+    ErrorCallback fail,
+  ) async {
+    print('Getting user info...');
+    final Map<String, String> details = {'access_token': accessToken};
+    final Map<String, String> headers = {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    };
 
-    var client = http.Client();
+    final client = http.Client();
     try {
-      var responseJson = await client.post(Uri.parse(Constant.USER_INFO_URL),
-          headers: headers, body: details);
-      print(responseJson.body);
-      if (responseJson.statusCode == 200) {
-        success(responseJson.body);
+      final response = await client.post(
+        Uri.parse(Constant.userInfoUrl),
+        headers: headers,
+        body: details,
+      );
+      print('User info response: ${response.body}');
+      if (response.statusCode == 200) {
+        success(response.body);
       } else {
-        fail(responseJson.body);
+        fail(response.body);
       }
     } catch (e) {
-      print(e);
+      print('Error in getUserInfo: $e');
       fail(e.toString());
     } finally {
       client.close();
     }
   }
 
-  static Future<void> registerDevice(var deviceToken, var state, var deviceType,
-      Function(String) success, Function(String) fail) async {
-    print("call registerDevice" + deviceToken + " " + state + deviceType);
-    var details = {
-      "device_token": deviceToken,
-      "device_id": state,
-      "device_type": deviceType
+  static Future<void> registerDevice(
+    String deviceToken,
+    String state,
+    String deviceType,
+    SuccessCallback success,
+    ErrorCallback fail,
+  ) async {
+    print('Registering device: $deviceToken, $state, $deviceType');
+    final Map<String, dynamic> details = {
+      'device_token': deviceToken,
+      'device_id': state,
+      'device_type': deviceType,
     };
-    var headers = {'Content-Type': 'application/json'};
-    var client = http.Client();
+    final Map<String, String> headers = {'Content-Type': 'application/json'};
 
+    final client = http.Client();
     try {
-      var responseJson = await client.post(
-          Uri.parse(Constant.REGISTER_DEVICE_URL),
-          headers: headers,
-          body: jsonEncode(details));
-
-      if (responseJson.statusCode == 200) {
-        success(responseJson.body);
+      final response = await client.post(
+        Uri.parse(Constant.registerDeviceUrl),
+        headers: headers,
+        body: jsonEncode(details),
+      );
+      if (response.statusCode == 200) {
+        success(response.body);
       } else {
-        fail(responseJson.body);
+        fail(response.body);
       }
     } catch (e) {
-      print(e);
+      print('Error in registerDevice: $e');
+      fail(e.toString());
     } finally {
       client.close();
     }

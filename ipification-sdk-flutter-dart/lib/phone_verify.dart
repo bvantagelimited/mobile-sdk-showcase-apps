@@ -5,10 +5,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:ipification_plugin_demo_app/constant.dart';
-import 'package:ipification_plugin_demo_app/failed.dart';
-import 'package:ipification_plugin_demo_app/network.dart';
-import 'package:ipification_plugin_demo_app/success.dart';
+import 'package:ipification_demo_app/constant.dart';
+import 'package:ipification_demo_app/failed.dart';
+import 'package:ipification_demo_app/network.dart';
+import 'package:ipification_demo_app/success.dart';
 import 'package:ipification_plugin/ipification.dart';
 
 class PhoneVerifyScreen extends StatefulWidget {
@@ -33,7 +33,7 @@ class _PhoneVerifyState extends State<PhoneVerifyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('IPification SDK example'),
+        title: const Text('Phone Number Verify Showcase'),
       ),
       body: ConstrainedBox(
           constraints: const BoxConstraints.expand(),
@@ -95,8 +95,8 @@ class _PhoneVerifyState extends State<PhoneVerifyScreen> {
 
   void initIPification() {
     IPificationPlugin.setEnv(ENV.SANDBOX);
-    IPificationPlugin.setClientId(Constant.CLIENT_ID);
-    IPificationPlugin.setRedirectUri(Constant.REDIRECT_URI);
+    IPificationPlugin.setClientId(Constant.clientId);
+    IPificationPlugin.setRedirectUri(Constant.redirectUri);
   }
 
   Future<void> startFlow() async {
@@ -151,12 +151,12 @@ class _PhoneVerifyState extends State<PhoneVerifyScreen> {
 
       if (authCode?.isNotEmpty == true) {
         await IPNetwork.doTokenExchange(
-            authCode,
-            (success) => {checkResult(success)},
-            (fail) => {
-                  errMessage = fail,
-                  showMessage(errMessage),
-                  checkResult(fail)
+            authCode!,
+            (success) {checkResult(success);},
+            (fail) {
+                  errMessage = fail;
+                  showMessage(errMessage);
+                  checkResult(fail);
                 });
       } else {
         showMessage("errMessage");
