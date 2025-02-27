@@ -13,7 +13,7 @@ This project is a starting point for a IPification Demo application on Flutter.
 2. Update project:
 - `lib/constant.dart`: Update your crediential information , choose the right environment (Stage / Production)
 
-** Configuration for IM testing:
+** Configuration for IM testing (FOR IM AUTH ONLY):
 - Update the configuration file for FCM service:
   + Android: `google-services.json`
   + iOS: `GoogleService-Info.plist`
