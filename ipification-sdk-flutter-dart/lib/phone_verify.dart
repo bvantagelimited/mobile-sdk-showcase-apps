@@ -9,7 +9,7 @@ import 'package:ipification_demo_app/constant.dart';
 import 'package:ipification_demo_app/failed.dart';
 import 'package:ipification_demo_app/network.dart';
 import 'package:ipification_demo_app/success.dart';
-import 'package:ipification_plugin/ipification.dart';
+import 'package:ipification_plugin/ipification_plugin.dart';
 
 class PhoneVerifyScreen extends StatefulWidget {
   @override
@@ -88,15 +88,17 @@ class _PhoneVerifyState extends State<PhoneVerifyScreen> {
   @override
   void deactivate() {
     if (Platform.isAndroid) {
-      IPificationPlugin.unregisterNetwork();
+      final ipificationPlugin = IPificationPlugin();
+      ipificationPlugin.unregisterNetwork();
     }
     super.deactivate();
   }
 
   void initIPification() {
-    IPificationPlugin.setEnv(ENV.SANDBOX);
-    IPificationPlugin.setClientId(Constant.clientId);
-    IPificationPlugin.setRedirectUri(Constant.redirectUri);
+    final ipificationPlugin = IPificationPlugin();
+    ipificationPlugin.setEnv(ENV.SANDBOX);
+    ipificationPlugin.setClientId(Constant.clientId);
+    ipificationPlugin.setRedirectUri(Constant.redirectUri);
   }
 
   Future<void> startFlow() async {
@@ -113,8 +115,8 @@ class _PhoneVerifyState extends State<PhoneVerifyScreen> {
       // if (Platform.isAndroid) {
       //   IpSdk.setAuthorizationServiceConfiguration("ipification_services");
       // }
-
-      var coverageResponse = await IPificationPlugin.checkCoverage();
+      final ipificationPlugin = IPificationPlugin();
+      var coverageResponse = await ipificationPlugin.checkCoverage();
       isAvailable = coverageResponse.isAvailable;
       print("isAvailable $isAvailable");
 
@@ -135,14 +137,15 @@ class _PhoneVerifyState extends State<PhoneVerifyScreen> {
   }
 
   void doAuthorization() async {
+    final ipificationPlugin = IPificationPlugin();
     String errMessage;
     try {
       showMessage("call authentication service");
-      IPificationPlugin.setScope(value: "openid ip:phone_verify");
-
+      ipificationPlugin.setScope(value: "openid ip:phone_verify");
+      ipificationPlugin.setState(value: "abcd1234");
       // authenCode = await IpSdk.doAuthentication(loginHint: _phoneNum);
       var authResponse =
-          await IPificationPlugin.doAuthentication(loginHint: _phoneNum);
+          await ipificationPlugin.doAuthentication(loginHint: _phoneNum);
       authCode = authResponse.code;
       print(authResponse.responseString);
       print(authCode);

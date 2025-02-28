@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ipification_plugin/error_codes.dart';
-import 'package:ipification_plugin/ipification.dart';
+import 'package:ipification_plugin/ipification_plugin.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:ipification_demo_app/constant.dart';
 import 'package:ipification_demo_app/failed.dart';
@@ -50,9 +50,10 @@ class _IPificationHomeState extends State<IPificationHome> {
 
   /// Initializes IPification settings, FCM and theme/locale.
   Future<void> _initIPification() async {
-    IPificationPlugin.setEnv(ENV.SANDBOX);
-    IPificationPlugin.setClientId(Constant.clientId);
-    IPificationPlugin.setRedirectUri(Constant.redirectUri);
+    final ipPlugin = IPificationPlugin();
+    ipPlugin.setEnv(ENV.SANDBOX);
+    ipPlugin.setClientId(Constant.clientId);
+    ipPlugin.setRedirectUri(Constant.redirectUri);
     _registerFCM();
     _updateThemeAndLocale();
   }
@@ -60,18 +61,19 @@ class _IPificationHomeState extends State<IPificationHome> {
   /// Initiates the IPification authentication flow via IM channels.
   Future<void> _doAuthorization() async {
     context.loaderOverlay.show();
-    IPificationPlugin.enableLog();
+    final ipPlugin = IPificationPlugin();
+    ipPlugin.enableLog();
 
     try {
-      final state = await IPificationPlugin.generateState();
+      final state = await ipPlugin.generateState();
       await _registerDeviceWithState(state);
 
       // Configure authentication parameters.
-      IPificationPlugin.setScope(value: "openid ip:phone");
-      IPificationPlugin.setState(value: state);
+      ipPlugin.setScope(value: "openid ip:phone");
+      ipPlugin.setState(value: state);
 
       // Begin IM authentication.
-      final authResponse = await IPificationPlugin.doIMAuthentication(
+      final authResponse = await ipPlugin.doIMAuthentication(
         channel: "wa telegram viber",
       );
       _authCode = authResponse.code;
@@ -158,8 +160,10 @@ class _IPificationHomeState extends State<IPificationHome> {
 
   /// Updates the theme and locale settings for iOS and Android.
   void _updateThemeAndLocale() {
+    final ipPlugin = IPificationPlugin();
+
     // iOS configuration.
-    IPificationPlugin.updateIOSLocale(
+    ipPlugin.updateIOSLocale(
       "IPification",
       "Phone Number Verify",
       "Please tap on the preferred messaging app then follow instructions on the screen",
@@ -168,12 +172,12 @@ class _IPificationHomeState extends State<IPificationHome> {
       "Login with Viber",
       "Cancel",
     );
-    IPificationPlugin.updateIOSTheme(
+    ipPlugin.updateIOSTheme(
       "#000000", "#000000", "#000000", "#000000", "#ffffff",
     );
 
     // Android configuration.
-    IPificationPlugin.updateAndroidLocale(
+    ipPlugin.updateAndroidLocale(
       "IPification",
       "Phone Number Verification",
       "Please tap on the preferred messaging app then follow instructions on the screen",
@@ -181,7 +185,7 @@ class _IPificationHomeState extends State<IPificationHome> {
       "Login with Telegram",
       "Login with Viber",
     );
-    IPificationPlugin.updateAndroidTheme("#ffffff", "#ffffff", "#c91636");
+    ipPlugin.updateAndroidTheme("#ffffff", "#ffffff", "#c91636");
   }
 
   /// Helper method to create a standardized button.

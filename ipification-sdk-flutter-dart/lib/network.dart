@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:ipification_plugin/ipification.dart';
+import 'package:ipification_plugin/ipification_plugin.dart';
 import 'constant.dart';
 
 typedef SuccessCallback = void Function(String);
@@ -12,8 +12,9 @@ class IPNetwork {
     SuccessCallback success,
     ErrorCallback fail,
   ) async {
-    final clientId = await IPificationPlugin.getClientId();
-    final redirectURI = await IPificationPlugin.getRedirectUri();
+    final ipPlugin = IPificationPlugin();
+    final clientId = await ipPlugin.getClientId();
+    final redirectURI = await ipPlugin.getRedirectUri();
 
     print('Auth Code: $authCode');
     print('client_id: $clientId');
