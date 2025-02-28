@@ -189,7 +189,7 @@ packages:
     description:
       path: "."
       ref: "2.0.28"
-      resolved-ref: d56948dc1944231e890d1cf2094091e596a91585
+      resolved-ref: "8d92afda05494c9312251e90486f98e37fb25a75"
       url: "https://github.com/bvantagelimited/IPification-Flutter-Plugin-Release.git"
     source: git
     version: "2.0.28"

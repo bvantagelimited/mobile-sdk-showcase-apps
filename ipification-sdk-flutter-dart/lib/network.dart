@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:ipification_plugin/ipification_plugin.dart';
+import 'package:ipification_plugin/ipification.dart';
 import 'constant.dart';
 
 typedef SuccessCallback = void Function(String);

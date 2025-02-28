@@ -9,7 +9,7 @@ import 'package:ipification_demo_app/constant.dart';
 import 'package:ipification_demo_app/failed.dart';
 import 'package:ipification_demo_app/network.dart';
 import 'package:ipification_demo_app/success.dart';
-import 'package:ipification_plugin/ipification_plugin.dart';
+import 'package:ipification_plugin/ipification.dart';
 
 class PhoneVerifyScreen extends StatefulWidget {
   @override

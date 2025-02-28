@@ -147,7 +147,7 @@
     },
     {
       "name": "ipification_plugin",
-      "rootUri": "file:///Users/nguyenhuutinh/.pub-cache/git/IPification-Flutter-Plugin-Release-d56948dc1944231e890d1cf2094091e596a91585/",
+      "rootUri": "file:///Users/nguyenhuutinh/.pub-cache/git/IPification-Flutter-Plugin-Release-8d92afda05494c9312251e90486f98e37fb25a75/",
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },
@@ -338,7 +338,7 @@
       "languageVersion": "3.6"
     }
   ],
-  "generated": "2025-02-28T03:19:02.950877Z",
+  "generated": "2025-02-28T05:14:45.957206Z",
   "generator": "pub",
   "generatorVersion": "3.6.2",
   "flutterRoot": "file:///Users/nguyenhuutinh/Documents/flutter",

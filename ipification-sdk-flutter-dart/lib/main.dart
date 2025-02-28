@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ipification_plugin/error_codes.dart';
-import 'package:ipification_plugin/ipification_plugin.dart';
+import 'package:ipification_plugin/ipification.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:ipification_demo_app/constant.dart';
 import 'package:ipification_demo_app/failed.dart';
