@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 import React, { useState, useRef, useEffect } from "react";
-import { Keyboard } from "react-native";
+import { Keyboard , TextInput} from "react-native";
 import * as RNLocalize from "react-native-localize";
 
 import {
@@ -28,7 +28,7 @@ import Constants from "./Constants";
 import NetworkManger from "./NetworkManger";
 
 const PhoneVerifyScreen = ({ navigation }) => {
-  const [phoneNumber, setPhoneNumnber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [formattedValue, setFormattedValue] = useState("");
   // const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -36,6 +36,10 @@ const PhoneVerifyScreen = ({ navigation }) => {
   const phoneInput = useRef<PhoneInput>(null);
 
   useEffect(() => {}, []);
+  const handlePhoneChange = (text) => {
+    setPhoneNumber(text);
+    setFormattedValue(`${text}`); // Example: Modify as needed for formatting
+  };
 
   checkCoverage = async () => {
     Keyboard.dismiss();
@@ -134,24 +138,22 @@ const PhoneVerifyScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.wrapper}>
-        <PhoneInput
-          ref={phoneInput}
-          defaultValue={phoneNumber}
-          defaultCode={RNLocalize.getCountry()}
-          
-          layout="first"
-          onChangeText={(text) => {
-            setPhoneNumnber(text);
-          }}
-          onChangeFormattedText={(text) => {
-            setFormattedValue(text);
-          }}
-          countryPickerProps={{ withAlphaFilter: true }}
-          disabled={loading}
-          withDarkTheme
-          withShadow
-          autoFocus
-        />
+      <TextInput
+        style={{
+          height: 50,
+          width: 300,
+          borderWidth: 1,
+          borderColor: '#cecece',
+          borderRadius: 10,
+          paddingHorizontal: 10,
+          marginVertical: 10,
+        }}
+        placeholder={`999123456789`}
+        keyboardType="phone-pad"
+        value={phoneNumber}
+        onChangeText={handlePhoneChange}
+        autoFocus
+      />
 
         
         <TouchableOpacity

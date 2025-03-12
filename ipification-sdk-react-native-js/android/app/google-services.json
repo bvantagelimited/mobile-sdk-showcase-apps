@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:543210972010:android:0e006fcf3382a4510dbb13",
         "android_client_info": {
-          "package_name": "com.ipification.demo"
+          "package_name": "com.ipification.demoapp"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "543210972010-95lnus4srhcqnd55dm6olm0sbamqpqbu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.ipification.demo",
+            "package_name": "com.ipification.demoapp",
             "certificate_hash": "b3c2cd99c17d35872fa4b4fbb8aecd3afffb7770"
           }
         },

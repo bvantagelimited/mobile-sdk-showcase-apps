@@ -31,11 +31,11 @@ const HomeScreen = ({ navigation }) => {
   initIPification = async () =>{
     
     const {SANDBOX, PRODUCTION} = RNIPEnvironment.getConstants();
-    RNIPConfiguration.setENV(PRODUCTION)
+    RNIPConfiguration.setENV(SANDBOX)
     RNIPConfiguration.setClientId(Constants.CLIENT_ID)
     RNIPConfiguration.setRedirectUri(Constants.REDIRECT_URI)
 
-    Constants.TOKEN_EXCHANGE_HOST = "https://stage.ipification.com" // for demo only
+    Constants.TOKEN_EXCHANGE_HOST = "https://api.stage.ipification.com" // for demo only
     //TODO production: Constants.TOKEN_EXCHANGE_HOST =  = "https://api.ipification.com" // for demo only
     
   }

@@ -2,24 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>543210972010-v4ig3831am2vpd88jen968jl6d9nq5t7.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.543210972010-v4ig3831am2vpd88jen968jl6d9nq5t7</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>543210972010-95lnus4srhcqnd55dm6olm0sbamqpqbu.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAhzxi5AG6vcVFF0rrFNNqhiVRsgXntCJM</string>
+	<string>AIzaSyBK5guIJ8iWk1Wtjo7qg_fI4vfSpGCkKno</string>
 	<key>GCM_SENDER_ID</key>
-	<string>543210972010</string>
+	<string>889538004732</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.ipification.demoapp</string>
+	<string>com.ipification.showcase</string>
 	<key>PROJECT_ID</key>
-	<string>fir-ip-8a30e</string>
+	<string>ip-demo-95cee</string>
 	<key>STORAGE_BUCKET</key>
-	<string>fir-ip-8a30e.appspot.com</string>
+	<string>ip-demo-95cee.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:543210972010:ios:dadb1710ed028e010dbb13</string>
+	<string>1:889538004732:ios:f8a90322b10cc2f79eb979</string>
 </dict>
 </plist>
