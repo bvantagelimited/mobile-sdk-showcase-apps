@@ -54,7 +54,7 @@ class Util {
             }
         }
 
-        fun callLoginAPI(activity: Activity, state: String) {
+        fun callLoginAPI(activity: Activity, state: String?) {
             IMHelper.signIn(state, object : TokenCallback {
                 override fun onSuccess(response: String) {
                     openSuccessActivity(activity, response)

@@ -44,10 +44,10 @@ class IMHelper {
             })
         }
 
-        fun signIn(state: String, callback: TokenCallback) {
+        fun signIn(state: String?, callback: TokenCallback) {
             val url = Urls.AUTOMODE_SIGN_IN_URL
             val jsonObject = JSONObject().apply {
-                put("state", state)
+                put("state", state ?: "")
             }
 
             val body = jsonObject.toString().toRequestBody(JSON_MEDIA_TYPE)
