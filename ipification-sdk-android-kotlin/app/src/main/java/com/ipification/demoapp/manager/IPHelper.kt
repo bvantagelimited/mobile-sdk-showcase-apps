@@ -5,6 +5,7 @@ import android.util.Log
 import com.ipification.demoapp.Urls
 import com.ipification.demoapp.callback.TokenCallback
 import com.ipification.demoapp.util.Util
+import com.ipification.mobile.sdk.android.IPConfiguration
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.FormBody
@@ -45,6 +46,9 @@ class IPHelper {
         private fun doPostToken(code: String, callback: TokenCallback) {
             val url = Urls.getTokenExchangeUrl()
             val body: RequestBody = FormBody.Builder()
+                .add("client_id", IPConfiguration.getInstance().CLIENT_ID)
+                .add("grant_type", "authorization_code")
+                .add("redirect_uri", IPConfiguration.getInstance().REDIRECT_URI.toString())
                 .add("code", code)
                 .build()
 
