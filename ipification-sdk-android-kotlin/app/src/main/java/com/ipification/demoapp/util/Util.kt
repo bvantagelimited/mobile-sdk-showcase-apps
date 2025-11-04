@@ -2,51 +2,50 @@ package com.ipification.demoapp.util
 
 import android.app.Activity
 import android.content.Intent
-import com.auth0.android.jwt.JWT
 import com.ipification.demoapp.activity.ResultFailActivity
 import com.ipification.demoapp.activity.ResultSuccessActivity
 import com.ipification.demoapp.callback.TokenCallback
-import com.ipification.demoapp.data.TokenInfo
 import com.ipification.demoapp.manager.IMHelper
 import org.json.JSONObject
+
 class Util {
 
     companion object Factory {
 
-        fun parseAccessToken(accessToken: String?): TokenInfo? {
-            if (accessToken.isNullOrEmpty()) {
-                return null
-            }
+//        fun parseToken(accessToken: String?): TokenInfo? {
+//            if (accessToken.isNullOrEmpty()) {
+//                return null
+//            }
+//
+//            try {
+//                val jwt = JWT(accessToken)
+//                val phoneVerify = jwt.getClaim("phone_number_verified").asString()
+//                val phoneNumber = jwt.getClaim("phone_number").asString()
+//                val loginHint = jwt.getClaim("login_hint").asString()
+//                val sub = jwt.getClaim("sub").asString()
+//                val mobileID = jwt.getClaim("mobile_id").asString()
+//
+//                return TokenInfo(
+//                    phoneVerify == "true" || phoneVerify == null,
+//                    phoneNumber,
+//                    loginHint,
+//                    sub,
+//                    mobileID
+//                )
+//            } catch (e: Exception) {
+//                return null
+//            }
+//        }
+//
+//        fun parseAccessTokenFromJSON(jsonStr: String): String? {
+//            return try {
+//                JSONObject(jsonStr).getString("access_token")
+//            } catch (error: Exception) {
+//                null
+//            }
+//        }
 
-            try {
-                val jwt = JWT(accessToken)
-                val phoneVerify = jwt.getClaim("phone_number_verified").asString()
-                val phoneNumber = jwt.getClaim("phone_number").asString()
-                val loginHint = jwt.getClaim("login_hint").asString()
-                val sub = jwt.getClaim("sub").asString()
-                val mobileID = jwt.getClaim("mobile_id").asString()
-
-                return TokenInfo(
-                    phoneVerify == "true" || phoneVerify == null,
-                    phoneNumber,
-                    loginHint,
-                    sub,
-                    mobileID
-                )
-            } catch (e: Exception) {
-                return null
-            }
-        }
-
-        fun parseAccessTokenFromJSON(jsonStr: String): String? {
-            return try {
-                JSONObject(jsonStr).getString("access_token")
-            } catch (error: Exception) {
-                null
-            }
-        }
-
-        fun parseUserInfoJSON(jsonStr: String, pattern: String): String? {
+        fun parseTokenJSON(jsonStr: String, pattern: String): String? {
             return try {
                 JSONObject(jsonStr).getString(pattern)
             } catch (error: Exception) {

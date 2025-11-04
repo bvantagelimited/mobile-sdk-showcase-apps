@@ -9,6 +9,8 @@ import com.ipification.demoapp.manager.IMHelper
 import com.ipification.mobile.sdk.im.IMService
 import com.ipification.mobile.sdk.im.ui.IMVerificationActivity
 
+// FOR IM AUTHENTICATION
+
 /**
  * NOTE: There can only be one service in each app that receives FCM messages. If multiple
  * are declared in the Manifest then the first one will be chosen.
