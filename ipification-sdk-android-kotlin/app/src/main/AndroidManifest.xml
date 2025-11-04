@@ -4,6 +4,8 @@
     package="com.ipification.demoapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
 
     <application
         android:allowBackup="true"
@@ -15,22 +17,30 @@
         android:theme="@style/AppTheme"
         >
 
-        <activity android:name="com.ipification.demoapp.activity.ResultFailActivity" />
-        <activity android:name="com.ipification.demoapp.activity.ResultSuccessActivity" />
         <activity
-            android:name="com.ipification.demoapp.activity.IPificationAuthActivity"
-            android:exported="true" />
+            android:name="com.ipification.demoapp.activity.ResultFailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.ipification.demoapp.activity.ResultSuccessActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.ipification.demoapp.activity.ip.IPificationAuthActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.ipification.demoapp.activity.im.IMAuthActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name="com.ipification.demoapp.activity.im.IMAuthAutoModeActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name="com.ipification.demoapp.activity.im.IMAuthManualActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.ipification.demoapp.activity.MainActivity"
             android:launchMode="singleInstance"

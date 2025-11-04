@@ -4,14 +4,30 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ipification.demoapp.BuildConfig
-import com.ipification.demoapp.databinding.ActivityImAutomodeAuthenticationBinding
 import com.ipification.demoapp.manager.IMHelper
+import com.ipification.demoapp.ui.components.IMButton
+import com.ipification.demoapp.ui.components.IPificationTopBar
+import com.ipification.demoapp.ui.theme.IPificationTheme
 import com.ipification.demoapp.util.Util
 import com.ipification.mobile.sdk.android.IPConfiguration
 import com.ipification.mobile.sdk.android.IPEnvironment
@@ -24,16 +40,21 @@ import com.ipification.mobile.sdk.android.utils.IPLogs
 import com.ipification.mobile.sdk.im.IMService
 import com.ipification.mobile.sdk.im.IMServices
 
-class IMAuthAutoModeActivity : AppCompatActivity() {
+class IMAuthAutoModeActivity : ComponentActivity() {
     private val TAG: String = "IMAutoAuth"
-    lateinit var binding: ActivityImAutomodeAuthenticationBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityImAutomodeAuthenticationBinding.inflate(layoutInflater)
-        setContentView(binding.root)
         initIPification()
-        initView()
+        initFirebase()
+        
+        setContent {
+            IPificationTheme {
+                IMAutoModeScreen(
+                    onBackClick = { finish() }
+                )
+            }
+        }
     }
 
     private fun initIPification() {
@@ -47,15 +68,38 @@ class IMAuthAutoModeActivity : AppCompatActivity() {
         IPConfiguration.getInstance().IM_PRIORITY_APP_LIST = arrayOf("wa")
     }
 
-    private fun initView() {
-        val actionbar = supportActionBar
-        actionbar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "IM - AutoMode - ${BuildConfig.VERSION_NAME}"
-        // init FCM
-        initFirebase()
-
-        binding.imButton.setOnClickListener {
-            doIMFlow()
+    @Composable
+    fun IMAutoModeScreen(onBackClick: () -> Unit) {
+        val context = LocalContext.current
+        val activity = context as? IMAuthAutoModeActivity
+        var isLoading by remember { mutableStateOf(false) }
+        
+        Scaffold(
+            topBar = {
+                IPificationTopBar(
+                    title = "IM - AutoMode - ${BuildConfig.VERSION_NAME}",
+                    onBackClick = onBackClick
+                )
+            }
+        ) { paddingValues ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center
+            ) {
+                IMButton(
+                    text = "Login with Instant Message",
+                    onClick = {
+                        isLoading = true
+                        activity?.doIMFlow {
+                            isLoading = false
+                        }
+                    },
+                    modifier = Modifier.width(300.dp),
+                    enabled = !isLoading
+                )
+            }
         }
     }
 
@@ -91,16 +135,18 @@ class IMAuthAutoModeActivity : AppCompatActivity() {
         IPLogs.getInstance().LOG += "[initFirebas] get device Token ${token} \n"
     }
 
-    private fun doIMFlow() {
+    fun doIMFlow(onComplete: () -> Unit = {}) {
         updateStateAndDeviceToken()
 
         val callback = object : IPificationCallback {
             override fun onSuccess(response: AuthResponse) {
                 handleIMFlowSuccess(response)
+                onComplete()
             }
 
             override fun onError(error: IPificationError) {
                 handleIMFlowError(error)
+                onComplete()
             }
         }
         // do IM Auth
@@ -120,6 +166,9 @@ class IMAuthAutoModeActivity : AppCompatActivity() {
         val authRequestBuilder = AuthRequest.Builder()
         authRequestBuilder.setState(IMHelper.currentState)
         authRequestBuilder.setScope("openid ip:phone")
+        // Add login_hint to satisfy SDK requirement
+//        val loginHint = if (BuildConfig.ENVIRONMENT == "sandbox") "+999123456789" else ""
+//        authRequestBuilder.addQueryParam("login_hint", loginHint)
         IMServices.startAuthentication(this, authRequestBuilder.build(), callback)
     }
 
@@ -127,17 +176,6 @@ class IMAuthAutoModeActivity : AppCompatActivity() {
     private fun updateStateAndDeviceToken() {
         IMHelper.currentState = IPificationServices.generateState()
         IMHelper.registerDevice(IMHelper.deviceToken, IMHelper.currentState)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-                // API 5+ solution
-                onBackPressed()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 }
 

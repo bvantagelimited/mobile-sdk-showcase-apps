@@ -5,4 +5,5 @@
     <string name="login_with_ipification">Login with IPification</string>
     <string name="login_with_instant_message">Login with Instant Message</string>
     <string name="powered_by_ipification">Powered by IPification</string>
+    <string name="notification_channel_id">ipification_channel</string>
 </resources>
