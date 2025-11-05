@@ -3,6 +3,7 @@
 buildscript {
     // Updated Kotlin version (choose one that works for your project)
     ext.kotlin_version = '1.8.21'
+    ext.compose_version = '1.4.3'
 
     repositories {
         google()
