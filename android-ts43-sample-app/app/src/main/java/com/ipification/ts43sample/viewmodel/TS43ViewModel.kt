@@ -155,7 +155,7 @@ class TS43ViewModel : ViewModel() {
                 val response = performTS43Auth(
                     loginHint = loginHint,
                     clientId = clientId,
-                    scope = "ip:phone_verify",
+                    scope = "openid ip:phone_verify",
                     operation = "VerifyPhoneNumber",
                     flowType = "VERIFY_PHONE"
                 )
@@ -307,15 +307,22 @@ class TS43ViewModel : ViewModel() {
                     val (responseCode, responseBody) = performTS43TokenExchange(vpToken, state.value.ts43AuthReqId!!, state.value.clientId)
                     
                     if (responseCode in 200..299) {
-                        // Success - show message in same UI
+                        // Success - navigate to result screen with formatted JSON response
+                        val formattedJson = try {
+                            JSONObject(responseBody).toString(2) // Pretty print with 2-space indentation
+                        } catch (e: Exception) {
+                            responseBody // If parsing fails, show raw response
+                        }
+                        
+                        Helper.printLog("[APIManager] ${Util.getCurrentDate()} - TOKEN_EXCHANGE_SUCCESS - Response: $responseBody\n")
+                        Log.d("TS43_SUCCESS", "Token response [Code: $responseCode]: $responseBody")
+                        
                         _state.update {
                             it.copy(
-                                navigation = TS43Navigation.Idle,
                                 isLoading = false,
-                                message = "✅ Authentication successful! Phone number verified."
+                                navigation = TS43Navigation.ToResult(response = formattedJson, error = null)
                             )
                         }
-                        Log.d("TS43_SUCCESS", "Token response [Code: $responseCode]: $responseBody")
                     } else {
                         // Navigate to result screen with error
                         val errorMessage = "Failed to performTS43TokenExchange [Code: $responseCode]: $responseBody"

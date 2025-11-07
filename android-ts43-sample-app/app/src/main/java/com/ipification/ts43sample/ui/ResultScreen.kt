@@ -120,12 +120,40 @@ fun ResultScreen(
             }
 
             if (response != null) {
-                Text(
-                    text = "Response",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Response",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    IconButton(
+                        onClick = {
+                            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                            val clip = ClipData.newPlainText("TS43 Response", response)
+                            clipboard.setPrimaryClip(clip)
+                            scope.launch {
+                                snackbarHostState.showSnackbar(
+                                    message = "Response copied to clipboard",
+                                    duration = SnackbarDuration.Short
+                                )
+                            }
+                        },
+                        modifier = Modifier.size(36.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.ContentCopy,
+                            contentDescription = "Copy response",
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                }
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -134,12 +162,22 @@ fun ResultScreen(
                         containerColor = MaterialTheme.colorScheme.surfaceVariant
                     )
                 ) {
-                    Text(
-                        text = response,
-                        modifier = Modifier.padding(16.dp),
-                        style = MaterialTheme.typography.bodySmall,
-                        fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace
-                    )
+                    SelectionContainer {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .horizontalScroll(rememberScrollState())
+                                .padding(16.dp)
+                        ) {
+                            Text(
+                                text = response,
+                                style = MaterialTheme.typography.bodySmall,
+                                fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                softWrap = false
+                            )
+                        }
+                    }
                 }
             }
 
@@ -183,7 +221,7 @@ fun ResultScreen(
                     .fillMaxWidth()
                     .heightIn(min = 100.dp, max = 400.dp), // Set max height to prevent pushing content off screen
                 colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF263238)
+                    containerColor = MaterialTheme.colorScheme.inverseSurface
                 )
             ) {
                 // Make the logs scrollable both vertically and horizontally, and selectable
@@ -199,7 +237,7 @@ fun ResultScreen(
                             text = logs.ifEmpty { "No logs available" },
                             style = MaterialTheme.typography.bodySmall,
                             fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
-                            color = Color.White, // Better contrast on dark background
+                            color = MaterialTheme.colorScheme.inverseOnSurface,
                             softWrap = false // Prevent word wrapping for better log readability
                         )
                     }
