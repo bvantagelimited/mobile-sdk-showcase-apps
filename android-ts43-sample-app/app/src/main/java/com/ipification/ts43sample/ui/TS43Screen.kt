@@ -319,7 +319,7 @@ fun TS43Screen(
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(
-                        containerColor = if (state.message.contains("❌") || state.message.contains("Error") || state.message.contains("Failed"))
+                        containerColor = if (state.message.contains("❌") || state.message.contains("error") || state.message.contains("failed"))
                             MaterialTheme.colorScheme.errorContainer
                         else
                             MaterialTheme.colorScheme.primaryContainer
@@ -327,7 +327,7 @@ fun TS43Screen(
                 ) {
                     Text(
                         text = state.message,
-                        color = if (state.message.contains("❌") || state.message.contains("Error") || state.message.contains("Failed"))
+                        color = if (state.message.contains("❌") || state.message.contains("frror") || state.message.contains("failed"))
                             MaterialTheme.colorScheme.onErrorContainer
                         else
                             MaterialTheme.colorScheme.onPrimaryContainer,
