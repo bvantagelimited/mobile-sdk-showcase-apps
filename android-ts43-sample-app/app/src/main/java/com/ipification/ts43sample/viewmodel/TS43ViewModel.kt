@@ -22,7 +22,6 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
 
@@ -305,8 +304,9 @@ class TS43ViewModel : ViewModel() {
                 
                 if (vpToken != null && state.value.ts43AuthReqId != null) {
                     Helper.printLog("[APIManager] ${Util.getCurrentDate()} - CREDENTIAL_PARSE - Extracted vp_token (length: ${vpToken.length})\n")
-                    val tokenResponse = performTS43TokenExchange(vpToken, state.value.ts43AuthReqId!!, state.value.clientId)
-                    if(tokenResponse.isSuccessful){
+                    val (responseCode, responseBody) = performTS43TokenExchange(vpToken, state.value.ts43AuthReqId!!, state.value.clientId)
+                    
+                    if (responseCode in 200..299) {
                         // Success - show message in same UI
                         _state.update {
                             it.copy(
@@ -315,9 +315,18 @@ class TS43ViewModel : ViewModel() {
                                 message = "✅ Authentication successful! Phone number verified."
                             )
                         }
-                        Log.d("TS43_SUCCESS", "Token response: $tokenResponse")
-                    }else{
-                        handleError("Failed to performTS43TokenExchange: ${tokenResponse.body?.string()}")
+                        Log.d("TS43_SUCCESS", "Token response [Code: $responseCode]: $responseBody")
+                    } else {
+                        // Navigate to result screen with error
+                        val errorMessage = "Failed to performTS43TokenExchange [Code: $responseCode]: $responseBody"
+                        Helper.printLog("[APIManager] ${Util.getCurrentDate()} - TOKEN_EXCHANGE_ERROR - $errorMessage\n")
+                        Log.e("TS43_ERROR", errorMessage)
+                        _state.update {
+                            it.copy(
+                                isLoading = false,
+                                navigation = TS43Navigation.ToResult(response = null, error = errorMessage)
+                            )
+                        }
                     }
 
                 } else {
@@ -348,8 +357,9 @@ class TS43ViewModel : ViewModel() {
 
     /**
      * Perform TS43 token exchange
+     * @return Pair of (HTTP status code, response body string)
      */
-    private suspend fun performTS43TokenExchange(vpToken: String, authReqId: String, clientid: String): Response = withContext(Dispatchers.IO) {
+    private suspend fun performTS43TokenExchange(vpToken: String, authReqId: String, clientid: String): Pair<Int, String> = withContext(Dispatchers.IO) {
         val url = "${Helper.TS43_ENDPOINT}/ts43/token"
         val json = """{"vp_token":"$vpToken", "auth_req_id":"$authReqId", "client_id":"$clientid"}"""
         
@@ -392,11 +402,8 @@ class TS43ViewModel : ViewModel() {
             Log.d("TS43_TOKEN", "Code: $responseCode")
             Log.d("TS43_TOKEN", "Body: $responseBody")
             
-            if (!response.isSuccessful) {
-                handleError("Token Exchange - Unexpected code $responseCode: $responseBody")
-
-            }
-            response
+            // Return [code, body string] as Pair (let caller handle errors)
+            Pair(responseCode, responseBody)
         }
     }
 
