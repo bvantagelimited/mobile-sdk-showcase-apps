@@ -58,10 +58,19 @@ app/
 
 ## Usage
 
+Before testing or running the **TS43 Digital Credential flow**, ensure the following are set up on your device:
+
+1. **Pre-install the Wallet App**
+   - Download and install **CMWalletApp** (the Digital Credential wallet).
+   - This app is required to handle the `openid4vp-v1-unsigned` and `dc_api` protocols.
+   - Open the app at least once after installation to allow the system to register its intent handlers.
+
+2. **Set up the PNV Token (Phone Number Verification Credential)**
+   - Open **CMWalletApp**.
+   - Go to **Manage PNV Tokens → Add PNV Token**.
+   
 The app supports **two TS43 flows**: GetPhoneNumber and VerifyPhoneNumber
-
-**Install Wallet App : CMWalletApp**
-
+   
 ### Flow 1: Get Phone Number
 
 **Purpose:** Retrieve the phone number associated with the active SIM card
@@ -73,7 +82,6 @@ The app supports **two TS43 flows**: GetPhoneNumber and VerifyPhoneNumber
 **Login Hint:** `anonymous` (no phone number required)
 
 **Steps:**
-1. **Set up the PNV Token**
 2. **App Launch**
 3. **Click "Get Phone Number"**
    - App initiates TS43 auth request with `scope: "openid ip:phone" and operation: "GetPhoneNumber"`
