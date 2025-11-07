@@ -14,7 +14,7 @@ Verify that a given phone number matches the active SIM card.
 3. **Credential Manager Integration** - Uses Android Credential Manager API to obtain verification credential
 4. **Token Exchange** - Exchanges the credential for final authentication token with phone number data
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 app/
@@ -30,7 +30,7 @@ app/
 └── MainActivity.kt               
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -82,8 +82,6 @@ The app supports **two TS43 flows**: GetPhoneNumber and VerifyPhoneNumber
    - User approves the request
 4. **View Results**
 
-
-
 ---
 
 ### Flow 2: Verify Phone Number 
@@ -105,8 +103,6 @@ The app supports **two TS43 flows**: GetPhoneNumber and VerifyPhoneNumber
    - Opens Credential Manager UI
    - User approves verification
 3. **View Results**
-
-
 
 ---
 
@@ -163,9 +159,6 @@ private suspend fun performTS43TokenExchange(
     authReqId: String, 
     clientId: String
 ): Pair<Int, String>
-
-// 5. Update phone number manually
-fun onPhoneNumberChanged(phoneNumber: String)
 ```
 
 ### TS43Screen.kt
