@@ -10,20 +10,18 @@ class Helper {
         private const val TAG = "TS43_LOG"
         
         // TS43 endpoint - change this to your backend endpoint
-        var TS43_ENDPOINT = "https://test.ipification.com"
+        var TS43_ENDPOINT = "https://your-backend-endpoint"
+        var CLIENT_ID_GET_PHONE_NUMBER = "your-client-id"
+        var CLIENT_ID_VERIFY_PHONE_NUMBER = "your-client-id"
         
         // MNC/MCC from active SIM
         var MNCMCC: String = ""
-        
+    
         // Logs for debugging and tracking
         var LOG = ""
         var HEADER_LOG = ""
 
         var SUGGEST_PHONE = ""
-
-        var CLIENT_ID_GET_PHONE_NUMBER = "webclient2"
-        var CLIENT_ID_VERIFY_PHONE_NUMBER = "webclient3"
-        
         /**
          * Print log message to both Helper.LOG (for display) and console (for debugging)
          * @param message The log message to print
