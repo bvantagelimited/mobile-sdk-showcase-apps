@@ -21,6 +21,12 @@ android {
         }
     }
 
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "ts43.${variant.versionName}.apk"
+        }
+    }
+
     buildFeatures {
         viewBinding true
         buildConfig true
