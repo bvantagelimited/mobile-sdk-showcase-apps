@@ -18,7 +18,8 @@ internal class PrintingEventListener : EventListener() {
         }
         val elapsedNanos = nowNanos - callStartNanos
         val str = String.format("%.3f %s%n", elapsedNanos / 1000000000.0, name)
-        Helper.printLog("$str\n", "NetworkEvent")
+        Helper.LOG += "$str\n"
+        Log.d("NetworkEvent", str)
     }
 
     override fun callStart(call: Call) {

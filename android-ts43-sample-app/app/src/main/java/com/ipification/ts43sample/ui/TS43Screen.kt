@@ -224,6 +224,22 @@ fun TS43Screen(
             )
             Spacer(modifier = Modifier.height(20.dp))
 
+            // Get Phone Number Function Description
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFFF5F5F5)
+                )
+            ) {
+                Text(
+                    text = "Retrieves the phone number associated with the active SIM card using TS.43 protocol. No phone number input required - the credential wallet app provides it automatically.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.DarkGray,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+            
+            Spacer(modifier = Modifier.height(12.dp))
 
             Button(
                 onClick = { viewModel.startGetPhoneNumber(context) },
@@ -259,6 +275,24 @@ fun TS43Screen(
                 color = Color(0xFFF2F2F2)
             )
             Spacer(modifier = Modifier.height(16.dp))
+            
+            // Verify Phone Number Function Description
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFFF5F5F5)
+                )
+            ) {
+                Text(
+                    text = "Verifies that the entered phone number matches the active SIM card's number using TS.43 protocol. Enter a phone number below and click to verify.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.DarkGray,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+            
+            Spacer(modifier = Modifier.height(12.dp))
+            
             OutlinedTextField(
                 value = state.phoneNumber,
                 onValueChange = { },
