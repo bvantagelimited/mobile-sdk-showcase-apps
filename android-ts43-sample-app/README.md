@@ -80,13 +80,14 @@ The app supports **two TS43 flows**: GetPhoneNumber and VerifyPhoneNumber
 **Login Hint:** `anonymous` (no phone number required)
 
 **Steps:**
-2. **App Launch**
-3. **Click "Get Phone Number"**
+
+1. **App Launch**
+2. **Click "Get Phone Number"**
    - App initiates TS43 auth request with `scope: "openid ip:phone" and operation: "GetPhoneNumber"`
    - Receives digital credential request
    - Opens Credential Manager UI
    - User approves the request
-4. **View Results**
+3. **View Results**
 
 ---
 
@@ -112,12 +113,12 @@ The app supports **two TS43 flows**: GetPhoneNumber and VerifyPhoneNumber
 
 ### Common Steps (Both Flows)
 
-4. **Credential Manager Integration**
+1. **Credential Manager Integration**
    - System UI displays verification request
    - User reviews and approves
    - Digital credential returned to app
 
-5. **Token Exchange**
+2. **Token Exchange**
    - App extracts `vp_token` from credential
    - Exchanges token with backend
    - Receives final authentication response
