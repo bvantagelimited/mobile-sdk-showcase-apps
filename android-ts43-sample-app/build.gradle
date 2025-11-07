@@ -1,0 +1,36 @@
+// Top-level build file for TS43 Sample App
+buildscript {
+    ext.kotlin_version = '2.0.21'
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.6.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.21"
+        classpath "org.jetbrains.kotlin:compose-compiler-gradle-plugin:2.0.21"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        // IPification Maven Repository
+        maven {
+            url "https://artifacts.ipification.com/artifactory/mobile-libs-release/"
+//            credentials {
+//                username 'tinhn'
+//                password 'J6b*39@Vu7&*$9H^d#L'
+//            }
+//            authentication {
+//                basic(BasicAuthentication)
+//            }
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
