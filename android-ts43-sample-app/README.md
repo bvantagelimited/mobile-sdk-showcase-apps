@@ -73,8 +73,6 @@ The app supports **two TS43 flows**: GetPhoneNumber and VerifyPhoneNumber
    
 ### Flow 1: Get Phone Number
 
-**Purpose:** Retrieve the phone number associated with the active SIM card
-
 **Use Case:** When you need to retrieve the user's phone number without asking them to enter it
 
 **Scope:** `openid ip:phone`  
@@ -93,8 +91,6 @@ The app supports **two TS43 flows**: GetPhoneNumber and VerifyPhoneNumber
 ---
 
 ### Flow 2: Verify Phone Number 
-
-**Purpose:** Verify that a given phone number matches the active SIM card
 
 **Use Case:** When you need to verify a phone number belongs to the user
 
