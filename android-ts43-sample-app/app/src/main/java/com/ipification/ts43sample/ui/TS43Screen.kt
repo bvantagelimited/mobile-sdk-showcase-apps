@@ -216,13 +216,13 @@ fun TS43Screen(
             horizontalAlignment = Alignment.Start,
 //            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(
-                text = "TS43 Authentication Sample",
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 32.dp)
-            )
-            Spacer(modifier = Modifier.height(20.dp))
+//            Text(
+//                text = "TS43 Authentication Sample",
+//                style = MaterialTheme.typography.headlineMedium,
+//                fontWeight = FontWeight.Bold,
+//                modifier = Modifier.padding(bottom = 32.dp)
+//            )
+//            Spacer(modifier = Modifier.height(20.dp))
 
             // Get Phone Number Function Description
             Card(
@@ -297,7 +297,7 @@ fun TS43Screen(
                 value = state.phoneNumber,
                 onValueChange = { viewModel.onPhoneNumberChanged(it) },
                 label = { Text("Phone Number") },
-                placeholder = { Text("e.g., +999123456789") },
+                placeholder = { Text("999123456789") },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !state.isLoading,
                 singleLine = true,
