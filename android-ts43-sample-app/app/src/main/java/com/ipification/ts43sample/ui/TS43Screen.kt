@@ -295,7 +295,7 @@ fun TS43Screen(
             
             OutlinedTextField(
                 value = state.phoneNumber,
-                onValueChange = { },
+                onValueChange = { viewModel.onPhoneNumberChanged(it) },
                 label = { Text("Phone Number") },
                 placeholder = { Text("e.g., +999123456789") },
                 modifier = Modifier.fillMaxWidth(),

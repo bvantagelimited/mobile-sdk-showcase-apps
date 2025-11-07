@@ -79,6 +79,13 @@ class TS43ViewModel : ViewModel() {
     }
 
     /**
+     * Update phone number manually
+     */
+    fun onPhoneNumberChanged(phoneNumber: String) {
+        _state.update { it.copy(phoneNumber = phoneNumber) }
+    }
+
+    /**
      * Start Verify Phone Number flow
      */
     fun startVerifyPhoneNumber(context: Context) {
