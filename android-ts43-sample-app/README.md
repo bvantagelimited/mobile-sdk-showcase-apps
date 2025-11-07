@@ -253,9 +253,6 @@ Request (same for both flows):
 Response for Get Phone Number:
 ```json
 {
-  "access_token": "...",
-  "token_type": "Bearer",
-  "expires_in": 3600,
   "login_hint": "6281288122111",
 }
 ```
@@ -263,9 +260,6 @@ Response for Get Phone Number:
 Response for Verify Phone Number:
 ```json
 {
-  "access_token": "...",
-  "token_type": "Bearer",
-  "expires_in": 3600,
   "login_hint": "6281288122111",
   "phone_number_verified": true
 }
