@@ -43,8 +43,8 @@ app/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/bvantagelimited/mobile-sdk-showcase-apps/new/ts43/android-ts43-sample-app
-   cd android-ts43-sample-app
+   git clone -b ts43 https://github.com/bvantagelimited/mobile-sdk-showcase-apps.git
+   cd mobile-sdk-showcase-apps/android-ts43-sample-app
    ```
 
 2. **Configure your credentials**
