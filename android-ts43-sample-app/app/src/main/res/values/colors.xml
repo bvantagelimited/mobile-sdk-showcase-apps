@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Material Design 3 - Primary Color Scheme -->
+    <color name="md_theme_light_primary">#fc1c4b</color>
+    <color name="md_theme_light_onPrimary">#FFFFFF</color>
+    <color name="md_theme_light_primaryContainer">#FFDAD6</color>
+    <color name="md_theme_light_onPrimaryContainer">#410002</color>
+    
+    <color name="md_theme_dark_primary">#fc1c4b</color>
+    <color name="md_theme_dark_onPrimary">#690005</color>
+    <color name="md_theme_dark_primaryContainer">#93000A</color>
+    <color name="md_theme_dark_onPrimaryContainer">#FFDAD6</color>
+    
+    <!-- Secondary colors -->
+    <color name="md_theme_light_secondary">#775652</color>
+    <color name="md_theme_light_onSecondary">#FFFFFF</color>
+    
+    <color name="md_theme_dark_secondary">#E7BDB7</color>
+    <color name="md_theme_dark_onSecondary">#442925</color>
+    
+    <!-- Legacy colors for backwards compatibility -->
+    <color name="primary">#fc1c4b</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="success">#4CAF50</color>
+    <color name="error">#F44336</color>
+</resources>
+
