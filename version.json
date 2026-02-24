@@ -8,7 +8,7 @@
       "force_update": false,
       "update_message": "A new version is available. Please update for the best experience.",
       "force_update_message": "This version is no longer supported. Please update to continue.",
-      "download_url": "https://github.com/bvantagelimited/mobile-sdk-showcase-apps/releases"
+      "download_url": "https://apps.ipification.com/share/com.ipification.demoapp"
     },
     "com.ipification.demoapp.stage": {
       "latest_version": "2.1.14.39-stage",
@@ -18,7 +18,7 @@
       "force_update": false,
       "update_message": "A new stage version is available. Please update for the best experience.",
       "force_update_message": "This version is no longer supported. Please update to continue.",
-      "download_url": "https://github.com/bvantagelimited/mobile-sdk-showcase-apps/releases"
+      "download_url": "https://apps.ipification.com/share/com.ipification.demoapp.stage"
     },
     "com.ipification.demoapp.vil": {
       "latest_version": "2.1.14.39-vil",
@@ -28,7 +28,7 @@
       "force_update": false,
       "update_message": "A new version is available. Please update for the best experience.",
       "force_update_message": "This version is no longer supported. Please update to continue.",
-      "download_url": "https://github.com/bvantagelimited/mobile-sdk-showcase-apps/releases"
+      "download_url": "https://apps.ipification.com/share/com.ipification.demoapp.vil"
     },
     "com.ipification.demoapp.telkomsel": {
       "latest_version": "2.1.14.39-telkomsel",
@@ -38,7 +38,7 @@
       "force_update": false,
       "update_message": "A new version is available. Please update for the best experience.",
       "force_update_message": "This version is no longer supported. Please update to continue.",
-      "download_url": "https://github.com/bvantagelimited/mobile-sdk-showcase-apps/releases"
+      "download_url": "https://apps.ipification.com/share/com.ipification.demoapp.telkomsel"
     },
     "com.ipification.demoapp.ioh": {
       "latest_version": "2.1.14.39-ioh",
@@ -48,7 +48,7 @@
       "force_update": false,
       "update_message": "A new version is available. Please update for the best experience.",
       "force_update_message": "This version is no longer supported. Please update to continue.",
-      "download_url": "https://github.com/bvantagelimited/mobile-sdk-showcase-apps/releases"
+      "download_url": "https://apps.ipification.com/share/com.ipification.demoapp.ioh"
     },
     "com.ipification.demoapp.telin": {
       "latest_version": "2.1.14.39-telin",
@@ -58,7 +58,7 @@
       "force_update": false,
       "update_message": "A new version is available. Please update for the best experience.",
       "force_update_message": "This version is no longer supported. Please update to continue.",
-      "download_url": "https://github.com/bvantagelimited/mobile-sdk-showcase-apps/releases"
+      "download_url": "https://apps.ipification.com/share/com.ipification.demoapp.telin"
     }
   }
 }
