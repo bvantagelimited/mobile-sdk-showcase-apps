@@ -11,7 +11,7 @@
       "download_url": "https://apps.ipification.com/share/com.ipification.demoapp"
     },
     "com.ipification.demoapp.stage": {
-      "latest_version": "2.1.14.39-stage",
+      "latest_version": "2.1.14.39",
       "latest_version_code": 211439,
       "min_supported_version": "2.1.14.0",
       "min_supported_version_code": 211400,
@@ -31,7 +31,7 @@
       "download_url": "https://apps.ipification.com/share/com.ipification.demoapp.vil"
     },
     "com.ipification.demoapp.telkomsel": {
-      "latest_version": "2.1.14.39-telkomsel",
+      "latest_version": "2.1.14.39",
       "latest_version_code": 211439,
       "min_supported_version": "2.1.14.0",
       "min_supported_version_code": 211400,
