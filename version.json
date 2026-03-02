@@ -1,8 +1,8 @@
 {
   "android": {
     "com.ipification.demoapp": {
-      "latest_version": "2.1.14.39",
-      "latest_version_code": 211439,
+      "latest_version": "2.1.14.40",
+      "latest_version_code": 211440,
       "min_supported_version": "2.1.14.0",
       "min_supported_version_code": 211400,
       "force_update": false,
@@ -11,8 +11,8 @@
       "download_url": "https://apps.ipification.com/share/com.ipification.demoapp"
     },
     "com.ipification.demoapp.stage": {
-      "latest_version": "2.1.14.39",
-      "latest_version_code": 211439,
+      "latest_version": "2.1.14.40",
+      "latest_version_code": 211440,
       "min_supported_version": "2.1.14.0",
       "min_supported_version_code": 211400,
       "force_update": false,
@@ -31,8 +31,8 @@
       "download_url": "https://apps.ipification.com/share/com.ipification.demoapp.vil"
     },
     "com.ipification.demoapp.telkomsel": {
-      "latest_version": "2.1.14.39",
-      "latest_version_code": 211439,
+      "latest_version": "2.1.14.40",
+      "latest_version_code": 211440,
       "min_supported_version": "2.1.14.0",
       "min_supported_version_code": 211400,
       "force_update": false,
