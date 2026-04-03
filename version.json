@@ -11,8 +11,8 @@
       "download_url": "https://apps.ipification.com/share/com.ipification.demoapp"
     },
     "com.ipification.demoapp.stage": {
-      "latest_version": "2.1.14.42-stage",
-      "latest_version_code": 211442,
+      "latest_version": "2.1.14.46-stage",
+      "latest_version_code": 211446,
       "min_supported_version": "2.1.14.0",
       "min_supported_version_code": 211400,
       "force_update": false,
