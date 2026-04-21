@@ -12,11 +12,11 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.ipification.mobile.auth.gmidbox.CellularRequest;
-import com.ipification.mobile.auth.gmidbox.CellularResponse;
-import com.ipification.mobile.auth.gmidbox.CellularServices;
-import com.ipification.mobile.auth.gmidbox.callback.CellularCallback;
-import com.ipification.mobile.auth.gmidbox.exception.CellularException;
+import com.ipification.mobile.auth.gmidbox.GMIDBoxRequest;
+import com.ipification.mobile.auth.gmidbox.GMIDBoxResponse;
+import com.ipification.mobile.auth.gmidbox.GMIDBoxServices;
+import com.ipification.mobile.auth.gmidbox.callback.GMIDBoxCallback;
+import com.ipification.mobile.auth.gmidbox.exception.GMIDBoxException;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -32,9 +32,6 @@ public class MainActivity extends AppCompatActivity {
         textView = findViewById(R.id.textView);
         textInputEditText = findViewById(R.id.input);
         MaterialButton button = findViewById(R.id.button_connect);
-
-
-
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,54 +58,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void makeRequest(String endpointUrl){
-        CellularRequest cellularRequest;
-        CellularRequest.Builder builder = new CellularRequest.Builder();
+        GMIDBoxRequest gmidBoxRequest;
+        GMIDBoxRequest.Builder builder = new GMIDBoxRequest.Builder();
         builder.addHeader("Accept", "application/json");
 //
         builder.addQueryParam("format","json");
 //        builder.addQueryParam("param2","value2");
 //        builder.setConnectTimeout(3000);
 //        builder.setReadTimeout(3000);
-        cellularRequest = builder.build();
+        gmidBoxRequest = builder.build();
 
-        CellularCallback callback = new CellularCallback() {
+        GMIDBoxCallback callback = new GMIDBoxCallback() {
             @Override
-            public void onSuccess(@NotNull final CellularResponse cellularResponse) {
+            public void onSuccess(@NotNull final GMIDBoxResponse gmidBoxResponse) {
                 textView.post(new Runnable() {
                     @Override
                     public void run() {
-                        textView.setText(cellularResponse.getResponseData());
+                        textView.setText(gmidBoxResponse.getResponseData());
                     }
                 });
             }
 
             @Override
-            public void onError(@NotNull final CellularException e) {
+            public void onError(@NotNull final GMIDBoxException e) {
                 if (e.getException() != null) {
-                    textView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            textView.setText(e.getException().getMessage());
-                        }
-                    });
+                    textView.post(() -> textView.setText(e.getException().getMessage()));
                 }else{
-                    textView.post(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            textView.setText("something went wrong");
-                        }
-                    });
+                    textView.post(() -> textView.setText("something went wrong"));
                 }
             }
         };
 
-        CellularServices.Factory.requestTo(endpointUrl, this, cellularRequest, callback);
+        GMIDBoxServices.Factory.requestTo(endpointUrl, this, gmidBoxRequest, callback);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        CellularServices.Factory.unregisterNetwork(MainActivity.this);
+        GMIDBoxServices.Factory.unregisterNetwork(MainActivity.this);
     }
 }

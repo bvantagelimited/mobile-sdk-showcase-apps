@@ -1,2 +1,20 @@
-rootProject.name='GMID-BOX SDK SAMPLE APP'
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        maven {
+            url "https://artifacts.ipification.com/artifactory/mobile-libs-release/"
+        }
+    }
+}
+rootProject.name = 'GMID-BOX SDK SAMPLE APP'
 include ':app'
