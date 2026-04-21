@@ -37,13 +37,13 @@ class ViewController: UIViewController {
             return
         }
 //        custom header
-//        let requestBuilder = CellularRequest.Builder()
+//        let requestBuilder = GMIDBoxRequest.Builder()
 //        requestBuilder.setConnectTimeout(value: 3000)
 //        requestBuilder.setReadTimeout(value: 3000)
 //        requestBuilder.addQueryParam(key: "format", value: "json")
         
         let requestUrl = inputField.text!
-        CellularServices.sharedInstance.requestTo(url: requestUrl, successCallback: { response in
+        GMIDBoxServices.sharedInstance.requestTo(url: requestUrl, successCallback: { response in
             print(response.statusCode)
             if(response.getResponseData() is String){
                 DispatchQueue.main.async {
