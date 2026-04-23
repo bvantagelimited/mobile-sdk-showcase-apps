@@ -10,9 +10,9 @@ class Constant {
 
   // Credentials and redirect URI.
   // TODO: update with your value.
-  static const String clientId = "";
-  static const String clientSecret = "";
-  static const String redirectUri = "";
+  static const String clientId = "webclient3";
+  static const String clientSecret = "webclient3";
+  static const String redirectUri = "https://test.ipification.com/auth";
 
   // IM AUTH - Device registration endpoint.
   // TODO: update with your value.

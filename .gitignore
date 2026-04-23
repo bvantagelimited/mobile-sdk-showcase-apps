@@ -23,3 +23,5 @@ gmidbox-sdk-react-native-js/NativeGMIDBOXLibrary
 gmidbox-sdk-react-native-js/ios/Pods
 gmidbox-sdk-react-native-js/ios/build
 gmidbox-sdk-react-native-js/node_modules
+/ipification-sdk-flutter-dart/.dart_tool
+ipification-sdk-flutter-dart/.flutter-plugins-dependencies

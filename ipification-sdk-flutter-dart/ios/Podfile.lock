@@ -1,0 +1,45 @@
+PODS:
+  - Flutter (1.0.0)
+  - ipification_plugin (2.0.11.6):
+    - Flutter
+  - libphonenumber_plugin (0.0.1):
+    - Flutter
+    - PhoneNumberKit
+  - PhoneNumberKit (3.8.0):
+    - PhoneNumberKit/PhoneNumberKitCore (= 3.8.0)
+    - PhoneNumberKit/UIKit (= 3.8.0)
+  - PhoneNumberKit/PhoneNumberKitCore (3.8.0)
+  - PhoneNumberKit/UIKit (3.8.0):
+    - PhoneNumberKit/PhoneNumberKitCore
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - ipification_plugin (from `.symlinks/plugins/ipification_plugin/ios`)
+  - libphonenumber_plugin (from `.symlinks/plugins/libphonenumber_plugin/ios`)
+  - PhoneNumberKit (from `https://github.com/marmelroy/PhoneNumberKit.git`, commit `c107075aa8d394be7aced273a46e944afe8b321b`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  ipification_plugin:
+    :path: ".symlinks/plugins/ipification_plugin/ios"
+  libphonenumber_plugin:
+    :path: ".symlinks/plugins/libphonenumber_plugin/ios"
+  PhoneNumberKit:
+    :commit: c107075aa8d394be7aced273a46e944afe8b321b
+    :git: https://github.com/marmelroy/PhoneNumberKit.git
+
+CHECKOUT OPTIONS:
+  PhoneNumberKit:
+    :commit: c107075aa8d394be7aced273a46e944afe8b321b
+    :git: https://github.com/marmelroy/PhoneNumberKit.git
+
+SPEC CHECKSUMS:
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  ipification_plugin: 0e85e3fe630a9a363b0f4a5e7c17ba756ed1cdcd
+  libphonenumber_plugin: d134f173b22bfa5ede50887071f087f309277f8c
+  PhoneNumberKit: 0588d9cfced4da87019329c6b8359720e28595c3
+
+PODFILE CHECKSUM: 3417c71657e1ac6949c58603ce7eabb8d0ddc565
+
+COCOAPODS: 1.16.2
