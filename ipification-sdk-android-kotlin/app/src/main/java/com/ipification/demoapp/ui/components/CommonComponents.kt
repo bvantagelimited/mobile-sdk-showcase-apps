@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,18 +50,20 @@ fun IPificationButton(
     Button(
         onClick = onClick,
         modifier = modifier
-            .height(50.dp),
+            .height(48.dp),
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(
             backgroundColor = backgroundColor,
             contentColor = IPWhite,
             disabledBackgroundColor = backgroundColor.copy(alpha = 0.2f)
         ),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(16.dp),
+        elevation = ButtonDefaults.elevation(defaultElevation = 4.dp, pressedElevation = 1.dp)
     ) {
         Text(
             text = text,
             fontSize = 16.sp,
+            fontWeight = FontWeight.SemiBold,
             color = IPWhite
         )
     }
@@ -76,18 +79,20 @@ fun IMButton(
     Button(
         onClick = onClick,
         modifier = modifier
-            .height(50.dp),
+            .height(48.dp),
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(
             backgroundColor = IPGreen,
             contentColor = IPWhite,
             disabledBackgroundColor = IPGreen.copy(alpha = 0.2f)
         ),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(16.dp),
+        elevation = ButtonDefaults.elevation(defaultElevation = 4.dp, pressedElevation = 1.dp)
     ) {
         Text(
             text = text,
             fontSize = 16.sp,
+            fontWeight = FontWeight.SemiBold,
             color = IPWhite
         )
     }
