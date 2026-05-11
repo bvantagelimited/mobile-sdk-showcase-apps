@@ -13,8 +13,8 @@ android {
         minSdkVersion 22
         targetSdkVersion 34
         compileSdk 34
-        versionCode 2112
-        versionName "2.1.12"
+        versionCode 2115
+        versionName "2.1.15"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -75,7 +75,7 @@ dependencies {
     implementation 'com.auth0.android:jwtdecode:2.0.0'
     implementation 'com.facebook.stetho:stetho-okhttp3:1.6.0'
 
-    implementation 'com.ipification.mobile.android:ipification-auth:2.1.12'
+    implementation 'com.ipification.mobile.android:ipification-auth:2.1.15'
 
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
     implementation 'com.google.firebase:firebase-crashlytics'
@@ -115,5 +115,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        freeCompilerArgs += ['-Xskip-metadata-version-check']
     }
 }

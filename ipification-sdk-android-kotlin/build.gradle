@@ -10,8 +10,6 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        // Retain your R8 version if needed
-        classpath 'com.android.tools:r8:8.0.40'
         // Update Google Services if there's a newer version (optional)
         classpath 'com.google.gms:google-services:4.3.15'
         // Update the Android Gradle Plugin to a version compatible with Gradle 8.5
