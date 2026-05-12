@@ -27,6 +27,11 @@
             android:name="com.ipification.demoapp.activity.ip.IPificationAuthActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
+        <!-- PNV integration screen: register this activity if you copy the sample screen into your app. -->
+        <activity
+            android:name="com.ipification.demoapp.activity.pnv.PnvActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.ipification.demoapp.activity.im.IMAuthActivity"
             android:exported="true"
