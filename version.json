@@ -1,20 +1,20 @@
 {
   "android": {
     "com.ipification.demoapp": {
-      "latest_version": "2.1.15.03",
-       "latest_version_code": 211503,
-      "min_supported_version": "2.1.15.3",
-      "min_supported_version_code": 211503,
+      "latest_version": "2.1.15.06",
+       "latest_version_code": 211506,
+      "min_supported_version": "2.1.15.6",
+      "min_supported_version_code": 211506,
       "force_update": false,
       "update_message": "A new version is available. Please update for the best experience.",
       "force_update_message": "This version is no longer supported. Please update to continue.",
       "download_url": "https://apps.ipification.com/share/com.ipification.demoapp"
     },
     "com.ipification.demoapp.stage": {
-      "latest_version": "2.1.15.5-stage",
-      "latest_version_code": 211503,
-      "min_supported_version": "2.1.15.3",
-      "min_supported_version_code": 211503,
+      "latest_version": "2.1.15.06",
+      "latest_version_code": 211506,
+      "min_supported_version": "2.1.15.6",
+      "min_supported_version_code": 211506,
       "force_update": false,
       "update_message": "A new stage version is available. Please update for the best experience.",
       "force_update_message": "This version is no longer supported. Please update to continue.",
