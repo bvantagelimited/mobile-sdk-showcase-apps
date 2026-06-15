@@ -1,12 +1,15 @@
 package com.ipification.demoapp.activity.pnv
 
 import android.app.Activity
+import android.content.pm.PackageManager
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -22,6 +25,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
@@ -29,13 +33,17 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.core.content.ContextCompat
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -57,6 +65,7 @@ import com.ipification.demoapp.ui.theme.IPificationTheme
 import com.ipification.demoapp.util.Util
 import com.ipification.mobile.sdk.android.IPConfiguration
 import com.ipification.mobile.sdk.android.IPEnvironment
+import com.ipification.mobile.sdk.android.utils.PhoneNumberHelper
 import com.mukesh.countrypicker.CountryPicker
 
 class PnvActivity : AppCompatActivity() {
@@ -88,6 +97,63 @@ class PnvActivity : AppCompatActivity() {
         val state by viewModel.uiState.collectAsState()
         val activity = LocalContext.current as? Activity
         val focusManager = LocalFocusManager.current
+        val phonePermissions = remember { PhoneNumberHelper.getRuntimeRequiredPermissions() }
+        // Remembers which action initiated the permission request. After permission is granted,
+        // the same callback can either fill the fields only or continue with IP verification.
+        var verifyAfterPhoneHint by remember { mutableStateOf(false) }
+        var alertMessage by remember { mutableStateOf<String?>(null) }
+
+        // Reads the phone number exposed by the SIM, parses it into country code and national
+        // number, then updates the input fields. Automatic verification is optional.
+        fun fetchPhoneNumberFromHint(verifyAfterHint: Boolean) {
+            val currentActivity = activity ?: return
+            PhoneNumberHelper.fetchPhoneNumberNow(currentActivity) { phoneNumbers ->
+                val usablePhoneNumbers = phoneNumbers.filter { it.first.isNotBlank() }
+                if (usablePhoneNumbers.size == 1) {
+                    val (phoneNumber, countryIso) = usablePhoneNumbers.first()
+                    viewModel.onPhoneNumberFromHint(phoneNumber, countryIso)
+                    if (verifyAfterHint) {
+                        viewModel.startVerification(currentActivity, PnvAuthFlow.IP) { message ->
+                            Util.openErrorActivity(currentActivity, message)
+                        }
+                    }
+                }
+                else {
+                    alertMessage = "Unable to detect a single phone number. Please enter it manually."
+                }
+            }
+        }
+
+        val phonePermissionLauncher = rememberLauncherForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) {
+            // READ_PHONE_STATE or READ_PHONE_NUMBERS is sufficient for the SDK helper.
+            val hasPhonePermission = phonePermissions.any { permission ->
+                ContextCompat.checkSelfPermission(
+                    activity ?: return@rememberLauncherForActivityResult,
+                    permission
+                ) == PackageManager.PERMISSION_GRANTED
+            }
+            if (hasPhonePermission) {
+                fetchPhoneNumberFromHint(verifyAfterPhoneHint)
+            } else {
+                alertMessage = "Phone number permission is required to load the phone number hint."
+            }
+        }
+
+        // Requests any missing runtime permission before asking the SDK for the SIM number.
+        fun requestPhoneNumberHint(verifyAfterHint: Boolean) {
+            val currentActivity = activity ?: return
+            verifyAfterPhoneHint = verifyAfterHint
+            val hasPhonePermission = phonePermissions.any { permission ->
+                ContextCompat.checkSelfPermission(currentActivity, permission) == PackageManager.PERMISSION_GRANTED
+            }
+            if (hasPhonePermission) {
+                fetchPhoneNumberFromHint(verifyAfterHint)
+            } else {
+                phonePermissionLauncher.launch(phonePermissions)
+            }
+        }
 
         // Auto-fill the dial code from the device SIM when possible.
         // Sandbox keeps the docs-friendly test value so the sample works without a SIM.
@@ -102,6 +168,19 @@ class PnvActivity : AppCompatActivity() {
         }
         if (state.phoneNumber.isEmpty() && BuildConfig.ENVIRONMENT == "sandbox") {
             viewModel.setPhoneNumber("123456789")
+        }
+
+        alertMessage?.let { message ->
+            AlertDialog(
+                onDismissRequest = { alertMessage = null },
+                title = { Text("Phone Number Hint") },
+                text = { Text(message) },
+                confirmButton = {
+                    TextButton(onClick = { alertMessage = null }) {
+                        Text("OK")
+                    }
+                }
+            )
         }
 
         Scaffold(
@@ -176,6 +255,20 @@ class PnvActivity : AppCompatActivity() {
                 }
 
                 Spacer(modifier = Modifier.height(20.dp))
+                // Loads the detected SIM number into the fields without starting authentication.
+                PnvButton(text = "Fetch Phone Number From Hint", enabled = !state.isLoading) {
+                    focusManager.clearFocus()
+                    hideKeyboard()
+                    requestPhoneNumberHint(verifyAfterHint = false)
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                // Loads the detected SIM number and immediately starts the IP verification flow.
+                PnvButton(text = "Auto Verify Phone Number", enabled = !state.isLoading) {
+                    focusManager.clearFocus()
+                    hideKeyboard()
+                    requestPhoneNumberHint(verifyAfterHint = true)
+                }
+                Spacer(modifier = Modifier.height(10.dp))
                 // IP Verify uses the IP channel only.
                 PnvButton(text = "IP Verify", enabled = !state.isLoading) {
                     focusManager.clearFocus()

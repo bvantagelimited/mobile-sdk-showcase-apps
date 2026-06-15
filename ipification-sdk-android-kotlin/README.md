@@ -31,7 +31,7 @@ stage {
 
 #### Core functions:
 #### 1. Initial IP configuration
-```IPificationAuthActivity.kt
+```PnvActivity.kt
 private fun initIPification() {
     IPConfiguration.getInstance().ENV = if(BuildConfig.ENVIRONMENT == "sandbox") IPEnvironment.SANDBOX else IPEnvironment.PRODUCTION
     IPConfiguration.getInstance().CLIENT_ID = BuildConfig.CLIENT_ID
@@ -39,7 +39,7 @@ private fun initIPification() {
 }
 ```
 #### 2. CheckCoverage:
-```IPificationAuthActivity.kt
+```PnvViewModel.kt
 private fun startIPAuthenticationFlow() {
 
     val phoneNumber  = "${binding.countryCodeEditText.text}${binding.phoneCodeEditText.text}"
@@ -64,12 +64,12 @@ private fun startIPAuthenticationFlow() {
 ```
 #### 3. Authentication:
 
-```IPificationAuthActivity.kt
+```PnvViewModel.kt
 private fun callIPAuthentication(phoneNumber: String) {
     val authCallback = object: IPAuthCallback {
         override fun onSuccess(response: IPAuthResponse) {
             // call backend with {response.code}
-            IPHelper.callTokenExchangeAPI(this@IPificationAuthActivity, response.code)
+            IPHelper.callTokenExchangeAPI(activity, response.code)
         }
         override fun onError(error: IPificationError) {
             // error, handle it with SMS authentication service flow
