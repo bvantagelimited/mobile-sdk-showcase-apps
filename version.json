@@ -11,10 +11,10 @@
       "download_url": "https://apps.ipification.com/share/com.ipification.demoapp"
     },
     "com.ipification.demoapp.stage": {
-      "latest_version": "2.2.8",
-      "latest_version_code": 22008,
-      "min_supported_version": "2.2.8",
-      "min_supported_version_code": 22008,
+      "latest_version": "2.2.9",
+      "latest_version_code": 22009,
+      "min_supported_version": "2.2.9",
+      "min_supported_version_code": 22009,
       "force_update": false,
       "update_message": "A new stage version is available. Please update for the best experience.",
       "force_update_message": "This version is no longer supported. Please update to continue.",
