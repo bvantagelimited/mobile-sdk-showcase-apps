@@ -15,7 +15,7 @@
       "latest_version_code": 22011,
       "min_supported_version": "2.2.11",
       "min_supported_version_code": 22011,
-      "force_update": false,
+      "force_update": true,
       "update_message": "A new stage version is available. Please update for the best experience.",
       "force_update_message": "This version is no longer supported. Please update to continue.",
       "download_url": "https://apps.ipification.com/share/com.ipification.demoapp.stage"
