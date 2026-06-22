@@ -1,10 +1,10 @@
 {
   "android": {
     "com.ipification.demoapp": {
-      "latest_version": "2.1.15.07",
-       "latest_version_code": 211507,
-      "min_supported_version": "2.1.15.7",
-      "min_supported_version_code": 211507,
+      "latest_version": "2.2.11",
+       "latest_version_code": 22011,
+      "min_supported_version": "2.2.11",
+      "min_supported_version_code": 22011,
       "force_update": false,
       "update_message": "A new version is available. Please update for the best experience.",
       "force_update_message": "This version is no longer supported. Please update to continue.",
