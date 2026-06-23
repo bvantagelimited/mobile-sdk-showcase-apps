@@ -31,10 +31,10 @@
       "download_url": "https://apps.ipification.com/share/com.ipification.demoapp.vil"
     },
     "com.ipification.demoapp.telkomsel": {
-      "latest_version": "2.2.11-tsel",
-      "latest_version_code": 220110,
-      "min_supported_version": "2.2.11",
-      "min_supported_version_code": 220110,
+      "latest_version": "2.2.12-tsel",
+      "latest_version_code": 220120,
+      "min_supported_version": "2.2.12",
+      "min_supported_version_code": 220120,
       "force_update": false,
       "update_message": "A new version is available. Please update for the best experience.",
       "force_update_message": "This version is no longer supported. Please update to continue.",
