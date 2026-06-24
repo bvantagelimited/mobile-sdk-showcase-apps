@@ -147,7 +147,7 @@
     },
     {
       "name": "ipification_plugin",
-      "rootUri": "file:///Users/tinh/Documents/GitHub/IP/IPification-Flutter-Plugin",
+      "rootUri": "file:///Users/tinh/.pub-cache/git/IPification-Flutter-Plugin-f2c2e073664e88ca203ff300dc2680f856b0ca16/",
       "packageUri": "lib/",
       "languageVersion": "3.8"
     },

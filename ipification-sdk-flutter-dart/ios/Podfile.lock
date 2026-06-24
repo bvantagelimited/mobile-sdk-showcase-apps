@@ -1,6 +1,6 @@
 PODS:
   - Flutter (1.0.0)
-  - ipification_plugin (2.0.11.6):
+  - ipification_plugin (2.2.0):
     - Flutter
   - libphonenumber_plugin (0.0.1):
     - Flutter
@@ -36,7 +36,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
-  ipification_plugin: 0e85e3fe630a9a363b0f4a5e7c17ba756ed1cdcd
+  ipification_plugin: 42e19eb7adb279105126f3ff13c9d41bbb89215b
   libphonenumber_plugin: d134f173b22bfa5ede50887071f087f309277f8c
   PhoneNumberKit: 0588d9cfced4da87019329c6b8359720e28595c3
 

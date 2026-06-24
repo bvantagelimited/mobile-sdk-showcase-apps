@@ -187,10 +187,12 @@ packages:
   ipification_plugin:
     dependency: "direct main"
     description:
-      path: "/Users/tinh/Documents/GitHub/IP/IPification-Flutter-Plugin"
-      relative: false
-    source: path
-    version: "2.0.30"
+      path: "."
+      ref: "2.2.0"
+      resolved-ref: f2c2e073664e88ca203ff300dc2680f856b0ca16
+      url: "https://github.com/ipification/IPification-Flutter-Plugin.git"
+    source: git
+    version: "2.2.0"
   js:
     dependency: transitive
     description:
