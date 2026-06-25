@@ -14,12 +14,13 @@ import 'package:ipification_demo_app/success.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await AppConfig.loadFromApi();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -51,9 +52,13 @@ class _IPificationHomeState extends State<IPificationHome> {
   /// Initializes IPification settings, FCM and theme/locale.
   Future<void> _initIPification() async {
     final ipPlugin = IPificationPlugin();
-    ipPlugin.setEnv(ENV.SANDBOX);
-    ipPlugin.setClientId(Constant.clientId);
-    ipPlugin.setRedirectUri(Constant.redirectUri);
+    final config = AppConfig.current;
+    ipPlugin.setEnv(config.isSandbox ? ENV.SANDBOX : ENV.PRODUCTION);
+    ipPlugin.setClientId(config.clientId);
+    ipPlugin.setRedirectUri(config.redirectUri);
+    if (config.authServerBaseUrl.isNotEmpty) {
+      await ipPlugin.setBaseUrl(config.authServerBaseUrl);
+    }
     _registerFCM();
     _updateThemeAndLocale();
   }
@@ -173,7 +178,11 @@ class _IPificationHomeState extends State<IPificationHome> {
       "Cancel",
     );
     ipPlugin.updateIOSTheme(
-      "#000000", "#000000", "#000000", "#000000", "#ffffff",
+      "#000000",
+      "#000000",
+      "#000000",
+      "#000000",
+      "#ffffff",
     );
 
     // Android configuration.
@@ -200,8 +209,7 @@ class _IPificationHomeState extends State<IPificationHome> {
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-          textStyle:
-              const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         onPressed: onPressed,
         child: Text(text),
@@ -224,9 +232,7 @@ class _IPificationHomeState extends State<IPificationHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('IPification Demo App'),
-      ),
+      appBar: AppBar(title: const Text('IPification Demo App')),
       body: LoaderOverlay(
         child: ConstrainedBox(
           constraints: const BoxConstraints.expand(),
@@ -247,7 +253,7 @@ class _IPificationHomeState extends State<IPificationHome> {
                         const SizedBox(height: 20),
                         _buildButton(
                           color: Colors.red,
-                          text: 'Phone Number Verify',
+                          text: 'Test IP / TS43 / SMS',
                           onPressed: _startIPFlow,
                         ),
                         const SizedBox(height: 30),
@@ -257,10 +263,7 @@ class _IPificationHomeState extends State<IPificationHome> {
                           onPressed: _startIMFlow,
                         ),
                         const SizedBox(height: 30),
-                        Text(
-                          _alertMessage,
-                          textAlign: TextAlign.center,
-                        ),
+                        Text(_alertMessage, textAlign: TextAlign.center),
                         const SizedBox(height: 100),
                       ],
                     ),

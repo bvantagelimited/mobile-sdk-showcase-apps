@@ -20,24 +20,38 @@ class IPNetwork {
     print('client_id: $clientId');
     print('redirect_uri: $redirectURI');
 
-    final details = {
-      'client_id': clientId,
-      'grant_type': 'authorization_code',
-      'client_secret': Constant.clientSecret,
-      'redirect_uri': redirectURI,
-      'code': authCode,
-    };
+    final config = AppConfig.current;
+    final details = config.usesBackendTokenExchange
+        ? {
+            'client_id': clientId,
+            'redirect_uri': redirectURI,
+            'code': authCode,
+            'server_id': config.selectedServerId,
+          }
+        : {
+            'client_id': clientId,
+            'grant_type': 'authorization_code',
+            'client_secret': config.clientSecret,
+            'redirect_uri': redirectURI,
+            'code': authCode,
+          };
     print('Token exchange details: $details');
 
     final client = http.Client();
     try {
       final response = await client.post(
-        Uri.parse(Constant.tokenUrl),
+        Uri.parse(
+          config.usesBackendTokenExchange
+              ? config.tokenExchangeUrl
+              : config.tokenUrl,
+        ),
         body: details,
       );
       print('Token exchange response: ${response.body}');
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 && config.usesBackendTokenExchange) {
+        success(response.body);
+      } else if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
         final String accessToken = data["access_token"];
         // Optionally wait before requesting user info.
@@ -62,13 +76,14 @@ class IPNetwork {
     print('Getting user info...');
     final Map<String, String> details = {'access_token': accessToken};
     final Map<String, String> headers = {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
     };
+    final config = AppConfig.current;
 
     final client = http.Client();
     try {
       final response = await client.post(
-        Uri.parse(Constant.userInfoUrl),
+        Uri.parse(config.userInfoUrl),
         headers: headers,
         body: details,
       );
@@ -100,11 +115,12 @@ class IPNetwork {
       'device_type': deviceType,
     };
     final Map<String, String> headers = {'Content-Type': 'application/json'};
+    final config = AppConfig.current;
 
     final client = http.Client();
     try {
       final response = await client.post(
-        Uri.parse(Constant.registerDeviceUrl),
+        Uri.parse(config.registerDeviceUrl),
         headers: headers,
         body: jsonEncode(details),
       );
